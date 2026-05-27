@@ -552,3 +552,57 @@
   .masonry-grid { columns: 1; }
   .blog-grid { grid-template-columns: 1fr; }
 }
+@media (max-width: 480px) {
+  /* Sections padding */
+  .despre-intro, .values-strip, .team-section,
+  .program-page, .galerie-page, .contact-page, .faq-section,
+  .quick-msg-section, .blog-page,
+  .groups-section, .pkg-section { padding: 40px 16px; }
+
+  /* Despre */
+  .emoji-card-grid { grid-template-columns: 1fr; gap: 12px; }
+  .emoji-card { padding: 22px; }
+  .value-item { padding: 28px 20px; }
+  .team-card { padding: 28px 18px; }
+
+  /* Program / Full timeline */
+  .full-timeline { padding-left: 16px; }
+  .ftl-card { gap: 10px; padding: 14px 16px; }
+  .ftl-emoji { font-size: 1.6rem; }
+  .ftl-time { font-size: .9rem; min-width: 54px; }
+  .ftl-dot { left: -29px; }
+  .group-card { padding: 28px 20px; }
+
+  /* Contact form */
+  .contact-form-box { padding: 24px 18px; border-radius: 20px; }
+  .contact-form-box h3 { font-size: 1.25rem; }
+  .contact-left h3 { font-size: 1.5rem; }
+  .info-row { padding: 12px 14px; }
+  .map-box { padding: 24px 18px; }
+
+  /* FAQ */
+  .faq-question { padding: 16px 18px; font-size: .92rem; }
+  .faq-answer { padding: 0 18px; font-size: .88rem; }
+  .faq-item.open .faq-answer { padding: 0 18px 14px; }
+
+  /* Blog */
+  .blog-page { padding: 32px 16px 48px; }
+  .blog-filters { gap: 7px; }
+  .blog-filter-btn { padding: 7px 13px; font-size: .82rem; }
+  .blog-card-top { height: 110px; }
+  .blog-card-emoji { font-size: 3.2rem; }
+  .blog-card-body { padding: 16px 18px 14px; }
+  .blog-card-body h3 { font-size: 1rem; }
+
+  /* Article modal — full screen on phone */
+  #article-modal { padding: 0 !important; }
+  .article-modal-inner { border-radius: 0; min-height: 100%; }
+  .article-hero { height: 140px; }
+  .article-emoji { font-size: 4rem; }
+  .article-title { font-size: 1.2rem; padding: 18px 18px 6px; }
+  .article-meta { padding: 0 18px 12px; gap: 12px; font-size: .78rem; }
+  .article-body { padding: 0 18px 24px; font-size: .92rem; }
+
+  /* Quick message */
+  .quick-msg-box { padding: 24px 16px; }
+}
