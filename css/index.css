@@ -388,6 +388,8 @@
 @media (max-width: 900px) {
   .stats, .ctr-strip { grid-template-columns: 1fr 1fr; padding: 40px 24px; }
   #features, #program-preview, #galerie, #testimoniale .inner { padding: 60px 24px; }
+  #program-preview { overflow-x: hidden; }
+  .tl-item:hover .tl-card { transform: none; box-shadow: none; }
   .gal-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
   .g-item:nth-child(n) { grid-column: span 1; height: 140px; }
   .hero { padding: 110px 24px 60px; }
@@ -398,7 +400,10 @@
   .hero h1 { font-size: clamp(2.4rem, 10vw, 3.2rem); }
   .hero p { font-size: 1rem; margin-bottom: 32px; }
   .hero-btns { flex-direction: column; align-items: stretch; gap: 12px; }
-  .hero-btns .btn { max-width: 100%; width: 100%; justify-content: center; }
+  .hero-btns .btn {
+    max-width: 100%; width: 100%; justify-content: center;
+    padding: 13px 18px; font-size: .92rem; white-space: nowrap;
+  }
   .floaty { font-size: 1.6rem; }
   .scroll-hint { display: none; }
 

@@ -348,6 +348,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const PAUSE_AFTER  = 2000; // ms pauza dupa ce cuvantul e scris complet
     const PAUSE_BEFORE = 320;  // ms pauza inainte sa inceapa urmatorul cuvant
 
+    // Rezerva spatiu fix = latimea celui mai lung cuvant → previne layout shift
+    const longestWord = WORDS.reduce((a, b) => a.length >= b.length ? a : b);
+    twText.textContent = longestWord;
+    twWord.style.display    = 'inline-block';
+    twWord.style.minWidth   = twWord.offsetWidth + 'px';
+    twWord.style.textAlign  = 'left';
+
     let wi = 0, ci = 0, deleting = false;
 
     // Primul cuvant apare deja scris (odata cu pop-in animatia)
