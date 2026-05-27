@@ -40,9 +40,10 @@ body {
   cursor: none;
 }
 img { display: block; max-width: 100%; }
-a { text-decoration: none; color: inherit; }
+a { text-decoration: none; color: inherit; cursor: none; }
 ul { list-style: none; }
-button { font-family: inherit; }
+button { font-family: inherit; cursor: none; }
+select, label { cursor: none; }
 
 /* ─── CUSTOM CURSOR ─── */
 #cur { position: fixed; z-index: 9999; pointer-events: none; }
@@ -289,6 +290,20 @@ footer {
   pointer-events: none;
 }
 #toast.show { transform: translateY(0); opacity: 1; }
+
+/* ─── PAGE TRANSITIONS — radial clip ─── */
+
+/* Culoarea html = culoarea cortinei → ascunde flash-ul alb dintre pagini */
+html { background: #1A1A2E; }
+
+/* Cortina circulara: clip-path setat inline de JS imediat la incarcare */
+#page-curtain {
+  position: fixed; inset: 0; z-index: 9995;
+  background: #1A1A2E;
+  clip-path: circle(150% at 50% 50%); /* fallback — JS suprascrie inainte de render */
+  will-change: clip-path;
+  pointer-events: none;
+}
 
 /* ─── RIPPLE ─── */
 .ripple {

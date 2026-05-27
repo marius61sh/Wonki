@@ -2,6 +2,95 @@
    WONKI – Global JavaScript (global.js)
    ============================================================ */
 
+/* ─── PAGE TRANSITIONS — radial clip (cerc din punctul de click) ─── */
+(function () {
+  var DURATION_IN  = 420; // ms cerc se extinde (exit)
+  var DURATION_OUT = 520; // ms cerc se strange (entry reveal)
+  var EASE_IN  = 'cubic-bezier(0.4, 0, 0.6, 1)';   // accelereaza → cerc explodeaza
+  var EASE_OUT = 'cubic-bezier(0.16, 1, 0.3, 1)';  // incetineste → reveal moale
+
+  // Citeste originea stocata (punctul de click de pe pagina anterioara)
+  var stored = sessionStorage.getItem('curtain-origin') || '50,50';
+  var coords = stored.split(',');
+  var ox = coords[0] || '50';
+  var oy = coords[1] || '50';
+
+  // Injecteaza cortina imediat, cu cercul acoperind pagina
+  var curtain = document.createElement('div');
+  curtain.id = 'page-curtain';
+  curtain.style.clipPath = 'circle(150% at ' + ox + '% ' + oy + '%)';
+  document.documentElement.appendChild(curtain);
+
+  // Entry reveal: strangeaza cercul inapoi la origine
+  function revealPage() {
+    var origin = sessionStorage.getItem('curtain-origin') || '50,50';
+    var pts = origin.split(',');
+    var rx = pts[0] || '50';
+    var ry = pts[1] || '50';
+    sessionStorage.removeItem('curtain-origin');
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        curtain.style.transition = 'clip-path ' + DURATION_OUT + 'ms ' + EASE_OUT;
+        curtain.style.clipPath   = 'circle(0% at ' + rx + '% ' + ry + '%)';
+      });
+    });
+  }
+
+  // Intercepteaza click-uri pe linkuri interne
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (!href) return;
+    if (
+      href.charAt(0) === '#' ||
+      href.startsWith('http') ||
+      href.startsWith('mailto') ||
+      href.startsWith('tel') ||
+      link.target === '_blank' ||
+      link.hasAttribute('download')
+    ) return;
+
+    e.preventDefault();
+    var dest = href;
+
+    // Calculeaza pozitia click-ului ca procent
+    var cx = Math.round(e.clientX / window.innerWidth  * 100);
+    var cy = Math.round(e.clientY / window.innerHeight * 100);
+    sessionStorage.setItem('curtain-origin', cx + ',' + cy);
+
+    // Snap cerc la 0 in punctul de click, apoi extinde
+    curtain.style.transition = 'none';
+    curtain.style.clipPath   = 'circle(0% at ' + cx + '% ' + cy + '%)';
+
+    curtain.getBoundingClientRect(); // forteaza reflow
+    curtain.style.transition = 'clip-path ' + DURATION_IN + 'ms ' + EASE_IN;
+    curtain.style.clipPath   = 'circle(150% at ' + cx + '% ' + cy + '%)';
+
+    setTimeout(function () {
+      window.location.href = dest;
+    }, DURATION_IN + 20);
+  });
+
+  // Ruleaza reveal dupa ce pagina e incarcata
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', revealPage);
+  } else {
+    revealPage();
+  }
+
+  // Butonul Back/Forward (bfcache)
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      curtain.style.transition = 'none';
+      curtain.style.clipPath   = 'circle(150% at 50% 50%)';
+      curtain.getBoundingClientRect();
+      revealPage();
+    }
+  });
+})();
+
 /* ─── DARK MODE — aplica tema inainte de render ─── */
 (function () {
   const saved  = localStorage.getItem('wonki-theme');
