@@ -323,12 +323,15 @@
 .info-row span { font-size: .85rem; color: #aaa; }
 
 .map-box {
-  background: var(--cream); border-radius: 20px; padding: 36px;
-  text-align: center; margin-top: 8px;
-  border: 2px dashed rgba(0,0,0,.1);
+  background: var(--cream); border-radius: 20px; padding: 20px;
+  margin-top: 8px;
+  border: 2px solid rgba(0,0,0,.06);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
 }
-.map-box .map-emoji { font-size: 3rem; margin-bottom: 12px; }
-.map-box p { color: var(--gray); font-size: .9rem; }
+.map-box iframe { width: 100%; border-radius: 12px; }
+.map-box p { color: var(--gray); font-size: .88rem; line-height: 1.6; }
+[data-theme="dark"] .map-box { border-color: rgba(255,255,255,.07); }
 
 .contact-form-box {
   background: var(--cream); border-radius: 28px; padding: 44px;
