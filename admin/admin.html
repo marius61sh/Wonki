@@ -104,7 +104,7 @@
       <div class="card">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Nume Părinte</th><th>Telefon</th><th>Email</th><th>Vârstă</th><th>Program</th><th>Data</th><th>Status</th><th>Acțiuni</th></tr></thead>
+            <thead><tr><th>Copil</th><th>Nume Părinte</th><th>Telefon</th><th>Email</th><th>Program</th><th>Data cererii</th><th>Status</th><th>Acțiuni</th></tr></thead>
             <tbody id="tbody-inscrieri"><tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">⏳ Se încarcă...</td></tr></tbody>
           </table>
         </div>
@@ -115,28 +115,57 @@
     <section class="admin-page" id="page-copii">
       <div class="section-hdr">
         <h2>👦 Copii înscriși</h2>
-        <span style="font-size:.85rem;color:var(--muted)" id="copii-count"></span>
+        <button class="btn btn-primary btn-sm" onclick="openAddCopil()">➕ Adaugă copil</button>
       </div>
-      <!-- Filtre grupă -->
-      <div class="card" style="padding:16px 20px">
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <span style="font-size:.8rem;color:var(--muted);font-weight:700;margin-right:4px">GRUPĂ</span>
-          <button class="filter-chip active" data-grupa="toate" onclick="filterCopii(this)">Toți</button>
-          <button class="filter-chip" data-grupa="🐻 Ursuleți" onclick="filterCopii(this)">🐻 Ursuleți <small>2–3 ani</small></button>
-          <button class="filter-chip" data-grupa="🦋 Fluturași" onclick="filterCopii(this)">🦋 Fluturași <small>3–4 ani</small></button>
-          <button class="filter-chip" data-grupa="⭐ Steluțe" onclick="filterCopii(this)">⭐ Steluțe <small>4–5 ani</small></button>
-          <button class="filter-chip" data-grupa="🚀 Exploratori" onclick="filterCopii(this)">🚀 Exploratori <small>5–7 ani</small></button>
-          <div style="width:1px;height:24px;background:var(--border);margin:0 4px"></div>
-          <button class="filter-chip" data-status="toti" onclick="filterCopiiStatus(this)">Toți</button>
-          <button class="filter-chip" data-status="activ" onclick="filterCopiiStatus(this)">✅ Activi</button>
-          <button class="filter-chip" data-status="inactiv" onclick="filterCopiiStatus(this)">⏸ Inactivi</button>
+
+      <!-- Mini stats grupe -->
+      <div class="stats-row" style="margin-bottom:16px" id="copii-stats-row">
+        <div class="stat-card" style="cursor:pointer;padding:14px 18px" onclick="filterCopiiGrupa(document.querySelector('[data-grupa=\'toate\']'))">
+          <div class="stat-icon" style="font-size:1.4rem">👦</div>
+          <div class="stat-info"><div class="value" id="cs-total">—</div><div class="label">Total activi</div></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer;padding:14px 18px" onclick="filterCopiiGrupa(document.querySelector('[data-grupa=\'🐻 Ursuleți\']'))">
+          <div class="stat-icon" style="font-size:1.4rem">🐻</div>
+          <div class="stat-info"><div class="value" id="cs-urs">—</div><div class="label">Ursuleți</div></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer;padding:14px 18px" onclick="filterCopiiGrupa(document.querySelector('[data-grupa=\'🦋 Fluturași\']'))">
+          <div class="stat-icon" style="font-size:1.4rem">🦋</div>
+          <div class="stat-info"><div class="value" id="cs-flu">—</div><div class="label">Fluturași</div></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer;padding:14px 18px" onclick="filterCopiiGrupa(document.querySelector('[data-grupa=\'⭐ Steluțe\']'))">
+          <div class="stat-icon" style="font-size:1.4rem">⭐</div>
+          <div class="stat-info"><div class="value" id="cs-ste">—</div><div class="label">Steluțe</div></div>
+        </div>
+        <div class="stat-card" style="cursor:pointer;padding:14px 18px" onclick="filterCopiiGrupa(document.querySelector('[data-grupa=\'🚀 Exploratori\']'))">
+          <div class="stat-icon" style="font-size:1.4rem">🚀</div>
+          <div class="stat-info"><div class="value" id="cs-exp">—</div><div class="label">Exploratori</div></div>
         </div>
       </div>
+
+      <!-- Filtre + search -->
+      <div class="card" style="padding:14px 20px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+            <span style="font-size:.78rem;color:var(--muted);font-weight:700">GRUPĂ</span>
+            <button class="filter-chip active" data-grupa="toate" onclick="filterCopiiGrupa(this)">Toți</button>
+            <button class="filter-chip" data-grupa="🐻 Ursuleți" onclick="filterCopiiGrupa(this)">🐻 Ursuleți</button>
+            <button class="filter-chip" data-grupa="🦋 Fluturași" onclick="filterCopiiGrupa(this)">🦋 Fluturași</button>
+            <button class="filter-chip" data-grupa="⭐ Steluțe" onclick="filterCopiiGrupa(this)">⭐ Steluțe</button>
+            <button class="filter-chip" data-grupa="🚀 Exploratori" onclick="filterCopiiGrupa(this)">🚀 Exploratori</button>
+            <div style="width:1px;height:22px;background:var(--border);margin:0 4px"></div>
+            <button class="filter-chip active" data-status="toti" onclick="filterCopiiStatus(this)">Toți</button>
+            <button class="filter-chip" data-status="activ" onclick="filterCopiiStatus(this)">✅ Activi</button>
+            <button class="filter-chip" data-status="inactiv" onclick="filterCopiiStatus(this)">⏸ Inactivi</button>
+          </div>
+          <input id="copii-search" type="text" placeholder="🔍 Caută copil / părinte..." style="background:var(--darker);border:1.5px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:.83rem;outline:none;width:210px" oninput="renderCopii()">
+        </div>
+      </div>
+
       <div class="card">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Grup</th><th>Nume Părinte</th><th>Telefon</th><th>Email</th><th>Vârstă</th><th>Program</th><th>Înscris</th><th>Status</th><th>Acțiuni</th></tr></thead>
-            <tbody id="tbody-copii"><tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">⏳ Se încarcă...</td></tr></tbody>
+            <thead><tr><th>Copil</th><th>Vârstă</th><th>Grupă</th><th>Părinte</th><th>Telefon</th><th>Email</th><th>Program</th><th>Alergii</th><th>Status</th><th>Acțiuni</th></tr></thead>
+            <tbody id="tbody-copii"><tr><td colspan="10" style="text-align:center;padding:32px;color:var(--muted)">⏳ Se încarcă...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -269,18 +298,30 @@
 
     <!-- ECHIPA -->
     <section class="admin-page" id="page-echipa">
-      <div class="section-hdr"><h2>👥 Echipă</h2></div>
+      <div class="section-hdr"><h2>👥 Echipă & Angajați</h2></div>
       <div class="grid-2">
         <div class="card" id="team-form-card">
-          <div class="card-title" id="echipa-form-label">➕ Adaugă membru</div>
+          <div class="card-title" id="echipa-form-label">➕ Adaugă angajat</div>
           <div class="form-grid">
-            <div class="form-group"><label>Nume *</label><input id="e-name" type="text" placeholder="Ana Marinescu"></div>
-            <div class="form-group"><label>Funcție</label><input id="e-role" type="text" placeholder="Educatoare Senior"></div>
-            <div class="form-group"><label>Emoji avatar</label><input id="e-emoji" type="text" placeholder="👩‍🏫" maxlength="4"></div>
-            <div class="form-group"><label>Bio scurtă</label><textarea id="e-bio" placeholder="O propoziție despre acest membru..."></textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label>Nume *</label><input id="e-name" type="text" placeholder="Ana Marinescu"></div>
+              <div class="form-group"><label>Emoji avatar</label><input id="e-emoji" type="text" placeholder="👩‍🏫" maxlength="4"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Funcție / Rol</label><input id="e-role" type="text" placeholder="Educatoare Senior"></div>
+              <div class="form-group"><label>Specializare</label><input id="e-specializare" type="text" placeholder="Arte, Muzică"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Telefon</label><input id="e-telefon" type="tel" placeholder="07xx xxx xxx"></div>
+              <div class="form-group"><label>Email</label><input id="e-email" type="email" placeholder="ana@wonki.ro"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Data angajării</label><input id="e-dataAngajare" type="date"></div>
+            </div>
+            <div class="form-group"><label>Bio scurtă</label><textarea id="e-bio" placeholder="O propoziție despre acest angajat..."></textarea></div>
             <div style="display:flex;gap:10px">
               <button class="btn btn-primary" onclick="saveMember()">💾 Salvează</button>
-              <button class="btn btn-secondary" onclick="clearMemberForm()">✕</button>
+              <button class="btn btn-secondary" onclick="clearMemberForm()">✕ Anulează</button>
             </div>
           </div>
         </div>
@@ -288,8 +329,8 @@
           <div class="card-title">👥 Membrii echipei</div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Nume</th><th>Funcție</th><th>Status</th><th>Acțiuni</th></tr></thead>
-              <tbody id="tbody-echipa"><tr><td colspan="4" style="text-align:center;padding:24px;color:var(--muted)">⏳ Se încarcă...</td></tr></tbody>
+              <thead><tr><th>Angajat</th><th>Funcție</th><th>Specializare</th><th>Contact</th><th>Angajat din</th><th>Status</th><th>Acțiuni</th></tr></thead>
+              <tbody id="tbody-echipa"><tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted)">⏳ Se încarcă...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -343,6 +384,22 @@ const API = '/api';
 let TOKEN = localStorage.getItem('wonki_token') || '';
 let editBlogId   = null;
 let editMemberId = null;
+
+/* ─── HELPERS ─── */
+function calcAge(dataNasterii) {
+  if (!dataNasterii) return null;
+  const dob = new Date(dataNasterii);
+  if (isNaN(dob.getTime())) return null;
+  const now = new Date();
+  let age = now.getFullYear() - dob.getFullYear();
+  const m = now.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+  return age;
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('ro-RO', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
 
 /* ─── AUTH CHECK ─── */
 if (!TOKEN) { window.location.href = 'login.html'; }
@@ -441,10 +498,13 @@ async function loadInscrieri() {
   if (!r.data.length) { tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">Nicio înscriere încă 📋</td></tr>'; return; }
   tbody.innerHTML = r.data.map(e => `
     <tr>
-      <td><strong>${e.numeParinte||'—'}</strong></td>
+      <td>
+        <strong>${e.numeCopil||'<em style="color:var(--muted)">—</em>'}</strong>
+        ${e.dataNasterii ? `<small style="display:block;color:var(--muted);font-size:.75rem">${fmtDate(e.dataNasterii)}${calcAge(e.dataNasterii)!==null?' · '+calcAge(e.dataNasterii)+' ani':''}</small>` : (e.varsta?`<small style="display:block;color:var(--muted);font-size:.75rem">${e.varsta}</small>`:'')}
+      </td>
+      <td>${e.numeParinte||'—'}</td>
       <td>${e.telefon||'—'}</td>
       <td>${e.email||'—'}</td>
-      <td>${e.varsta||'—'}</td>
       <td><span class="badge badge-sky">${e.program||'—'}</span></td>
       <td>${e.created ? new Date(e.created).toLocaleDateString('ro-RO') : '—'}</td>
       <td><span class="badge ${e.status==='confirmat'?'badge-green':e.status==='nou'?'badge-coral':'badge-sun'}">${e.status}</span></td>
@@ -468,48 +528,88 @@ async function deleteInscriere(id) {
 
 /* ─── COPII ─── */
 let _copiiAll = [];
-let _copiiGrupa = 'toate';
+let _copiiGrupa  = 'toate';
 let _copiiStatus = 'toti';
+
+const GRUPE = ['🐻 Ursuleți','🦋 Fluturași','⭐ Steluțe','🚀 Exploratori','Necunoscută'];
 
 async function loadCopii() {
   const r = await api('GET', '/admin/copii');
   const tbody = document.getElementById('tbody-copii');
-  if (!r||!r.ok) { tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--coral)">Eroare la încărcare</td></tr>'; return; }
+  if (!r||!r.ok) { tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--coral)">Eroare la încărcare</td></tr>'; return; }
   _copiiAll = r.data;
+  updateCopiiStats();
   renderCopii();
+}
+
+function updateCopiiStats() {
+  const activi = _copiiAll.filter(c => c.status === 'activ');
+  document.getElementById('cs-total').textContent = activi.length;
+  document.getElementById('cs-urs').textContent  = activi.filter(c=>c.grupa==='🐻 Ursuleți').length;
+  document.getElementById('cs-flu').textContent  = activi.filter(c=>c.grupa==='🦋 Fluturași').length;
+  document.getElementById('cs-ste').textContent  = activi.filter(c=>c.grupa==='⭐ Steluțe').length;
+  document.getElementById('cs-exp').textContent  = activi.filter(c=>c.grupa==='🚀 Exploratori').length;
 }
 
 function renderCopii() {
   const tbody = document.getElementById('tbody-copii');
+  const q = (document.getElementById('copii-search')?.value || '').toLowerCase();
   let list = _copiiAll;
-  if (_copiiGrupa !== 'toate') list = list.filter(c => c.grupa === _copiiGrupa);
-  if (_copiiStatus !== 'toti') list = list.filter(c => c.status === _copiiStatus);
-
-  document.getElementById('copii-count').textContent = list.length + ' copii';
+  if (_copiiGrupa  !== 'toate') list = list.filter(c => c.grupa   === _copiiGrupa);
+  if (_copiiStatus !== 'toti')  list = list.filter(c => c.status  === _copiiStatus);
+  if (q) list = list.filter(c =>
+    (c.numeCopil||'').toLowerCase().includes(q) ||
+    (c.numeParinte||'').toLowerCase().includes(q) ||
+    (c.email||'').toLowerCase().includes(q)
+  );
 
   if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">Niciun copil găsit 👦</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:32px;color:var(--muted)">Niciun copil găsit 👦</td></tr>';
     return;
   }
-  tbody.innerHTML = list.map(c => `
+
+  const grupaColors = {
+    '🐻 Ursuleți':'badge-coral','🦋 Fluturași':'badge-sky',
+    '⭐ Steluțe':'badge-sun','🚀 Exploratori':'badge-lavender'
+  };
+
+  tbody.innerHTML = list.map(c => {
+    const gc = grupaColors[c.grupa] || 'badge-muted';
+    const childName = c.numeCopil || '<em style="color:var(--muted)">necunoscut</em>';
+    const age = calcAge(c.dataNasterii);
+    const varstaDisplay = age !== null
+      ? `${age} ani <small style="color:var(--muted)">(${fmtDate(c.dataNasterii)})</small>`
+      : (c.varsta || '—');
+    return `
     <tr>
-      <td><span class="badge badge-lavender" style="font-size:.75rem;white-space:nowrap">${c.grupa||'—'}</span></td>
-      <td><strong>${c.numeParinte||'—'}</strong></td>
-      <td>${c.telefon||'—'}</td>
-      <td><a href="mailto:${c.email}" style="color:var(--sky)">${c.email||'—'}</a></td>
-      <td>${c.varsta||'—'}</td>
-      <td><span class="badge badge-sky" style="font-size:.75rem">${c.program||'—'}</span></td>
-      <td style="font-size:.82rem;color:var(--muted)">${c.created?new Date(c.created).toLocaleDateString('ro-RO'):'—'}</td>
+      <td>
+        <div class="td-flex">
+          <div class="avatar-sm" style="background:rgba(255,107,107,.15);font-size:1rem">👶</div>
+          <div>
+            <strong>${childName}</strong>
+            <small style="display:block;color:var(--muted);font-size:.75rem">înscris ${c.created?new Date(c.created).toLocaleDateString('ro-RO'):'—'}</small>
+          </div>
+        </div>
+      </td>
+      <td style="white-space:nowrap">${varstaDisplay}</td>
+      <td><span class="badge ${gc}" style="font-size:.72rem;white-space:nowrap">${c.grupa||'—'}</span></td>
+      <td><strong style="font-size:.88rem">${c.numeParinte||'—'}</strong></td>
+      <td>${c.telefon ? `<a href="tel:${c.telefon}" style="color:var(--sky)">${c.telefon}</a>` : '—'}</td>
+      <td>${c.email ? `<a href="mailto:${c.email}" style="color:var(--sky);font-size:.82rem">${c.email}</a>` : '—'}</td>
+      <td><span class="badge badge-sky" style="font-size:.72rem">${c.program||'—'}</span></td>
+      <td style="font-size:.82rem;color:${c.alergii?'var(--coral)':'var(--muted)'}">${c.alergii||'—'}</td>
       <td><span class="badge ${c.status==='activ'?'badge-green':'badge-muted'}">${c.status==='activ'?'Activ':'Inactiv'}</span></td>
-      <td><div style="display:flex;gap:6px">
-        <button class="btn btn-sm btn-secondary" onclick="editCopil('${c.id}')">✏️</button>
-        <button class="btn btn-sm ${c.status==='activ'?'btn-warning':'btn-success'}" onclick="toggleCopil('${c.id}','${c.status}')" title="${c.status==='activ'?'Dezactivează':'Activează'}">${c.status==='activ'?'⏸':'▶'}</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteCopil('${c.id}')">🗑️</button>
-      </div></td>
-    </tr>`).join('');
+      <td>
+        <div style="display:flex;gap:5px">
+          <button class="btn btn-sm btn-secondary" onclick="editCopil('${c.id}')" title="Editează">✏️</button>
+          <button class="btn btn-sm ${c.status==='activ'?'btn-warning':'btn-success'}" onclick="toggleCopil('${c.id}','${c.status}')" title="${c.status==='activ'?'Dezactivează':'Activează'}">${c.status==='activ'?'⏸':'▶'}</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteCopil('${c.id}')" title="Șterge">🗑️</button>
+        </div>
+      </td>
+    </tr>`}).join('');
 }
 
-function filterCopii(btn) {
+function filterCopiiGrupa(btn) {
   document.querySelectorAll('[data-grupa]').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   _copiiGrupa = btn.dataset.grupa;
@@ -523,36 +623,94 @@ function filterCopiiStatus(btn) {
   renderCopii();
 }
 
+function openAddCopil() {
+  const grSelect = GRUPE.map(g => `<option>${g}</option>`).join('');
+  showModal('➕ Adaugă copil', `
+    <div class="form-grid" style="gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>Numele copilului *</label><input id="nc-numeCopil" type="text" placeholder="Alexandru"></div>
+        <div class="form-group"><label>Data nașterii *</label><input id="nc-dataNasterii" type="date"></div>
+      </div>
+      <div class="form-group"><label>Program</label>
+        <select id="nc-program">
+          <option>Scurt (07:30–13:00)</option>
+          <option>Lung (07:30–18:00)</option>
+          <option>Premium Plus</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Nume Părinte *</label><input id="nc-numeParinte" type="text" placeholder="Maria Ionescu"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>Telefon</label><input id="nc-telefon" type="tel" placeholder="07xx xxx xxx"></div>
+        <div class="form-group"><label>Email</label><input id="nc-email" type="email" placeholder="maria@email.ro"></div>
+      </div>
+      <div class="form-group"><label>Alergii / Restricții alimentare</label><input id="nc-alergii" type="text" placeholder="Ex: lactate, nuci..."></div>
+      <div class="form-group"><label>Observații</label><textarea id="nc-observatii" placeholder="Notițe pentru educatoare..."></textarea></div>
+      <button class="btn btn-primary" onclick="addCopil()">➕ Adaugă copil</button>
+    </div>`);
+}
+
+async function addCopil() {
+  const numeCopil = document.getElementById('nc-numeCopil')?.value.trim();
+  if (!numeCopil) { toast('Numele copilului este obligatoriu!','error'); return; }
+  const body = {
+    numeCopil,
+    dataNasterii: document.getElementById('nc-dataNasterii')?.value || '',
+    numeParinte:  document.getElementById('nc-numeParinte')?.value || '',
+    program:      document.getElementById('nc-program')?.value || '',
+    telefon:      document.getElementById('nc-telefon')?.value || '',
+    email:        document.getElementById('nc-email')?.value || '',
+    alergii:      document.getElementById('nc-alergii')?.value || '',
+    observatii:   document.getElementById('nc-observatii')?.value || '',
+  };
+  const r = await api('POST', '/admin/copii', body);
+  if (r&&r.ok) { toast('Copil adăugat! 🎉'); closeModal(); loadCopii(); loadStats(); }
+  else toast(r?.error||'Eroare','error');
+}
+
 function editCopil(id) {
   const c = _copiiAll.find(x => x.id === id);
   if (!c) return;
-  const grupe = ['🐻 Ursuleți','🦋 Fluturași','⭐ Steluțe','🚀 Exploratori','Necunoscută'];
-  const grSelect = grupe.map(g => `<option ${c.grupa===g?'selected':''}>${g}</option>`).join('');
+  const grSelect = GRUPE.map(g => `<option ${c.grupa===g?'selected':''}>${g}</option>`).join('');
+  const ageDisplay = c.dataNasterii ? ` — ${calcAge(c.dataNasterii)} ani` : '';
   showModal('✏️ Editează profil copil', `
     <div class="form-grid" style="gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>Numele copilului</label><input id="ec-numeCopil" type="text" value="${c.numeCopil||''}"></div>
+        <div class="form-group"><label>Data nașterii${ageDisplay}</label><input id="ec-dataNasterii" type="date" value="${c.dataNasterii||''}"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>Grupă <small style="color:var(--muted)">(auto din dată)</small></label><select id="ec-grupa">${grSelect}</select></div>
+        <div class="form-group"><label>Program</label>
+          <select id="ec-program">
+            <option ${c.program==='Scurt (07:30–13:00)'?'selected':''}>Scurt (07:30–13:00)</option>
+            <option ${c.program==='Lung (07:30–18:00)'?'selected':''}>Lung (07:30–18:00)</option>
+            <option ${c.program==='Premium Plus'?'selected':''}>Premium Plus</option>
+          </select>
+        </div>
+      </div>
       <div class="form-group"><label>Nume Părinte</label><input id="ec-numeParinte" type="text" value="${c.numeParinte||''}"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-group"><label>Telefon</label><input id="ec-telefon" type="text" value="${c.telefon||''}"></div>
+        <div class="form-group"><label>Telefon</label><input id="ec-telefon" type="tel" value="${c.telefon||''}"></div>
         <div class="form-group"><label>Email</label><input id="ec-email" type="email" value="${c.email||''}"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-group"><label>Vârstă</label><input id="ec-varsta" type="text" value="${c.varsta||''}"></div>
-        <div class="form-group"><label>Grupă</label><select id="ec-grupa">${grSelect}</select></div>
-      </div>
-      <div class="form-group"><label>Program</label><input id="ec-program" type="text" value="${c.program||''}"></div>
+      <div class="form-group"><label>Alergii / Restricții</label><input id="ec-alergii" type="text" value="${c.alergii||''}"></div>
+      <div class="form-group"><label>Observații</label><textarea id="ec-observatii">${c.observatii||''}</textarea></div>
       <button class="btn btn-primary" onclick="saveCopil('${id}')">💾 Salvează</button>
     </div>`);
 }
 
 async function saveCopil(id) {
   const body = {
-    numeParinte: document.getElementById('ec-numeParinte').value,
-    telefon:     document.getElementById('ec-telefon').value,
-    email:       document.getElementById('ec-email').value,
-    varsta:      document.getElementById('ec-varsta').value,
-    grupa:       document.getElementById('ec-grupa').value,
-    program:     document.getElementById('ec-program').value,
-    status:      (_copiiAll.find(x=>x.id===id)||{}).status || 'activ'
+    numeCopil:    document.getElementById('ec-numeCopil').value,
+    dataNasterii: document.getElementById('ec-dataNasterii').value,
+    numeParinte:  document.getElementById('ec-numeParinte').value,
+    telefon:      document.getElementById('ec-telefon').value,
+    email:        document.getElementById('ec-email').value,
+    grupa:        document.getElementById('ec-grupa').value,
+    program:      document.getElementById('ec-program').value,
+    alergii:      document.getElementById('ec-alergii').value,
+    observatii:   document.getElementById('ec-observatii').value,
+    status:       (_copiiAll.find(x=>x.id===id)||{}).status || 'activ'
   };
   await api('PUT', '/admin/copii/'+id, body);
   toast('Salvat! ✅'); closeModal(); loadCopii(); loadStats();
@@ -772,46 +930,86 @@ async function deleteT(id) { if(!confirm('Ștergi?'))return; await api('DELETE',
 async function loadEchipa() {
   const r = await api('GET', '/admin/echipa');
   const tbody = document.getElementById('tbody-echipa');
-  if (!r||!r.ok||!r.data.length) { tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--muted)">Niciun membru 👥</td></tr>'; return; }
-  tbody.innerHTML = r.data.map(m => `
+  if (!r||!r.ok||!r.data.length) { tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--muted)">Niciun angajat 👥</td></tr>'; return; }
+  tbody.innerHTML = r.data.map(m => {
+    const dataAng = m.dataAngajare ? new Date(m.dataAngajare).toLocaleDateString('ro-RO',{year:'numeric',month:'short'}) : '—';
+    return `
     <tr>
-      <td><div class="td-flex"><div class="avatar-sm" style="background:rgba(255,107,107,.12)">${m.emoji||'🧑'}</div><strong>${m.name}</strong></div></td>
+      <td>
+        <div class="td-flex">
+          <div class="avatar-sm" style="background:rgba(255,107,107,.12);font-size:1.1rem">${m.emoji||'🧑'}</div>
+          <div>
+            <strong>${m.name}</strong>
+            ${m.bio?`<small style="display:block;color:var(--muted);font-size:.73rem;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.bio}</small>`:''}
+          </div>
+        </div>
+      </td>
       <td>${m.role||'—'}</td>
-      <td><span class="badge ${m.status==='activ'?'badge-green':'badge-muted'}">${m.status}</span></td>
-      <td><div style="display:flex;gap:6px">
-        <button class="btn btn-sm btn-secondary" onclick='loadEditMember("${m.id}","${m.name}","${m.role}","${m.emoji}","${m.bio||""}")'>✏️</button>
-        <button class="btn btn-sm btn-danger"    onclick="deleteMember('${m.id}')">🗑️</button>
-      </div></td>
-    </tr>`).join('');
+      <td>${m.specializare ? `<span class="badge badge-lavender" style="font-size:.72rem">${m.specializare}</span>` : '—'}</td>
+      <td>
+        ${m.telefon?`<a href="tel:${m.telefon}" style="color:var(--sky);font-size:.82rem;display:block">${m.telefon}</a>`:''}
+        ${m.email?`<a href="mailto:${m.email}" style="color:var(--sky);font-size:.78rem">${m.email}</a>`:''}
+        ${!m.telefon&&!m.email?'—':''}
+      </td>
+      <td style="font-size:.82rem;color:var(--muted)">${dataAng}</td>
+      <td><span class="badge ${m.status==='activ'?'badge-green':'badge-muted'}">${m.status==='activ'?'Activ':'Inactiv'}</span></td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-secondary" onclick="loadEditMember(${JSON.stringify(m).replace(/"/g,'&quot;')})">✏️</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteMember('${m.id}')">🗑️</button>
+        </div>
+      </td>
+    </tr>`}).join('');
 }
 
-function loadEditMember(id, name, role, emoji, bio) {
-  editMemberId = id;
-  document.getElementById('e-name').value  = name;
-  document.getElementById('e-role').value  = role;
-  document.getElementById('e-emoji').value = emoji;
-  document.getElementById('e-bio').value   = bio;
-  document.getElementById('echipa-form-label').textContent = '✏️ Editează membru';
+function loadEditMember(m) {
+  editMemberId = m.id;
+  document.getElementById('e-name').value          = m.name  || '';
+  document.getElementById('e-role').value          = m.role  || '';
+  document.getElementById('e-emoji').value         = m.emoji || '';
+  document.getElementById('e-specializare').value  = m.specializare || '';
+  document.getElementById('e-telefon').value       = m.telefon || '';
+  document.getElementById('e-email').value         = m.email  || '';
+  document.getElementById('e-dataAngajare').value  = m.dataAngajare || '';
+  document.getElementById('e-bio').value           = m.bio    || '';
+  document.getElementById('echipa-form-label').textContent = '✏️ Editează angajat';
   document.getElementById('team-form-card').scrollIntoView({ behavior: 'smooth' });
-  toast('Încărcat ✏️','info');
+  toast('Încărcat pentru editare ✏️','info');
 }
 
 async function saveMember() {
   const name = document.getElementById('e-name').value.trim();
   if (!name) { toast('Numele este obligatoriu!','error'); return; }
-  const body = { name, role:document.getElementById('e-role').value, emoji:document.getElementById('e-emoji').value||'🧑‍🏫', bio:document.getElementById('e-bio').value, status:'activ' };
+  const body = {
+    name,
+    role:          document.getElementById('e-role').value,
+    emoji:         document.getElementById('e-emoji').value || '🧑‍🏫',
+    specializare:  document.getElementById('e-specializare').value,
+    telefon:       document.getElementById('e-telefon').value,
+    email:         document.getElementById('e-email').value,
+    dataAngajare:  document.getElementById('e-dataAngajare').value,
+    bio:           document.getElementById('e-bio').value,
+    status:        'activ'
+  };
   if (editMemberId) { await api('PUT','/admin/echipa/'+editMemberId, body); toast('Actualizat! ✅'); clearMemberForm(); }
-  else { await api('POST','/admin/echipa', body); toast('Adăugat! 🎉'); clearMemberForm(); }
+  else { await api('POST','/admin/echipa', body); toast('Angajat adăugat! 🎉'); clearMemberForm(); }
   loadEchipa();
 }
 
 function clearMemberForm() {
   editMemberId = null;
-  ['e-name','e-role','e-emoji','e-bio'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('echipa-form-label').textContent = '➕ Adaugă membru';
+  ['e-name','e-role','e-emoji','e-specializare','e-telefon','e-email','e-dataAngajare','e-bio'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('echipa-form-label').textContent = '➕ Adaugă angajat';
 }
 
-async function deleteMember(id) { if(!confirm('Ștergi?'))return; await api('DELETE','/admin/echipa/'+id); toast('Șters!','error'); loadEchipa(); }
+async function deleteMember(id) {
+  if (!confirm('Ștergi acest angajat?')) return;
+  await api('DELETE','/admin/echipa/'+id);
+  toast('Șters!','error'); loadEchipa();
+}
 
 /* ─── SETARI ─── */
 async function loadSetari() {

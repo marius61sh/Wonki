@@ -183,12 +183,21 @@ app.delete('/api/admin/testimoniale/:id', auth, async (req, res) => {
 // ── INSCRIERI ────────────────────────────────────────────────
 app.post('/api/inscrieri', async (req, res) => {
   try {
-    const { numeParinte, telefon, email, varsta, program, sursa, mesaj } = req.body;
+    const { numeCopil, dataNasterii, numeParinte, telefon, email, program, sursa, mesaj } = req.body;
     if (!numeParinte) return err(res, 'Numele obligatoriu');
+    const varstaAnni = calcVarsta(dataNasterii);
     const ref = await getDB().collection('inscrieri').add({
-      numeParinte, telefon: telefon || '', email: email || '',
-      varsta: varsta || '', program: program || '', sursa: sursa || '',
-      mesaj: mesaj || '', status: 'nou', created: new Date()
+      numeCopil:    numeCopil    || '',
+      dataNasterii: dataNasterii || '',
+      varsta:       varstaAnni !== null ? varstaAnni + ' ani' : '',
+      numeParinte,
+      telefon:  telefon  || '',
+      email:    email    || '',
+      program:  program  || '',
+      sursa:    sursa    || '',
+      mesaj:    mesaj    || '',
+      status: 'nou',
+      created: new Date()
     });
     ok(res, { id: ref.id });
   } catch (e) { err(res, 'Eroare server', 500); }
@@ -213,16 +222,21 @@ app.put('/api/admin/inscrieri/:id', auth, async (req, res) => {
       if (existing.empty) {
         const insSnap = await getDB().collection('inscrieri').doc(req.params.id).get();
         const ins = insSnap.data() || {};
+        const varstaCalc = calcVarsta(ins.dataNasterii);
         await getDB().collection('copii').add({
-          numeParinte: ins.numeParinte || '',
-          telefon:     ins.telefon     || '',
-          email:       ins.email       || '',
-          varsta:      ins.varsta      || '',
-          program:     ins.program     || '',
-          grupa:       getGrupa(ins.varsta),
-          status:      'activ',
+          numeCopil:    ins.numeCopil    || '',
+          dataNasterii: ins.dataNasterii || '',
+          varsta:       varstaCalc !== null ? varstaCalc + ' ani' : (ins.varsta || ''),
+          numeParinte:  ins.numeParinte  || '',
+          telefon:      ins.telefon      || '',
+          email:        ins.email        || '',
+          program:      ins.program      || '',
+          grupa:        ins.dataNasterii ? getGrupaFromDate(ins.dataNasterii) : getGrupa(ins.varsta),
+          observatii:   '',
+          alergii:      '',
+          status:       'activ',
           inscriere_id: req.params.id,
-          created:     new Date()
+          created:      new Date()
         });
       }
     }
@@ -230,6 +244,29 @@ app.put('/api/admin/inscrieri/:id', auth, async (req, res) => {
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
+// Calculeaza varsta exacta in ani din data nasterii
+function calcVarsta(dataNasterii) {
+  if (!dataNasterii) return null;
+  const dob = new Date(dataNasterii);
+  if (isNaN(dob.getTime())) return null;
+  const now = new Date();
+  let age = now.getFullYear() - dob.getFullYear();
+  const m = now.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+  return age;
+}
+
+// Atribuie grupa in functie de data nasterii
+function getGrupaFromDate(dataNasterii) {
+  const age = calcVarsta(dataNasterii);
+  if (age === null) return 'Necunoscută';
+  if (age <= 2) return '🐻 Ursuleți';
+  if (age === 3) return '🦋 Fluturași';
+  if (age === 4) return '⭐ Steluțe';
+  return '🚀 Exploratori';
+}
+
+// Fallback pentru datele vechi cu string range
 function getGrupa(varsta) {
   if (!varsta) return 'Necunoscută';
   if (varsta.startsWith('2')) return '🐻 Ursuleți';
@@ -246,12 +283,42 @@ app.get('/api/admin/copii', auth, async (req, res) => {
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
+app.post('/api/admin/copii', auth, async (req, res) => {
+  try {
+    const { numeCopil, dataNasterii, numeParinte, telefon, email, program, grupa, observatii, alergii } = req.body;
+    if (!numeCopil) return err(res, 'Numele copilului este obligatoriu');
+    const varstaCalc = calcVarsta(dataNasterii);
+    const ref = await getDB().collection('copii').add({
+      numeCopil,
+      dataNasterii: dataNasterii || '',
+      varsta:       varstaCalc !== null ? varstaCalc + ' ani' : '',
+      numeParinte:  numeParinte || '',
+      telefon:      telefon     || '',
+      email:        email       || '',
+      program:      program     || '',
+      grupa:        grupa || (dataNasterii ? getGrupaFromDate(dataNasterii) : 'Necunoscută'),
+      observatii:   observatii  || '',
+      alergii:      alergii     || '',
+      status: 'activ', created: new Date()
+    });
+    ok(res, { id: ref.id });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
 app.put('/api/admin/copii/:id', auth, async (req, res) => {
   try {
-    const { numeParinte, telefon, email, varsta, program, grupa, status } = req.body;
-    await getDB().collection('copii').doc(req.params.id).update(
-      { numeParinte, telefon, email, varsta, program, grupa, status }
-    );
+    const { numeCopil, dataNasterii, numeParinte, telefon, email, program, grupa, observatii, alergii, status } = req.body;
+    const varstaCalc = calcVarsta(dataNasterii);
+    await getDB().collection('copii').doc(req.params.id).update({
+      numeCopil:    numeCopil    || '',
+      dataNasterii: dataNasterii || '',
+      varsta:       varstaCalc !== null ? varstaCalc + ' ani' : '',
+      numeParinte,  telefon, email, program,
+      grupa:        grupa || (dataNasterii ? getGrupaFromDate(dataNasterii) : 'Necunoscută'),
+      observatii:   observatii || '',
+      alergii:      alergii    || '',
+      status
+    });
     ok(res, 'Actualizat');
   } catch (e) { err(res, 'Eroare server', 500); }
 });
@@ -321,11 +388,13 @@ app.get('/api/admin/echipa', auth, async (req, res) => {
 
 app.post('/api/admin/echipa', auth, async (req, res) => {
   try {
-    const { name, role, emoji, bio } = req.body;
+    const { name, role, emoji, bio, telefon, email, specializare, dataAngajare } = req.body;
     if (!name) return err(res, 'Numele obligatoriu');
     const ref = await getDB().collection('echipa').add({
       name, role: role || '', emoji: emoji || '👤',
-      bio: bio || '', status: 'activ', created: new Date()
+      bio: bio || '', telefon: telefon || '', email: email || '',
+      specializare: specializare || '', dataAngajare: dataAngajare || '',
+      status: 'activ', created: new Date()
     });
     ok(res, { id: ref.id });
   } catch (e) { err(res, 'Eroare server', 500); }
@@ -333,8 +402,13 @@ app.post('/api/admin/echipa', auth, async (req, res) => {
 
 app.put('/api/admin/echipa/:id', auth, async (req, res) => {
   try {
-    const { name, role, emoji, bio, status } = req.body;
-    await getDB().collection('echipa').doc(req.params.id).update({ name, role, emoji, bio, status: status || 'activ' });
+    const { name, role, emoji, bio, telefon, email, specializare, dataAngajare, status } = req.body;
+    await getDB().collection('echipa').doc(req.params.id).update({
+      name, role, emoji, bio: bio||'',
+      telefon: telefon||'', email: email||'',
+      specializare: specializare||'', dataAngajare: dataAngajare||'',
+      status: status || 'activ'
+    });
     ok(res, 'Actualizat');
   } catch (e) { err(res, 'Eroare server', 500); }
 });
