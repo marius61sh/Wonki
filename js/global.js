@@ -395,12 +395,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-/* ─── TAWK.TO LIVE CHAT ─── */
-(function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/6a16bdce36ad8d1c38c41b37/1jpkdarp9';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  s0.parentNode.insertBefore(s1,s0);
+/* ─── TAWK.TO LIVE CHAT — incarca doar cu consimtamant ─── */
+function loadTawk() {
+  if (document.getElementById('tawk-script')) return;
+  var s1 = document.createElement('script');
+  s1.id  = 'tawk-script';
+  s1.async = true;
+  s1.src = 'https://embed.tawk.to/6a16bdce36ad8d1c38c41b37/1jpkdarp9';
+  s1.charset = 'UTF-8';
+  s1.setAttribute('crossorigin', '*');
+  document.head.appendChild(s1);
+}
+
+/* ─── COOKIE CONSENT ─── */
+(function () {
+  var CONSENT_KEY = 'wonki-cookie-consent';
+
+  function getConsent() { return localStorage.getItem(CONSENT_KEY); }
+
+  function setConsent(val) {
+    localStorage.setItem(CONSENT_KEY, val);
+    if (val === 'accept') loadTawk();
+    hideBanner();
+  }
+
+  function hideBanner() {
+    var b = document.getElementById('cookie-banner');
+    if (b) { b.style.transform = 'translateY(120%)'; setTimeout(function(){ b.remove(); }, 400); }
+  }
+
+  // Deja a ales → aplica direct
+  var existing = getConsent();
+  if (existing === 'accept') { document.addEventListener('DOMContentLoaded', loadTawk); return; }
+  if (existing === 'decline') return;
+
+  // Prima vizita → afiseaza bannerul
+  document.addEventListener('DOMContentLoaded', function () {
+    var banner = document.createElement('div');
+    banner.id = 'cookie-banner';
+    banner.innerHTML = `
+      <div class="ck-inner">
+        <div class="ck-left">
+          <div class="ck-title">🍪 Folosim cookie-uri</div>
+          <p class="ck-text">Folosim cookie-uri pentru a îmbunătăți experiența ta și pentru funcționalități precum chat-ul live. Poți accepta sau refuza cookie-urile non-esențiale.</p>
+          <a class="ck-link" href="pages/confidentialitate.html">Politica de confidențialitate →</a>
+        </div>
+        <div class="ck-btns">
+          <button class="ck-btn ck-accept" id="ck-accept">✓ Accept toate</button>
+          <button class="ck-btn ck-decline" id="ck-decline">Doar esențiale</button>
+        </div>
+      </div>`;
+    document.body.appendChild(banner);
+
+    // Animatie intrare
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        banner.style.transform = 'translateY(0)';
+      });
+    });
+
+    document.getElementById('ck-accept').addEventListener('click', function(){ setConsent('accept'); });
+    document.getElementById('ck-decline').addEventListener('click', function(){ setConsent('decline'); });
+  });
 })();

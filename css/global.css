@@ -329,6 +329,57 @@ footer {
   .section-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
 }
 
+/* ─── COOKIE CONSENT BANNER ─── */
+#cookie-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9998;
+  background: #fff;
+  border-top: 2px solid rgba(255,107,107,.15);
+  box-shadow: 0 -8px 40px rgba(0,0,0,.1);
+  padding: 20px 40px;
+  transform: translateY(120%);
+  transition: transform .4s cubic-bezier(.34,1.2,.64,1);
+}
+[data-theme="dark"] #cookie-banner {
+  background: #1E1E30;
+  border-top-color: rgba(255,107,107,.2);
+  box-shadow: 0 -8px 40px rgba(0,0,0,.4);
+}
+.ck-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.ck-left { flex: 1; min-width: 260px; }
+.ck-title {
+  font-family: 'Baloo 2', cursive; font-size: 1.1rem;
+  font-weight: 800; margin-bottom: 6px;
+}
+.ck-text { font-size: .88rem; color: var(--gray); line-height: 1.6; margin-bottom: 6px; }
+.ck-link { font-size: .82rem; color: var(--coral); font-weight: 700; text-decoration: underline; }
+.ck-btns { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; }
+.ck-btn {
+  padding: 11px 24px; border-radius: var(--radius-pill);
+  font-family: 'Baloo 2', cursive; font-size: .95rem; font-weight: 800;
+  border: none; cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+}
+.ck-btn:hover { transform: translateY(-2px); }
+.ck-accept {
+  background: var(--coral); color: #fff;
+  box-shadow: 0 4px 16px rgba(255,107,107,.4);
+}
+.ck-accept:hover { box-shadow: 0 8px 24px rgba(255,107,107,.5); }
+.ck-decline {
+  background: transparent; color: var(--gray);
+  border: 2px solid rgba(0,0,0,.1);
+}
+[data-theme="dark"] .ck-decline { border-color: rgba(255,255,255,.12); color: var(--gray); }
+.ck-decline:hover { border-color: var(--coral); color: var(--coral); }
+@media (max-width: 600px) {
+  #cookie-banner { padding: 18px 16px; }
+  .ck-btns { width: 100%; }
+  .ck-btn { flex: 1; text-align: center; }
+}
+
 /* ─── TOUCH DEVICES: disable custom cursor ─── */
 @media (pointer: coarse) {
   body { cursor: auto; }
