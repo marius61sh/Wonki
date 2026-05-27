@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     twText.textContent = longestWord;
     twWord.style.display    = 'inline-block';
     twWord.style.minWidth   = twWord.offsetWidth + 'px';
-    twWord.style.textAlign  = 'left';
+    twWord.style.textAlign  = 'center';
 
     let wi = 0, ci = 0, deleting = false;
 
