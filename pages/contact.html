@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – Wonki</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+<div id="cur"><div id="cur-dot"></div><div id="cur-ring"></div></div>
+<canvas id="canvas"></canvas>
+<div id="toast"></div>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
+  <ul>
+    <li><a href="../index.html">Acasă</a></li>
+    <li><a href="despre.html">Despre noi</a></li>
+    <li><a href="program.html">Program</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="galerie.html">Galerie</a></li>
+    <li><a href="contact.html" class="nav-btn">Înscrie-te 🎈</a></li>
+  </ul>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="../index.html">Acasă</a>
+  <a href="despre.html">Despre noi</a>
+  <a href="program.html">Program</a>
+  <a href="blog.html">Blog</a>
+  <a href="galerie.html">Galerie</a>
+  <a href="contact.html">Înscrie-te 🎈</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <span class="section-label">Suntem aproape</span>
+    <h1>Hai să ne <span style="color:var(--coral)">cunoaștem!</span> 🤗</h1>
+    <p>Fie că ai o întrebare, vrei să programezi o vizită sau ești gata să te înscrii — suntem aici pentru tine.</p>
+  </div>
+</div>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- CONTACT FORM -->
+<section class="contact-page">
+  <div class="contact-grid">
+
+    <!-- LEFT -->
+    <div class="contact-left reveal-l">
+      <h3>Informații de <span style="color:var(--coral)">contact</span></h3>
+      <p>Nu ezita să ne contactezi! Îți răspundem în cel mult 24 de ore în zilele lucrătoare.</p>
+
+      <div class="info-list">
+        <div class="info-row"><div class="ii">📍</div><div><strong>Adresă</strong><span>Str. Florilor 12, Sector 2, București</span></div></div>
+        <div class="info-row"><div class="ii">📞</div><div><strong>Telefon</strong><span>0721 234 567</span></div></div>
+        <div class="info-row"><div class="ii">✉️</div><div><strong>Email</strong><span>hello@wonki.ro</span></div></div>
+        <div class="info-row"><div class="ii">🕐</div><div><strong>Program</strong><span>Luni – Vineri, 07:30 – 18:30</span></div></div>
+      </div>
+
+      <div class="map-box">
+        <div class="map-emoji">🗺️</div>
+        <p><strong>Str. Florilor 12, Sector 2</strong><br>La 5 minute de Parcul Herăstrău.<br>Parcare disponibilă în față.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="contact-form-box reveal-r">
+      <h3>Trimite-ne un <span style="color:var(--coral)">mesaj</span> 💌</h3>
+      <form id="contact-form">
+        <div class="fg-row">
+          <div class="fg"><label>Numele tău *</label><input type="text" placeholder="Maria Ionescu" required></div>
+          <div class="fg"><label>Telefon *</label><input type="tel" placeholder="07xx xxx xxx" required></div>
+        </div>
+        <div class="fg"><label>Email *</label><input type="email" placeholder="maria@email.ro" required></div>
+        <div class="fg-row">
+          <div class="fg">
+            <label>Vârsta copilului</label>
+            <select>
+              <option>2–3 ani</option>
+              <option>3–4 ani</option>
+              <option>4–5 ani</option>
+              <option>5–6 ani</option>
+              <option>6–7 ani</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Program dorit</label>
+            <select>
+              <option>Scurt (07:30–13:00)</option>
+              <option>Lung (07:30–18:00)</option>
+              <option>Premium Plus</option>
+              <option>Vreau mai multe info</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Cum ai aflat de Wonki?</label>
+          <select>
+            <option>Recomandare</option>
+            <option>Google</option>
+            <option>Facebook / Instagram</option>
+            <option>Altceva</option>
+          </select>
+        </div>
+        <div class="fg"><label>Mesaj</label><textarea placeholder="Orice întrebare, suntem aici! 💛"></textarea></div>
+        <button type="submit" class="submit-btn">🎈 Trimite cererea</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFCF5" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-center" style="max-width:600px;margin:0 auto 54px">
+    <span class="section-label">Întrebări frecvente</span>
+    <h2 class="section-title reveal">Răspunsuri la <span style="color:var(--sky)">curiozitățile</span> tale</h2>
+    <p class="section-sub reveal">Nu ai găsit ce cauți? Scrie-ne direct!</p>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <div class="faq-question">De la ce vârstă pot înscrie copilul la Wonki? <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer">Acceptăm copii cu vârste între 2 și 7 ani. Fiecare grupă este adaptată specificului de dezvoltare al vârstei respective.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question">Care este procesul de înscriere? <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer">Completezi formularul de contact, programăm o vizită cu copilul tău, discutăm nevoile și preferințele, iar apoi finalizăm dosarul de înscriere. Totul durează de obicei 3–5 zile lucrătoare.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question">Mâncarea este inclusă în taxă? <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer">La programul scurt este inclusă gustarea de dimineață. La programul lung și Premium Plus sunt incluse gustarea, prânzul cald și gustarea de după-amiază. Meniurile sunt preparate zilnic de bucătarul nostru.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question">Cum comunicați cu părinții despre evoluția copilului? <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer">Avem o aplicație dedicată unde postăm zilnic actualizări, poze (cu acord) și notificări. Lunar primești un raport scris de progres, iar trimestrial organizăm întâlniri individuale cu educatoarea.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question">Ce se întâmplă dacă copilul nu se adaptează? <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer">Avem un protocol de acomodare progresivă de 2 săptămâni. Psihologul nostru și educatoarele lucrează împreună cu familia pentru o tranziție cât mai blândă. Nu am întâlnit niciodată un copil care să nu se integreze cu răbdare!</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question">Există locuri disponibile pentru 2025–2026? <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer">Da, momentan mai avem locuri disponibile în grupele Fluturași și Exploratori. Pentru celelalte grupe există o listă de așteptare scurtă. Contactează-ne cât mai repede pentru a rezerva locul!</div>
+    </div>
+  </div>
+</section>
+
+<!-- MESAJ RAPID -->
+<section class="quick-msg-section">
+  <div class="section-center reveal">
+    <span class="section-label">Răspundem în 24h</span>
+    <h2 class="section-title">Ai o întrebare <span style="color:var(--coral)">rapidă?</span> 💌</h2>
+    <p class="section-sub">Fără cerere de înscriere — scrie-ne direct și îți răspundem curând.</p>
+  </div>
+  <div class="quick-msg-box reveal">
+    <form id="quick-form">
+      <div class="fg-row">
+        <div class="fg"><label>Numele tău *</label><input type="text" id="qm-name" placeholder="Maria Ionescu" required></div>
+        <div class="fg"><label>Email *</label><input type="email" id="qm-email" placeholder="maria@email.ro" required></div>
+      </div>
+      <div class="fg"><label>Subiect</label><input type="text" id="qm-subject" placeholder="Ex: Vreau mai multe detalii despre program..."></div>
+      <div class="fg"><label>Mesajul tău *</label><textarea id="qm-body" rows="5" placeholder="Scrie mesajul tău aici... 💛" required></textarea></div>
+      <button type="submit" class="submit-btn" id="qm-btn">✉️ Trimite mesajul</button>
+    </form>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#12121f" style="display:none" id="footer-wave-dark" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/><path fill="#1a1a2e" id="footer-wave-path" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="f-logo">Wonki ⭐</div><p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p><div class="f-socials"><a class="f-social" href="#">📘</a><a class="f-social" href="#">📸</a><a class="f-social" href="#">▶️</a></div></div>
+    <div class="footer-col"><h4>Pagini</h4><ul><li><a href="../index.html">Acasă</a></li><li><a href="despre.html">Despre noi</a></li><li><a href="program.html">Program</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Grupe</h4><ul><li><a href="#">🐻 Ursuleți (2–3 ani)</a></li><li><a href="#">🦋 Fluturași (3–4 ani)</a></li><li><a href="#">⭐ Steluțe (4–5 ani)</a></li><li><a href="#">🚀 Exploratori (5–7 ani)</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">📍 Str. Florilor 12, București</a></li><li><a href="#">📞 0721 234 567</a></li><li><a href="#">✉️ hello@wonki.ro</a></li><li><a href="#">🕐 Lun–Vin 07:30–18:30</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
+    <div class="footer-hearts">💛 🧡 ❤️ 💜 💙</div>
+  </div>
+</footer>
+
+<script src="../js/global.js"></script>
+<script src="../js/pages.js"></script>
+<script>
+  const API = '/api';
+
+  /* ─── FORMULAR MESAJ RAPID → /api/mesaje ─── */
+  document.getElementById('quick-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('qm-btn');
+    btn.textContent = '⏳ Se trimite...'; btn.disabled = true;
+    const body = {
+      from_name: document.getElementById('qm-name').value.trim(),
+      email:     document.getElementById('qm-email').value.trim(),
+      subject:   document.getElementById('qm-subject').value.trim(),
+      body:      document.getElementById('qm-body').value.trim(),
+    };
+    try {
+      const r = await fetch(API + '/mesaje', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await r.json();
+      btn.textContent = '✉️ Trimite mesajul'; btn.disabled = false;
+      if (data.ok) {
+        if (window.showToast) showToast('✅ Mesaj trimis! Îți răspundem în curând 💛');
+        else alert('✅ Mesaj trimis!');
+        e.target.reset();
+      } else {
+        alert('❌ ' + (data.error || 'Eroare la trimitere'));
+      }
+    } catch {
+      btn.textContent = '✉️ Trimite mesajul'; btn.disabled = false;
+      alert('❌ Serverul nu este pornit. Rulează START.bat mai întâi!');
+    }
+  });
+
+  /* ─── FORMULAR CERERE ÎNSCRIERE → /api/inscrieri ─── */
+  document.getElementById('contact-form')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.textContent = '⏳ Se trimite...'; btn.disabled = true;
+
+    const formData = {
+      numeParinte: e.target.querySelector('input[placeholder*="Ionescu"]')?.value || '',
+      telefon:     e.target.querySelector('input[type="tel"]')?.value || '',
+      email:       e.target.querySelector('input[type="email"]')?.value || '',
+      varsta:      e.target.querySelectorAll('select')[0]?.value || '',
+      program:     e.target.querySelectorAll('select')[1]?.value || '',
+      sursa:       e.target.querySelectorAll('select')[2]?.value || '',
+      mesaj:       e.target.querySelector('textarea')?.value || '',
+    };
+
+    try {
+      await fetch(API + '/inscrieri', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      btn.textContent = '🎈 Trimite cererea'; btn.disabled = false;
+      if (window.showToast) showToast('✅ Mesaj trimis! Te contactăm în curând 💛');
+      else alert('✅ Cerere trimisă! Te contactăm în curând.');
+      e.target.reset();
+    } catch(err) {
+      btn.textContent = '🎈 Trimite cererea'; btn.disabled = false;
+      alert('❌ Eroare: Serverul nu este pornit.\nRulează START.bat mai întâi!');
+    }
+  });
+</script>
+</body>
+</html>

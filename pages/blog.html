@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog & Știri – Wonki</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+<div id="cur"><div id="cur-dot"></div><div id="cur-ring"></div></div>
+<canvas id="canvas"></canvas>
+<div id="toast"></div>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
+  <ul>
+    <li><a href="../index.html">Acasă</a></li>
+    <li><a href="despre.html">Despre noi</a></li>
+    <li><a href="program.html">Program</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="galerie.html">Galerie</a></li>
+    <li><a href="contact.html" class="nav-btn">Înscrie-te 🎈</a></li>
+  </ul>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="../index.html">Acasă</a>
+  <a href="despre.html">Despre noi</a>
+  <a href="program.html">Program</a>
+  <a href="blog.html">Blog</a>
+  <a href="galerie.html">Galerie</a>
+  <a href="contact.html">Înscrie-te 🎈</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <span class="section-label">Noutăți & Sfaturi</span>
+    <h1>Blog <span style="color:var(--coral)">Wonki</span> ✍️</h1>
+    <p>Articole despre educație, activități creative și tot ce se întâmplă la grădinița noastră.</p>
+  </div>
+</div>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- BLOG SECTION -->
+<section class="blog-page">
+
+  <!-- Filtre categorii -->
+  <div class="blog-filters reveal">
+    <button class="blog-filter-btn active" data-cat="toate">✨ Toate</button>
+    <button class="blog-filter-btn" data-cat="Sfaturi">💡 Sfaturi</button>
+    <button class="blog-filter-btn" data-cat="Educație">📚 Educație</button>
+    <button class="blog-filter-btn" data-cat="Evenimente">🎉 Evenimente</button>
+    <button class="blog-filter-btn" data-cat="Sănătate">🥗 Sănătate</button>
+    <button class="blog-filter-btn" data-cat="Noutăți">🌟 Noutăți</button>
+  </div>
+
+  <!-- Grid articole -->
+  <div class="blog-grid" id="blog-grid">
+    <!-- Skeleton loading -->
+    <div class="blog-card skeleton"></div>
+    <div class="blog-card skeleton"></div>
+    <div class="blog-card skeleton"></div>
+    <div class="blog-card skeleton"></div>
+    <div class="blog-card skeleton"></div>
+    <div class="blog-card skeleton"></div>
+  </div>
+
+  <!-- Empty state -->
+  <div id="blog-empty" style="display:none;text-align:center;padding:80px 20px">
+    <div style="font-size:4rem;margin-bottom:16px">📭</div>
+    <h3 style="font-family:'Baloo 2',cursive;font-size:1.4rem;margin-bottom:8px">Niciun articol în această categorie</h3>
+    <p style="color:var(--gray)">Revino curând — publicăm în mod regulat!</p>
+  </div>
+
+</section>
+
+<!-- ARTICLE MODAL -->
+<div id="article-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);overflow-y:auto;padding:40px 20px">
+  <div class="article-modal-inner">
+    <button class="article-modal-close" onclick="closeArticle()" aria-label="Închide">×</button>
+    <div id="article-modal-content"></div>
+  </div>
+</div>
+
+<div class="wave" style="transform:scaleY(-1) scaleX(-1)"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#1A1A2E" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="f-logo">Wonki ⭐</div><p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p><div class="f-socials"><a class="f-social" href="#">📘</a><a class="f-social" href="#">📸</a><a class="f-social" href="#">▶️</a></div></div>
+    <div class="footer-col"><h4>Pagini</h4><ul><li><a href="../index.html">Acasă</a></li><li><a href="despre.html">Despre noi</a></li><li><a href="program.html">Program</a></li><li><a href="blog.html">Blog</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Grupe</h4><ul><li><a href="#">🐻 Ursuleți (2–3 ani)</a></li><li><a href="#">🦋 Fluturași (3–4 ani)</a></li><li><a href="#">⭐ Steluțe (4–5 ani)</a></li><li><a href="#">🚀 Exploratori (5–7 ani)</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">📍 Str. Florilor 12, București</a></li><li><a href="#">📞 0721 234 567</a></li><li><a href="#">✉️ hello@wonki.ro</a></li><li><a href="#">🕐 Lun–Vin 07:30–18:30</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
+    <div class="footer-hearts">💛 🧡 ❤️ 💜 💙</div>
+  </div>
+</footer>
+
+<script src="../js/global.js"></script>
+<script src="../js/pages.js"></script>
+<script>
+const API = '/api';
+let _allPosts = [];
+let _activeFilter = 'toate';
+
+const CAT_COLORS = {
+  'Sfaturi':    { bg:'rgba(77,150,255,.12)',  color:'var(--sky)' },
+  'Educație':   { bg:'rgba(199,125,255,.12)', color:'var(--lavender)' },
+  'Evenimente': { bg:'rgba(255,107,107,.12)', color:'var(--coral)' },
+  'Sănătate':   { bg:'rgba(107,203,119,.12)', color:'var(--mint)' },
+  'Noutăți':    { bg:'rgba(255,217,61,.12)',  color:'var(--sun)' },
+};
+
+const CAT_EMOJI = {
+  'Sfaturi':'💡', 'Educație':'📚', 'Evenimente':'🎉',
+  'Sănătate':'🥗', 'Noutăți':'🌟'
+};
+
+async function loadBlog() {
+  try {
+    const r = await fetch(API + '/blog');
+    const data = await r.json();
+    if (!data.ok) throw new Error();
+    _allPosts = data.data;
+    renderPosts();
+  } catch {
+    document.getElementById('blog-grid').innerHTML =
+      '<p style="color:var(--gray);text-align:center;padding:60px;grid-column:1/-1">⚠️ Nu s-a putut încărca blogul. Serverul este pornit?</p>';
+  }
+}
+
+function renderPosts() {
+  const grid  = document.getElementById('blog-grid');
+  const empty = document.getElementById('blog-empty');
+  const list  = _activeFilter === 'toate'
+    ? _allPosts
+    : _allPosts.filter(p => p.category === _activeFilter);
+
+  if (!list.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = list.map((p, i) => {
+    const col = CAT_COLORS[p.category] || { bg:'rgba(255,107,107,.12)', color:'var(--coral)' };
+    const emoji = CAT_EMOJI[p.category] || '📝';
+    const date = p.created ? new Date(p.created).toLocaleDateString('ro-RO', { day:'numeric', month:'long', year:'numeric' }) : '';
+    const plain = (p.content || '').replace(/<[^>]+>/g, '').slice(0, 160);
+    return `
+    <article class="blog-card blog-card-anim" style="animation-delay:${i * 80}ms" onclick="openArticle('${p.id}')">
+      <div class="blog-card-top" style="background:${col.bg}">
+        <span class="blog-cat-pill" style="background:${col.bg};color:${col.color}">${emoji} ${p.category}</span>
+        <div class="blog-card-emoji">${emoji}</div>
+      </div>
+      <div class="blog-card-body">
+        <h3>${p.title}</h3>
+        <p>${plain}${plain.length >= 160 ? '…' : ''}</p>
+        <div class="blog-card-footer">
+          <span class="blog-date">📅 ${date}</span>
+          <span class="blog-read-more">Citește →</span>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+// Filtre
+document.querySelectorAll('.blog-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    _activeFilter = btn.dataset.cat;
+    renderPosts();
+  });
+});
+
+// Modal articol
+function openArticle(id) {
+  const p = _allPosts.find(x => x.id === id);
+  if (!p) return;
+  const col = CAT_COLORS[p.category] || { bg:'rgba(255,107,107,.12)', color:'var(--coral)' };
+  const emoji = CAT_EMOJI[p.category] || '📝';
+  const date = p.created ? new Date(p.created).toLocaleDateString('ro-RO', { day:'numeric', month:'long', year:'numeric' }) : '';
+  document.getElementById('article-modal-content').innerHTML = `
+    <div class="article-hero" style="background:${col.bg}">
+      <span class="blog-cat-pill" style="background:${col.bg};color:${col.color}">${emoji} ${p.category}</span>
+      <div class="article-emoji">${emoji}</div>
+    </div>
+    <h1 class="article-title">${p.title}</h1>
+    <div class="article-meta">
+      <span>📅 ${date}</span>
+      ${p.views ? `<span>👁️ ${p.views} vizualizări</span>` : ''}
+    </div>
+    <div class="article-body">${p.content || '<p style="color:var(--gray)">Conținut indisponibil.</p>'}</div>
+    <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(0,0,0,.07)">
+      <a href="contact.html" class="btn" style="background:var(--coral);color:#fff;text-decoration:none;padding:14px 28px;border-radius:14px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem">🎈 Înscrie copilul tău</a>
+    </div>`;
+  document.getElementById('article-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeArticle() {
+  document.getElementById('article-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Click pe fundal → închide
+document.getElementById('article-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('article-modal')) closeArticle();
+});
+
+// ESC → închide
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArticle(); });
+
+loadBlog();
+</script>
+</body>
+</html>

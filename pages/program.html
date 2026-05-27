@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Program – Wonki</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+<div id="cur"><div id="cur-dot"></div><div id="cur-ring"></div></div>
+<canvas id="canvas"></canvas>
+<div id="toast"></div>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
+  <ul>
+    <li><a href="../index.html">Acasă</a></li>
+    <li><a href="despre.html">Despre noi</a></li>
+    <li><a href="program.html">Program</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="galerie.html">Galerie</a></li>
+    <li><a href="contact.html" class="nav-btn">Înscrie-te 🎈</a></li>
+  </ul>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="../index.html">Acasă</a>
+  <a href="despre.html">Despre noi</a>
+  <a href="program.html">Program</a>
+  <a href="blog.html">Blog</a>
+  <a href="galerie.html">Galerie</a>
+  <a href="contact.html">Înscrie-te 🎈</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <span class="section-label">Activitățile noastre</span>
+    <h1>Programul <span style="color:var(--sky)">Wonki</span> 🎯</h1>
+    <p>Zile pline de aventuri, descoperiri și zâmbete — structurate cu grijă pentru fiecare vârstă.</p>
+  </div>
+</div>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- TABS -->
+<section class="program-page">
+  <div class="section-center" style="max-width:600px;margin:0 auto 48px">
+    <span class="section-label">Programul zilei</span>
+    <h2 class="section-title reveal">O zi completă la <span style="color:var(--sky)">Wonki</span></h2>
+    <p class="section-sub reveal">Alege programul dorit pentru a vedea activitățile detaliate.</p>
+  </div>
+
+  <div class="program-tabs">
+    <button class="tab-btn active" data-tab="tab-scurt">☀️ Program Scurt (07:30–13:00)</button>
+    <button class="tab-btn" data-tab="tab-lung">🌙 Program Lung (07:30–18:00)</button>
+    <button class="tab-btn" data-tab="tab-extras">🎨 Activități Extra</button>
+  </div>
+
+  <!-- TAB: SCURT -->
+  <div class="tab-content active" id="tab-scurt">
+    <div class="full-timeline">
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--coral);box-shadow:0 0 0 3px var(--coral)"></div><div class="ftl-card"><div class="ftl-emoji">🌅</div><div class="ftl-time">07:30</div><div class="ftl-info"><h4>Primire & joc liber</h4><p>Copiii sosesc, se aclimatizează și joacă liber în zone special amenajate</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--sky);box-shadow:0 0 0 3px var(--sky)"></div><div class="ftl-card"><div class="ftl-emoji">🌞</div><div class="ftl-time">08:30</div><div class="ftl-info"><h4>Adunarea de dimineață</h4><p>Cerc de întâmpinare, calendar, vreme și planificarea zilei</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--mint);box-shadow:0 0 0 3px var(--mint)"></div><div class="ftl-card"><div class="ftl-emoji">🎯</div><div class="ftl-time">09:00</div><div class="ftl-info"><h4>Activitate educativă principală</h4><p>STEAM, matematică intuitivă, limbaj sau explorare tematică</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--lavender);box-shadow:0 0 0 3px var(--lavender)"></div><div class="ftl-card"><div class="ftl-emoji">🍎</div><div class="ftl-time">10:30</div><div class="ftl-info"><h4>Gustare sănătoasă</h4><p>Fructe proaspete, legume, iaurt sau smoothie de sezon</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--peach);box-shadow:0 0 0 3px var(--peach)"></div><div class="ftl-card"><div class="ftl-emoji">🎨</div><div class="ftl-time">11:00</div><div class="ftl-info"><h4>Artă & creativitate</h4><p>Pictură, modelaj, colaj, muzică sau dramatizare</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--sun);box-shadow:0 0 0 3px var(--sun)"></div><div class="ftl-card"><div class="ftl-emoji">🌳</div><div class="ftl-time">12:00</div><div class="ftl-info"><h4>Joacă în curte</h4><p>Activitate fizică, explorarea grădinii, jocuri de echipă</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--coral);box-shadow:0 0 0 3px var(--coral)"></div><div class="ftl-card"><div class="ftl-emoji">🏠</div><div class="ftl-time">13:00</div><div class="ftl-info"><h4>Plecare acasă</h4><p>Recapitularea zilei, pregătirea ghiozdanelor, îmbrățișări</p></div></div></div>
+    </div>
+  </div>
+
+  <!-- TAB: LUNG -->
+  <div class="tab-content" id="tab-lung">
+    <div class="full-timeline">
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--coral);box-shadow:0 0 0 3px var(--coral)"></div><div class="ftl-card"><div class="ftl-emoji">🌅</div><div class="ftl-time">07:30</div><div class="ftl-info"><h4>Primire & joc liber</h4><p>Copiii sosesc și se pregătesc pentru o zi minunată</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--sky);box-shadow:0 0 0 3px var(--sky)"></div><div class="ftl-card"><div class="ftl-emoji">🎯</div><div class="ftl-time">09:00</div><div class="ftl-info"><h4>Activitate educativă principală</h4><p>Sesiune intensivă de STEAM sau limbaj</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--mint);box-shadow:0 0 0 3px var(--mint)"></div><div class="ftl-card"><div class="ftl-emoji">🥗</div><div class="ftl-time">13:00</div><div class="ftl-info"><h4>Prânz cald</h4><p>Masă caldă echilibrată, preparată în bucătăria noastră</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--lavender);box-shadow:0 0 0 3px var(--lavender)"></div><div class="ftl-card"><div class="ftl-emoji">😴</div><div class="ftl-time">13:30</div><div class="ftl-info"><h4>Somn & odihnă</h4><p>Timp de relaxare în dormitoarele confortabile Wonki</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--peach);box-shadow:0 0 0 3px var(--peach)"></div><div class="ftl-card"><div class="ftl-emoji">🎭</div><div class="ftl-time">15:30</div><div class="ftl-info"><h4>Activități după-amiază</h4><p>Lectură, jocuri de masă sau atelier tematic săptămânal</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--sun);box-shadow:0 0 0 3px var(--sun)"></div><div class="ftl-card"><div class="ftl-emoji">🌳</div><div class="ftl-time">16:30</div><div class="ftl-info"><h4>Joacă în curte</h4><p>Sport, explorare, jocuri libere în aer curat</p></div></div></div>
+      <div class="ftl-item reveal"><div class="ftl-dot" style="background:var(--coral);box-shadow:0 0 0 3px var(--coral)"></div><div class="ftl-card"><div class="ftl-emoji">🏠</div><div class="ftl-time">18:00</div><div class="ftl-info"><h4>Plecare acasă</h4><p>Ziua se încheie cu povești și zâmbete</p></div></div></div>
+    </div>
+  </div>
+
+  <!-- TAB: EXTRAS -->
+  <div class="tab-content" id="tab-extras">
+    <div class="groups-grid" style="max-width:900px">
+      <div class="group-card reveal"><span class="g-emoji">🎹</span><h3>Muzică</h3><div class="age">De la 3 ani</div><p>Introducere în ritmuri, instrumente și cântec coral, cu profesori specializați.</p></div>
+      <div class="group-card reveal"><span class="g-emoji">🌍</span><h3>Engleză</h3><div class="age">De la 3 ani</div><p>Conversație și jocuri în limba engleză, în grupe mici de maxim 8 copii.</p></div>
+      <div class="group-card reveal"><span class="g-emoji">🤸</span><h3>Gimnastică</h3><div class="age">De la 4 ani</div><p>Coordonare, flexibilitate și echilibru, într-un spațiu echipat profesional.</p></div>
+      <div class="group-card reveal"><span class="g-emoji">🎭</span><h3>Teatru</h3><div class="age">De la 4 ani</div><p>Improvizație, dramatizare și spectacole trimestriale pentru părinți.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFCF5" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- GRUPE -->
+<section class="groups-section">
+  <div class="section-center" style="max-width:600px;margin:0 auto 54px">
+    <span class="section-label">Grupele noastre</span>
+    <h2 class="section-title reveal">Adaptat fiecărei <span style="color:var(--mint)">vârste</span></h2>
+    <p class="section-sub reveal">Fiecare grupă are propriul ritm, activități și educatori dedicați.</p>
+  </div>
+  <div class="groups-grid">
+    <div class="group-card reveal"><span class="g-emoji">🐻</span><h3>Ursuleți</h3><div class="age">2 – 3 ani</div><p>Primii pași spre autonomie, joc senzorial și explorare sigură.</p></div>
+    <div class="group-card reveal"><span class="g-emoji">🦋</span><h3>Fluturași</h3><div class="age">3 – 4 ani</div><p>Limbaj, socializare și primele proiecte artistice și STEAM.</p></div>
+    <div class="group-card reveal"><span class="g-emoji">⭐</span><h3>Steluțe</h3><div class="age">4 – 5 ani</div><p>Gândire critică, cooperare și introducere în lectură & scriere.</p></div>
+    <div class="group-card reveal"><span class="g-emoji">🚀</span><h3>Exploratori</h3><div class="age">5 – 7 ani</div><p>Pregătire școlară completă cu accent pe autonomie și creativitate.</p></div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- PACHETE -->
+<section class="pkg-section">
+  <div class="section-center" style="max-width:600px;margin:0 auto 54px">
+    <span class="section-label">Pachete & Tarife</span>
+    <h2 class="section-title reveal">Transparent și <span style="color:var(--coral)">accesibil</span></h2>
+    <p class="section-sub reveal">Alegem calitatea fără compromisuri, cu prețuri corecte pentru familiile Wonki.</p>
+  </div>
+  <div class="packages-grid">
+    <div class="pkg-card reveal">
+      <div class="pkg-icon">☀️</div>
+      <h3>Program Scurt</h3>
+      <div class="price">1.800 <span>RON/lună</span></div>
+      <ul class="pkg-features">
+        <li>Luni – Vineri, 07:30–13:00</li>
+        <li>Toate activitățile educative</li>
+        <li>Gustare inclusă</li>
+        <li>Raport lunar de progres</li>
+      </ul>
+      <a href="contact.html" class="btn btn-outline" style="width:100%;justify-content:center">Înscrie-te →</a>
+    </div>
+    <div class="pkg-card featured reveal">
+      <div class="pkg-badge">Popular</div>
+      <div class="pkg-icon">🌙</div>
+      <h3>Program Lung</h3>
+      <div class="price">2.400 <span>RON/lună</span></div>
+      <ul class="pkg-features">
+        <li>Luni – Vineri, 07:30–18:00</li>
+        <li>Toate activitățile educative</li>
+        <li>Gustare + prânz cald incluse</li>
+        <li>Somn de după-amiază</li>
+        <li>Raport lunar detaliat</li>
+      </ul>
+      <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center">Înscrie-te →</a>
+    </div>
+    <div class="pkg-card reveal">
+      <div class="pkg-icon">🎨</div>
+      <h3>Premium Plus</h3>
+      <div class="price">2.900 <span>RON/lună</span></div>
+      <ul class="pkg-features">
+        <li>Program lung complet</li>
+        <li>2 activități extra incluse</li>
+        <li>Sesiune lunară cu psihologul</li>
+        <li>Portofoliu digital al copilului</li>
+        <li>Prioritate la evenimente speciale</li>
+      </ul>
+      <a href="contact.html" class="btn btn-outline" style="width:100%;justify-content:center">Înscrie-te →</a>
+    </div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FF6B6B" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2 class="reveal">Găsim împreună programul perfect! 🎯</h2>
+  <p class="reveal">Contactează-ne pentru o consultație gratuită și personalizată.</p>
+  <a href="contact.html" class="btn btn-white reveal">Vorbim acum →</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="f-logo">Wonki ⭐</div><p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p><div class="f-socials"><a class="f-social" href="#">📘</a><a class="f-social" href="#">📸</a><a class="f-social" href="#">▶️</a></div></div>
+    <div class="footer-col"><h4>Pagini</h4><ul><li><a href="../index.html">Acasă</a></li><li><a href="despre.html">Despre noi</a></li><li><a href="program.html">Program</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Grupe</h4><ul><li><a href="#">🐻 Ursuleți (2–3 ani)</a></li><li><a href="#">🦋 Fluturași (3–4 ani)</a></li><li><a href="#">⭐ Steluțe (4–5 ani)</a></li><li><a href="#">🚀 Exploratori (5–7 ani)</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">📍 Str. Florilor 12, București</a></li><li><a href="#">📞 0721 234 567</a></li><li><a href="#">✉️ hello@wonki.ro</a></li><li><a href="#">🕐 Lun–Vin 07:30–18:30</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
+    <div class="footer-hearts">💛 🧡 ❤️ 💜 💙</div>
+  </div>
+</footer>
+
+<script src="../js/global.js"></script>
+<script src="../js/pages.js"></script>
+</body>
+</html>

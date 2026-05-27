@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie – Wonki</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+<div id="cur"><div id="cur-dot"></div><div id="cur-ring"></div></div>
+<canvas id="canvas"></canvas>
+<div id="toast"></div>
+
+<nav id="nav">
+  <a href="../index.html" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
+  <ul>
+    <li><a href="../index.html">Acasă</a></li>
+    <li><a href="despre.html">Despre noi</a></li>
+    <li><a href="program.html">Program</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="galerie.html">Galerie</a></li>
+    <li><a href="contact.html" class="nav-btn">Înscrie-te 🎈</a></li>
+  </ul>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="../index.html">Acasă</a>
+  <a href="despre.html">Despre noi</a>
+  <a href="program.html">Program</a>
+  <a href="blog.html">Blog</a>
+  <a href="galerie.html">Galerie</a>
+  <a href="contact.html">Înscrie-te 🎈</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <span class="section-label">Momente speciale</span>
+    <h1>Galeria <span style="color:var(--mint)">Wonki</span> 📸</h1>
+    <p>O privire în lumea colorată și magică pe care o trăiesc copiii noștri în fiecare zi.</p>
+  </div>
+</div>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- GALLERY -->
+<section class="galerie-page">
+  <div class="galerie-filters">
+    <button class="filter-btn active" data-filter="all">🌈 Toate</button>
+    <button class="filter-btn" data-filter="activitati">🎯 Activități</button>
+    <button class="filter-btn" data-filter="arta">🎨 Artă</button>
+    <button class="filter-btn" data-filter="natura">🌿 Natură</button>
+    <button class="filter-btn" data-filter="evenimente">🎉 Evenimente</button>
+  </div>
+
+  <div class="masonry-grid">
+    <div class="masonry-item reveal" data-cat="arta">🎨<div class="overlay"><span>Atelier de pictură</span></div></div>
+    <div class="masonry-item reveal" data-cat="activitati">🧩<div class="overlay"><span>Jocuri logice</span></div></div>
+    <div class="masonry-item reveal" data-cat="natura">🌱<div class="overlay"><span>Grădinăritul nostru</span></div></div>
+    <div class="masonry-item reveal" data-cat="activitati">📚<div class="overlay"><span>Ora de povești</span></div></div>
+    <div class="masonry-item reveal" data-cat="arta">🎵<div class="overlay"><span>Muzică & dans</span></div></div>
+    <div class="masonry-item reveal" data-cat="evenimente">🎉<div class="overlay"><span>Serbare de toamnă</span></div></div>
+    <div class="masonry-item reveal" data-cat="natura">🦋<div class="overlay"><span>Explorăm natura</span></div></div>
+    <div class="masonry-item reveal" data-cat="activitati">🔬<div class="overlay"><span>Experimente STEAM</span></div></div>
+    <div class="masonry-item reveal" data-cat="evenimente">🎂<div class="overlay"><span>Ziua Miei</span></div></div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FF6B6B" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2 class="reveal">Vrei să faci parte din povestea noastră? 📸</h2>
+  <p class="reveal">Înscrie-te și copilul tău va trăi și el aceste momente magice.</p>
+  <a href="contact.html" class="btn btn-white reveal">Înscrie-te acum →</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="f-logo">Wonki ⭐</div><p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p><div class="f-socials"><a class="f-social" href="#">📘</a><a class="f-social" href="#">📸</a><a class="f-social" href="#">▶️</a></div></div>
+    <div class="footer-col"><h4>Pagini</h4><ul><li><a href="../index.html">Acasă</a></li><li><a href="despre.html">Despre noi</a></li><li><a href="program.html">Program</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Grupe</h4><ul><li><a href="#">🐻 Ursuleți (2–3 ani)</a></li><li><a href="#">🦋 Fluturași (3–4 ani)</a></li><li><a href="#">⭐ Steluțe (4–5 ani)</a></li><li><a href="#">🚀 Exploratori (5–7 ani)</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">📍 Str. Florilor 12, București</a></li><li><a href="#">📞 0721 234 567</a></li><li><a href="#">✉️ hello@wonki.ro</a></li><li><a href="#">🕐 Lun–Vin 07:30–18:30</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
+    <div class="footer-hearts">💛 🧡 ❤️ 💜 💙</div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="Închide">✕</button>
+  <button class="lb-prev"  id="lb-prev"  aria-label="Anterior">‹</button>
+  <button class="lb-next"  id="lb-next"  aria-label="Următor">›</button>
+  <div class="lb-inner">
+    <div class="lb-img"     id="lb-img"></div>
+    <div class="lb-caption" id="lb-caption"></div>
+    <div class="lb-counter" id="lb-counter"></div>
+  </div>
+</div>
+
+<script src="../js/global.js"></script>
+<script src="../js/pages.js"></script>
+<script src="../js/site.js"></script>
+</body>
+</html>
