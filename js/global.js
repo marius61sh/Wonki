@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const twText   = twWord.querySelector('.tw-text');
     const twCursor = twWord.querySelector('.tw-cursor');
 
-    const WORDS  = ['supraputere', 'magie', 'bucurie', 'aventură', 'creație'];
+    const WORDS  = ['superputere', 'magie', 'bucurie', 'aventură', 'creație'];
     const SPEED_TYPE   = 85;   // ms per caracter la scriere
     const SPEED_DELETE = 48;   // ms per caracter la stergere
     const PAUSE_AFTER  = 2000; // ms pauza dupa ce cuvantul e scris complet
@@ -483,6 +483,59 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+/* ─── SHARED FOOTER ─── */
+(function () {
+  var el = document.getElementById('site-footer');
+  if (!el) return;
+  el.outerHTML = `
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="f-logo">Wonki ⭐</div>
+      <p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p>
+      <div class="f-socials">
+        <a class="f-social" href="#">📘</a>
+        <a class="f-social" href="#">📸</a>
+        <a class="f-social" href="#">▶️</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Pagini</h4>
+      <ul>
+        <li><a href="/index.html">Acasă</a></li>
+        <li><a href="/pages/despre.html">Despre noi</a></li>
+        <li><a href="/pages/program.html">Program</a></li>
+        <li><a href="/pages/galerie.html">Galerie</a></li>
+        <li><a href="/pages/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Grupe</h4>
+      <ul>
+        <li><a href="#">🐻 Ursuleți (2–3 ani)</a></li>
+        <li><a href="#">🦋 Fluturași (3–4 ani)</a></li>
+        <li><a href="#">⭐ Steluțe (4–5 ani)</a></li>
+        <li><a href="#">🚀 Exploratori (5–7 ani)</a></li>
+        <li><a href="/pages/confidentialitate.html">Politică confidențialitate</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">📍 str. Grenoble 122, Codru, Chișinău</a></li>
+        <li><a href="tel:+37369819999">📞 +373 69819999</a></li>
+        <li><a href="mailto:wonki.kindergarten@gmail.com">✉️ wonki.kindergarten@gmail.com</a></li>
+        <li><a href="#">🕐 Lun–Vin 07:30–18:30</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
+    <div class="footer-hearts">💛 🧡 ❤️ 💜 💙</div>
+  </div>
+</footer>`;
+})();
 
 /* ─── TAWK.TO LIVE CHAT — incarca doar cu consimtamant ─── */
 function loadTawk() {
