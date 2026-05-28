@@ -502,6 +502,21 @@ app.get('/api/admin/stats', auth, async (req, res) => {
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
+// ── RUTE CURATE (fara .html) ─────────────────────────────────
+const rootDir  = path.join(__dirname, '..');
+const pagesDir = path.join(__dirname, '..', 'pages');
+
+app.get('/',                  (req, res) => res.sendFile(path.join(rootDir,  'index.html')));
+app.get('/acasa',             (req, res) => res.sendFile(path.join(rootDir,  'index.html')));
+app.get('/despre',            (req, res) => res.sendFile(path.join(pagesDir, 'despre.html')));
+app.get('/program',           (req, res) => res.sendFile(path.join(pagesDir, 'program.html')));
+app.get('/blog',              (req, res) => res.sendFile(path.join(pagesDir, 'blog.html')));
+app.get('/galerie',           (req, res) => res.sendFile(path.join(pagesDir, 'galerie.html')));
+app.get('/contact',           (req, res) => res.sendFile(path.join(pagesDir, 'contact.html')));
+app.get('/confidentialitate', (req, res) => res.sendFile(path.join(pagesDir, 'confidentialitate.html')));
+app.get('/admin',             (req, res) => res.sendFile(path.join(rootDir,  'admin', 'admin.html')));
+app.get('/admin/login',       (req, res) => res.sendFile(path.join(rootDir,  'admin', 'login.html')));
+
 // ── SPA fallback ─────────────────────────────────────────────
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));
 

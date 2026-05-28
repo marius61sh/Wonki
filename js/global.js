@@ -503,11 +503,11 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="footer-col">
       <h4>Pagini</h4>
       <ul>
-        <li><a href="/index.html">Acasă</a></li>
-        <li><a href="/pages/despre.html">Despre noi</a></li>
-        <li><a href="/pages/program.html">Program</a></li>
-        <li><a href="/pages/galerie.html">Galerie</a></li>
-        <li><a href="/pages/contact.html">Contact</a></li>
+        <li><a href="/">Acasă</a></li>
+        <li><a href="/despre">Despre noi</a></li>
+        <li><a href="/program">Program</a></li>
+        <li><a href="/galerie">Galerie</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <li><a href="#">🦋 Fluturași (3–4 ani)</a></li>
         <li><a href="#">⭐ Steluțe (4–5 ani)</a></li>
         <li><a href="#">🚀 Exploratori (5–7 ani)</a></li>
-        <li><a href="/pages/confidentialitate.html">Politică confidențialitate</a></li>
+        <li><a href="/confidentialitate">Politică confidențialitate</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -580,7 +580,7 @@ function loadTawk() {
         <div class="ck-left">
           <div class="ck-title">🍪 Folosim cookie-uri</div>
           <p class="ck-text">Folosim cookie-uri pentru a îmbunătăți experiența ta și pentru funcționalități precum chat-ul live. Poți accepta sau refuza cookie-urile non-esențiale.</p>
-          <a class="ck-link" href="pages/confidentialitate.html">Politica de confidențialitate →</a>
+          <a class="ck-link" href="/confidentialitate">Politica de confidențialitate →</a>
         </div>
         <div class="ck-btns">
           <button class="ck-btn ck-accept" id="ck-accept">✓ Accept toate</button>
