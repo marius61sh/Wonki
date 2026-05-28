@@ -15,10 +15,19 @@
   var ox = coords[0] || '50';
   var oy = coords[1] || '50';
 
+  // Detecteaza tema curenta inainte de render (evita flash cu culoare gresita)
+  var _theme = localStorage.getItem('wonki-theme') ||
+    (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  var CURTAIN_BG = _theme === 'dark' ? '#0f0f1a' : '#FFFCF5';
+
+  // Seteaza si fundalul <html> ca sa nu fie flash intre pagini
+  document.documentElement.style.background = CURTAIN_BG;
+
   // Injecteaza cortina imediat, cu cercul acoperind pagina
   var curtain = document.createElement('div');
   curtain.id = 'page-curtain';
   curtain.style.clipPath = 'circle(150% at ' + ox + '% ' + oy + '%)';
+  curtain.style.background = CURTAIN_BG;
   document.documentElement.appendChild(curtain);
 
   // Entry reveal: strangeaza cercul inapoi la origine
@@ -257,6 +266,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /* ─── NAV SOCIAL ICONS ─── */
+  const navEl = document.getElementById('nav');
+  const themeBtn = document.getElementById('theme-toggle');
+  if (navEl && themeBtn) {
+    const navSocials = document.createElement('div');
+    navSocials.className = 'nav-socials';
+    navSocials.innerHTML =
+      '<a class="nav-social nav-social-fb" href="https://www.facebook.com/wonki.kindergarten" target="_blank" rel="noopener" aria-label="Facebook">' +
+        '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>' +
+      '</a>' +
+      '<a class="nav-social nav-social-ig" href="https://www.instagram.com/kindergarten.wonki/" target="_blank" rel="noopener" aria-label="Instagram">' +
+        '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>' +
+      '</a>';
+    themeBtn.insertAdjacentElement('afterend', navSocials);
+  }
+
   /* ─── HAMBURGER MENU ─── */
   const hamburger   = document.getElementById('hamburger');
   const mobileMenu  = document.getElementById('mobile-menu');
@@ -322,6 +347,26 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => r.remove(), 700);
     });
   });
+
+  /* ─── BUTON SUS ─── */
+  (function () {
+    const btn = document.createElement('button');
+    btn.id = 'back-to-top';
+    btn.setAttribute('aria-label', 'Înapoi sus');
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>';
+    document.body.appendChild(btn);
+
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    btn.addEventListener('mouseenter', () => document.getElementById('cur')?.classList.add('big'));
+    btn.addEventListener('mouseleave', () => document.getElementById('cur')?.classList.remove('big'));
+  })();
 
   /* ─── TOAST ─── */
   window.showToast = function(msg = '✅ Mesaj trimis! Te contactăm în curând 💛') {
@@ -495,9 +540,12 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="f-logo">Wonki ⭐</div>
       <p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p>
       <div class="f-socials">
-        <a class="f-social" href="#">📘</a>
-        <a class="f-social" href="#">📸</a>
-        <a class="f-social" href="#">▶️</a>
+        <a class="f-social f-social-fb" href="https://www.facebook.com/wonki.kindergarten" target="_blank" rel="noopener" aria-label="Facebook Wonki">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a class="f-social f-social-ig" href="https://www.instagram.com/kindergarten.wonki/" target="_blank" rel="noopener" aria-label="Instagram Wonki">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
       </div>
     </div>
     <div class="footer-col">
@@ -568,7 +616,14 @@ function loadTawk() {
 
   // Deja a ales → aplica direct
   var existing = getConsent();
-  if (existing === 'accept') { document.addEventListener('DOMContentLoaded', loadTawk); return; }
+  if (existing === 'accept') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadTawk);
+    } else {
+      loadTawk();
+    }
+    return;
+  }
   if (existing === 'decline') return;
 
   // Prima vizita → afiseaza bannerul
