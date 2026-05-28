@@ -16,32 +16,34 @@
 <nav id="nav">
   <a href="/" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
   <ul>
-    <li><a href="/">Acasă</a></li>
-    <li><a href="/despre">Despre noi</a></li>
-    <li><a href="/program">Program</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/galerie">Galerie</a></li>
-    <li><a href="/contact" class="nav-btn">Înscrie-te 🎈</a></li>
+    <li><a href="/" data-i18n="nav.home">Acasă</a></li>
+    <li><a href="/despre" data-i18n="nav.about">Despre noi</a></li>
+    <li><a href="/program" data-i18n="nav.program">Program</a></li>
+    <li><a href="/tarife" data-i18n="nav.tarife">Tarife</a></li>
+    <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
+    <li><a href="/galerie" data-i18n="nav.galerie">Galerie</a></li>
+    <li><a href="/contact" class="nav-btn" data-i18n="nav.contact">Înscrie-te 🎈</a></li>
   </ul>
   <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="/">Acasă</a>
-  <a href="/despre">Despre noi</a>
-  <a href="/program">Program</a>
-  <a href="/blog">Blog</a>
-  <a href="/galerie">Galerie</a>
-  <a href="/contact">Înscrie-te 🎈</a>
+  <a href="/" data-i18n="nav.home">Acasă</a>
+  <a href="/despre" data-i18n="nav.about">Despre noi</a>
+  <a href="/program" data-i18n="nav.program">Program</a>
+  <a href="/tarife" data-i18n="nav.tarife">Tarife</a>
+  <a href="/blog" data-i18n="nav.blog">Blog</a>
+  <a href="/galerie" data-i18n="nav.galerie">Galerie</a>
+  <a href="/contact" data-i18n="nav.contact">Înscrie-te 🎈</a>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-bg"></div>
   <div class="page-hero-content">
-    <span class="section-label">Noutăți & Sfaturi</span>
-    <h1>Blog <span style="color:var(--coral)">Wonki</span> ✍️</h1>
-    <p>Articole despre educație, activități creative și tot ce se întâmplă la grădinița noastră.</p>
+    <span class="section-label" data-i18n="blog.hero.label">Noutăți & Sfaturi</span>
+    <h1 data-i18n-html="blog.hero.title">Blog <span style="color:var(--coral)">Wonki</span> ✍️</h1>
+    <p data-i18n="blog.hero.sub">Articole despre educație, activități creative și tot ce se întâmplă la grădinița noastră.</p>
   </div>
 </div>
 
@@ -74,7 +76,7 @@
   <!-- Empty state -->
   <div id="blog-empty" style="display:none;text-align:center;padding:80px 20px">
     <div style="font-size:4rem;margin-bottom:16px">📭</div>
-    <h3 style="font-family:'Baloo 2',cursive;font-size:1.4rem;margin-bottom:8px">Niciun articol în această categorie</h3>
+    <h3 style="font-family:'Nunito',sans-serif;font-size:1.4rem;margin-bottom:8px">Niciun articol în această categorie</h3>
     <p style="color:var(--gray)">Revino curând — publicăm în mod regulat!</p>
   </div>
 
@@ -93,6 +95,7 @@
 <div id="site-footer"></div>
 
 <script src="../js/global.js"></script>
+<script src="../js/i18n.js"></script>
 <script src="../js/pages.js"></script>
 <script>
 const API = '/api';
@@ -191,7 +194,7 @@ function openArticle(id) {
     </div>
     <div class="article-body">${p.content || '<p style="color:var(--gray)">Conținut indisponibil.</p>'}</div>
     <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(0,0,0,.07)">
-      <a href="/contact" class="btn" style="background:var(--coral);color:#fff;text-decoration:none;padding:14px 28px;border-radius:14px;font-family:'Baloo 2',cursive;font-weight:800;font-size:1rem">🎈 Înscrie copilul tău</a>
+      <a href="/contact" class="btn" style="background:var(--coral);color:#fff;text-decoration:none;padding:14px 28px;border-radius:14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem">🎈 Înscrie copilul tău</a>
     </div>`;
   document.getElementById('article-modal').style.display = 'block';
   document.body.style.overflow = 'hidden';

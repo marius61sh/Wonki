@@ -16,32 +16,34 @@
 <nav id="nav">
   <a href="/" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
   <ul>
-    <li><a href="/">Acasă</a></li>
-    <li><a href="/despre">Despre noi</a></li>
-    <li><a href="/program">Program</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/galerie">Galerie</a></li>
-    <li><a href="/contact" class="nav-btn">Înscrie-te 🎈</a></li>
+    <li><a href="/" data-i18n="nav.home">Acasă</a></li>
+    <li><a href="/despre" data-i18n="nav.about">Despre noi</a></li>
+    <li><a href="/program" data-i18n="nav.program">Program</a></li>
+    <li><a href="/tarife" data-i18n="nav.tarife">Tarife</a></li>
+    <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
+    <li><a href="/galerie" data-i18n="nav.galerie">Galerie</a></li>
+    <li><a href="/contact" class="nav-btn" data-i18n="nav.contact">Înscrie-te 🎈</a></li>
   </ul>
   <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="/">Acasă</a>
-  <a href="/despre">Despre noi</a>
-  <a href="/program">Program</a>
-  <a href="/blog">Blog</a>
-  <a href="/galerie">Galerie</a>
-  <a href="/contact">Înscrie-te 🎈</a>
+  <a href="/" data-i18n="nav.home">Acasă</a>
+  <a href="/despre" data-i18n="nav.about">Despre noi</a>
+  <a href="/program" data-i18n="nav.program">Program</a>
+  <a href="/tarife" data-i18n="nav.tarife">Tarife</a>
+  <a href="/blog" data-i18n="nav.blog">Blog</a>
+  <a href="/galerie" data-i18n="nav.galerie">Galerie</a>
+  <a href="/contact" data-i18n="nav.contact">Înscrie-te 🎈</a>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-bg"></div>
   <div class="page-hero-content">
-    <span class="section-label">Suntem aproape</span>
-    <h1>Hai să ne <span style="color:var(--coral)">cunoaștem!</span> 🤗</h1>
-    <p>Fie că ai o întrebare, vrei să programezi o vizită sau ești gata să te înscrii — suntem aici pentru tine.</p>
+    <span class="section-label" data-i18n="contact.hero.label">Suntem aproape</span>
+    <h1 data-i18n-html="contact.hero.title">Hai să ne <span style="color:var(--coral)">cunoaștem!</span> 🤗</h1>
+    <p data-i18n="contact.hero.sub">Fie că ai o întrebare, vrei să programezi o vizită sau ești gata să te înscrii — suntem aici pentru tine.</p>
   </div>
 </div>
 
@@ -53,14 +55,14 @@
 
     <!-- LEFT -->
     <div class="contact-left reveal-l">
-      <h3>Informații de <span style="color:var(--coral)">contact</span></h3>
-      <p>Nu ezita să ne contactezi! Îți răspundem în cel mult 24 de ore în zilele lucrătoare.</p>
+      <h3 data-i18n-html="contact.info.h">Informații de <span style="color:var(--coral)">contact</span></h3>
+      <p data-i18n="contact.info.sub">Nu ezita să ne contactezi! Îți răspundem în cel mult 24 de ore în zilele lucrătoare.</p>
 
       <div class="info-list">
-        <div class="info-row"><div class="ii">📍</div><div><strong>Adresă</strong><span>str. Grenoble 122, or. Codru, mun. Chișinău, Republica Moldova</span></div></div>
-        <div class="info-row"><div class="ii">📞</div><div><strong>Telefon</strong><span>+373 69819999</span></div></div>
-        <div class="info-row"><div class="ii">✉️</div><div><strong>Email</strong><span>wonki.kindergarten@gmail.com</span></div></div>
-        <div class="info-row"><div class="ii">🕐</div><div><strong>Program</strong><span>Luni – Vineri, 07:30 – 18:30</span></div></div>
+        <div class="info-row"><div class="ii">📍</div><div><strong data-i18n="contact.lbl.addr">Adresă</strong><span>str. Grenoble 122, or. Codru, mun. Chișinău, Republica Moldova</span></div></div>
+        <div class="info-row"><div class="ii">📞</div><div><strong data-i18n="contact.lbl.phone">Telefon</strong><span>+373 69819999</span></div></div>
+        <div class="info-row"><div class="ii">✉️</div><div><strong data-i18n="contact.lbl.email">Email</strong><span>wonki.kindergarten@gmail.com</span></div></div>
+        <div class="info-row"><div class="ii">🕐</div><div><strong data-i18n="contact.lbl.program">Program</strong><span>Luni – Vineri, 07:30 – 18:30</span></div></div>
       </div>
 
       <div class="map-box">
@@ -78,19 +80,19 @@
 
     <!-- RIGHT: FORM -->
     <div class="contact-form-box reveal-r">
-      <h3>Trimite-ne un <span style="color:var(--coral)">mesaj</span> 💌</h3>
+      <h3 data-i18n-html="contact.form.h">Trimite-ne un <span style="color:var(--coral)">mesaj</span> 💌</h3>
       <form id="contact-form">
         <div class="fg-row">
-          <div class="fg"><label>Numele tău *</label><input id="cf-numeParinte" type="text" placeholder="Maria Ionescu" required></div>
-          <div class="fg"><label>Telefon *</label><input id="cf-telefon" type="tel" placeholder="07xx xxx xxx" required></div>
+          <div class="fg"><label data-i18n="contact.f.name.l">Numele tău *</label><input id="cf-numeParinte" type="text" placeholder="Maria Ionescu" data-i18n-ph="contact.f.name.ph" required></div>
+          <div class="fg"><label data-i18n="contact.f.phone.l">Telefon *</label><input id="cf-telefon" type="tel" placeholder="07xx xxx xxx" data-i18n-ph="contact.f.phone.ph" required></div>
         </div>
-        <div class="fg"><label>Email *</label><input id="cf-email" type="email" placeholder="maria@email.ro" required></div>
+        <div class="fg"><label data-i18n="contact.f.email.l">Email *</label><input id="cf-email" type="email" placeholder="maria@email.ro" required></div>
         <div class="fg-row">
-          <div class="fg"><label>Numele copilului *</label><input id="cf-numeCopil" type="text" placeholder="Alexandru" required></div>
-          <div class="fg"><label>Data nașterii copilului *</label><input id="cf-dataNasterii" type="date" required></div>
+          <div class="fg"><label data-i18n="contact.f.child.l">Numele copilului *</label><input id="cf-numeCopil" type="text" placeholder="Alexandru" data-i18n-ph="contact.f.child.ph" required></div>
+          <div class="fg"><label data-i18n="contact.f.dob.l">Data nașterii copilului *</label><input id="cf-dataNasterii" type="date" required></div>
         </div>
         <div class="fg">
-          <label>Program dorit</label>
+          <label data-i18n="contact.f.prog.l">Program dorit</label>
           <select id="cf-program">
             <option>Scurt (07:30–13:00)</option>
             <option>Lung (07:30–18:00)</option>
@@ -99,7 +101,7 @@
           </select>
         </div>
         <div class="fg">
-          <label>Cum ai aflat de Wonki?</label>
+          <label data-i18n="contact.f.src.l">Cum ai aflat de Wonki?</label>
           <select id="cf-sursa">
             <option>Recomandare</option>
             <option>Google</option>
@@ -107,8 +109,8 @@
             <option>Altceva</option>
           </select>
         </div>
-        <div class="fg"><label>Mesaj</label><textarea id="cf-mesaj" placeholder="Orice întrebare, suntem aici! 💛"></textarea></div>
-        <button type="submit" class="submit-btn">🎈 Trimite cererea</button>
+        <div class="fg"><label data-i18n="contact.f.msg.l">Mesaj</label><textarea id="cf-mesaj" placeholder="Orice întrebare, suntem aici! 💛" data-i18n-ph="contact.f.msg.ph"></textarea></div>
+        <button type="submit" class="submit-btn" data-i18n="contact.f.btn">🎈 Trimite cererea</button>
       </form>
     </div>
   </div>
@@ -119,35 +121,35 @@
 <!-- FAQ -->
 <section class="faq-section">
   <div class="section-center" style="max-width:600px;margin:0 auto 54px">
-    <span class="section-label">Întrebări frecvente</span>
-    <h2 class="section-title reveal">Răspunsuri la <span style="color:var(--sky)">curiozitățile</span> tale</h2>
-    <p class="section-sub reveal">Nu ai găsit ce cauți? Scrie-ne direct!</p>
+    <span class="section-label" data-i18n="contact.faq.label">Întrebări frecvente</span>
+    <h2 class="section-title reveal" data-i18n-html="contact.faq.title">Răspunsuri la <span style="color:var(--sky)">curiozitățile</span> tale</h2>
+    <p class="section-sub reveal" data-i18n="contact.faq.sub">Nu ai găsit ce cauți? Scrie-ne direct!</p>
   </div>
 
   <div class="faq-list">
     <div class="faq-item reveal">
-      <div class="faq-question">De la ce vârstă pot înscrie copilul la Wonki? <span class="faq-arrow">⌄</span></div>
-      <div class="faq-answer">Acceptăm copii cu vârste între 2 și 7 ani. Fiecare grupă este adaptată specificului de dezvoltare al vârstei respective.</div>
+      <div class="faq-question"><span data-i18n="contact.faq.q1">De la ce vârstă pot înscrie copilul la Wonki?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="contact.faq.a1">Acceptăm copii cu vârste între 2 și 7 ani. Fiecare grupă este adaptată specificului de dezvoltare al vârstei respective.</div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-question">Care este procesul de înscriere? <span class="faq-arrow">⌄</span></div>
-      <div class="faq-answer">Completezi formularul de contact, programăm o vizită cu copilul tău, discutăm nevoile și preferințele, iar apoi finalizăm dosarul de înscriere. Totul durează de obicei 3–5 zile lucrătoare.</div>
+      <div class="faq-question"><span data-i18n="contact.faq.q2">Care este procesul de înscriere?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="contact.faq.a2">Completezi formularul de contact, programăm o vizită cu copilul tău, discutăm nevoile și preferințele, iar apoi finalizăm dosarul de înscriere. Totul durează de obicei 3–5 zile lucrătoare.</div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-question">Mâncarea este inclusă în taxă? <span class="faq-arrow">⌄</span></div>
-      <div class="faq-answer">La programul scurt este inclusă gustarea de dimineață. La programul lung și Premium Plus sunt incluse gustarea, prânzul cald și gustarea de după-amiază. Meniurile sunt preparate zilnic de bucătarul nostru.</div>
+      <div class="faq-question"><span data-i18n="contact.faq.q3">Mâncarea este inclusă în taxă?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="contact.faq.a3">La programul scurt este inclusă gustarea de dimineață. La programul lung și Premium Plus sunt incluse gustarea, prânzul cald și gustarea de după-amiază. Meniurile sunt preparate zilnic de bucătarul nostru.</div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-question">Cum comunicați cu părinții despre evoluția copilului? <span class="faq-arrow">⌄</span></div>
-      <div class="faq-answer">Avem o aplicație dedicată unde postăm zilnic actualizări, poze (cu acord) și notificări. Lunar primești un raport scris de progres, iar trimestrial organizăm întâlniri individuale cu educatoarea.</div>
+      <div class="faq-question"><span data-i18n="contact.faq.q4">Cum comunicați cu părinții despre evoluția copilului?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="contact.faq.a4">Avem o aplicație dedicată unde postăm zilnic actualizări, poze (cu acord) și notificări. Lunar primești un raport scris de progres, iar trimestrial organizăm întâlniri individuale cu educatoarea.</div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-question">Ce se întâmplă dacă copilul nu se adaptează? <span class="faq-arrow">⌄</span></div>
-      <div class="faq-answer">Avem un protocol de acomodare progresivă de 2 săptămâni. Psihologul nostru și educatoarele lucrează împreună cu familia pentru o tranziție cât mai blândă. Nu am întâlnit niciodată un copil care să nu se integreze cu răbdare!</div>
+      <div class="faq-question"><span data-i18n="contact.faq.q5">Ce se întâmplă dacă copilul nu se adaptează?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="contact.faq.a5">Avem un protocol de acomodare progresivă de 2 săptămâni. Psihologul nostru și educatoarele lucrează împreună cu familia pentru o tranziție cât mai blândă. Nu am întâlnit niciodată un copil care să nu se integreze cu răbdare!</div>
     </div>
     <div class="faq-item reveal">
-      <div class="faq-question">Există locuri disponibile pentru 2025–2026? <span class="faq-arrow">⌄</span></div>
-      <div class="faq-answer">Da, momentan mai avem locuri disponibile în grupele Fluturași și Exploratori. Pentru celelalte grupe există o listă de așteptare scurtă. Contactează-ne cât mai repede pentru a rezerva locul!</div>
+      <div class="faq-question"><span data-i18n="contact.faq.q6">Există locuri disponibile pentru 2025–2026?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="contact.faq.a6">Da, momentan mai avem locuri disponibile în grupele Fluturași și Exploratori. Pentru celelalte grupe există o listă de așteptare scurtă. Contactează-ne cât mai repede pentru a rezerva locul!</div>
     </div>
   </div>
 </section>
@@ -155,19 +157,19 @@
 <!-- MESAJ RAPID -->
 <section class="quick-msg-section">
   <div class="section-center reveal">
-    <span class="section-label">Răspundem în 24h</span>
-    <h2 class="section-title">Ai o întrebare <span style="color:var(--coral)">rapidă?</span> 💌</h2>
-    <p class="section-sub">Fără cerere de înscriere — scrie-ne direct și îți răspundem curând.</p>
+    <span class="section-label" data-i18n="contact.quick.label">Răspundem în 24h</span>
+    <h2 class="section-title" data-i18n-html="contact.quick.title">Ai o întrebare <span style="color:var(--coral)">rapidă?</span> 💌</h2>
+    <p class="section-sub" data-i18n="contact.quick.sub">Fără cerere de înscriere — scrie-ne direct și îți răspundem curând.</p>
   </div>
   <div class="quick-msg-box reveal">
     <form id="quick-form">
       <div class="fg-row">
-        <div class="fg"><label>Numele tău *</label><input type="text" id="qm-name" placeholder="Maria Ionescu" required></div>
-        <div class="fg"><label>Email *</label><input type="email" id="qm-email" placeholder="maria@email.ro" required></div>
+        <div class="fg"><label data-i18n="contact.q.name.l">Numele tău *</label><input type="text" id="qm-name" placeholder="Maria Ionescu" data-i18n-ph="contact.f.name.ph" required></div>
+        <div class="fg"><label data-i18n="contact.q.email.l">Email *</label><input type="email" id="qm-email" placeholder="maria@email.ro" required></div>
       </div>
-      <div class="fg"><label>Subiect</label><input type="text" id="qm-subject" placeholder="Ex: Vreau mai multe detalii despre program..."></div>
-      <div class="fg"><label>Mesajul tău *</label><textarea id="qm-body" rows="5" placeholder="Scrie mesajul tău aici... 💛" required></textarea></div>
-      <button type="submit" class="submit-btn" id="qm-btn">✉️ Trimite mesajul</button>
+      <div class="fg"><label data-i18n="contact.q.subj.l">Subiect</label><input type="text" id="qm-subject" placeholder="Ex: Vreau mai multe detalii despre program..." data-i18n-ph="contact.q.subj.ph"></div>
+      <div class="fg"><label data-i18n="contact.q.msg.l">Mesajul tău *</label><textarea id="qm-body" rows="5" placeholder="Scrie mesajul tău aici... 💛" data-i18n-ph="contact.q.msg.ph" required></textarea></div>
+      <button type="submit" class="submit-btn" id="qm-btn" data-i18n="contact.q.btn">✉️ Trimite mesajul</button>
     </form>
   </div>
 </section>
@@ -177,6 +179,7 @@
 <div id="site-footer"></div>
 
 <script src="../js/global.js"></script>
+<script src="../js/i18n.js"></script>
 <script src="../js/pages.js"></script>
 <script>
   const API = '/api';

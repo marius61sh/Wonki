@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarife – Wonki</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+
+<div id="cur"><div id="cur-dot"></div><div id="cur-ring"></div></div>
+<canvas id="canvas"></canvas>
+<div id="toast"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
+  <ul>
+    <li><a href="/" data-i18n="nav.home">Acasă</a></li>
+    <li><a href="/despre" data-i18n="nav.about">Despre noi</a></li>
+    <li><a href="/program" data-i18n="nav.program">Program</a></li>
+    <li><a href="/tarife" data-i18n="nav.tarife">Tarife</a></li>
+    <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
+    <li><a href="/galerie" data-i18n="nav.galerie">Galerie</a></li>
+    <li><a href="/contact" class="nav-btn" data-i18n="nav.contact">Înscrie-te 🎈</a></li>
+  </ul>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/" data-i18n="nav.home">Acasă</a>
+  <a href="/despre" data-i18n="nav.about">Despre noi</a>
+  <a href="/program" data-i18n="nav.program">Program</a>
+  <a href="/tarife" data-i18n="nav.tarife">Tarife</a>
+  <a href="/blog" data-i18n="nav.blog">Blog</a>
+  <a href="/galerie" data-i18n="nav.galerie">Galerie</a>
+  <a href="/contact" data-i18n="nav.contact">Înscrie-te 🎈</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <span class="section-label" data-i18n="tarife.hero.label">Transparent & corect</span>
+    <h1 data-i18n-html="tarife.hero.title">Tarife <span style="color:var(--sun)">clare</span> 💛</h1>
+    <p data-i18n="tarife.hero.sub">Fără costuri ascunse. Alegi pachetul potrivit familiei tale și îți spunem exact ce include.</p>
+  </div>
+</div>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- PACHETE -->
+<section class="pkg-section">
+  <div class="section-center" style="max-width:600px;margin:0 auto 54px">
+    <span class="section-label" data-i18n="tarife.pkg.label">Pachete disponibile</span>
+    <h2 class="section-title reveal" data-i18n-html="tarife.pkg.title">Alege ce se <span style="color:var(--coral)">potrivește</span> familiei tale</h2>
+    <p class="section-sub reveal" data-i18n="tarife.pkg.sub">Toate pachetele includ accesul complet la activitățile educative, echipa noastră dedicată și aplicația de comunicare cu părinților.</p>
+  </div>
+
+  <div class="packages-grid" style="max-width:1100px;margin:0 auto">
+
+    <div class="pkg-card reveal">
+      <div class="pkg-icon">☀️</div>
+      <h3 data-i18n="tarife.s.h">Program Scurt</h3>
+      <div class="price">1.800 <span>MDL/lună</span></div>
+      <ul class="pkg-features">
+        <li data-i18n="tarife.s.f1">Luni – Vineri, 07:30–13:00</li>
+        <li data-i18n="tarife.s.f2">Toate activitățile educative</li>
+        <li data-i18n="tarife.s.f3">Gustare de dimineață inclusă</li>
+        <li data-i18n="tarife.s.f4">Raport lunar de progres</li>
+        <li data-i18n="tarife.s.f5">Acces aplicație părinți</li>
+        <li data-i18n="tarife.s.f6">Evaluare trimestrială</li>
+      </ul>
+      <a href="/contact" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:auto" data-i18n="tarife.btn.inscrie">Înscrie-te →</a>
+    </div>
+
+    <div class="pkg-card featured reveal">
+      <div class="pkg-badge" data-i18n="tarife.badge">Popular</div>
+      <div class="pkg-icon">🌙</div>
+      <h3 data-i18n="tarife.l.h">Program Lung</h3>
+      <div class="price">2.400 <span>MDL/lună</span></div>
+      <ul class="pkg-features">
+        <li data-i18n="tarife.l.f1">Luni – Vineri, 07:30–18:00</li>
+        <li data-i18n="tarife.l.f2">Toate activitățile educative</li>
+        <li data-i18n="tarife.l.f3">Gustare + prânz cald + gustare după-amiază</li>
+        <li data-i18n="tarife.l.f4">Somn de după-amiază</li>
+        <li data-i18n="tarife.l.f5">Raport lunar detaliat</li>
+        <li data-i18n="tarife.s.f5">Acces aplicație părinți</li>
+        <li data-i18n="tarife.l.f6">Evaluare trimestrială + întâlnire cu educatoarea</li>
+      </ul>
+      <a href="/contact" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:auto" data-i18n="tarife.btn.inscrie">Înscrie-te →</a>
+    </div>
+
+    <div class="pkg-card reveal">
+      <div class="pkg-icon">🎨</div>
+      <h3 data-i18n="tarife.p.h">Premium Plus</h3>
+      <div class="price">2.900 <span>MDL/lună</span></div>
+      <ul class="pkg-features">
+        <li data-i18n="tarife.p.f1">Program lung complet</li>
+        <li data-i18n="tarife.p.f2">2 activități extra la alegere</li>
+        <li data-i18n="tarife.p.f3">Sesiune lunară cu psihologul</li>
+        <li data-i18n="tarife.p.f4">Portofoliu digital al copilului</li>
+        <li data-i18n="tarife.p.f5">Prioritate la evenimente speciale</li>
+        <li data-i18n="tarife.p.f6">Consultație nutrițională personalizată</li>
+        <li data-i18n="tarife.p.f7">Acces prioritar la locuri în toamnă</li>
+      </ul>
+      <a href="/contact" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:auto" data-i18n="tarife.btn.inscrie">Înscrie-te →</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFCF5" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- TABEL COMPARATIE -->
+<section class="tarife-compare-section">
+  <div class="section-center" style="max-width:600px;margin:0 auto 54px">
+    <span class="section-label" data-i18n="tarife.compare.label">Comparație detaliată</span>
+    <h2 class="section-title reveal" data-i18n-html="tarife.compare.title">Ce include <span style="color:var(--sky)">fiecare</span> pachet?</h2>
+    <p class="section-sub reveal" data-i18n="tarife.compare.sub">O privire clară asupra a tot ce primești cu fiecare opțiune.</p>
+  </div>
+
+  <div class="tarife-table-wrap reveal">
+    <table class="tarife-table">
+      <thead>
+        <tr>
+          <th data-i18n="tarife.th.benefit">Beneficiu</th>
+          <th>☀️ Scurt</th>
+          <th class="th-featured">🌙 Lung</th>
+          <th>🎨 Premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td data-i18n="tarife.tr1">Program 07:30–13:00</td><td class="tc-yes">✓</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr2">Program 13:00–18:00</td><td class="tc-no">—</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr3">Gustare dimineață</td><td class="tc-yes">✓</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr4">Prânz cald</td><td class="tc-no">—</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr5">Gustare după-amiază</td><td class="tc-no">—</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr6">Somn după-amiază</td><td class="tc-no">—</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr7">Activități educative complete</td><td class="tc-yes">✓</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr8">Raport lunar de progres</td><td class="tc-yes">✓</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr9">Aplicație comunicare părinți</td><td class="tc-yes">✓</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr10">Evaluare trimestrială</td><td class="tc-yes">✓</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr11">Întâlnire individuală cu educatoarea</td><td class="tc-no">—</td><td class="tc-yes th-featured">✓</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr12">Activități extra (muzică, engleză…)</td><td class="tc-no">—</td><td class="tc-no th-featured" data-i18n="tarife.tr12m">+cost</td><td class="tc-yes" data-i18n="tarife.tr12r">2 incluse</td></tr>
+        <tr><td data-i18n="tarife.tr13">Sesiune lunară cu psihologul</td><td class="tc-no">—</td><td class="tc-no th-featured">—</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr14">Portofoliu digital al copilului</td><td class="tc-no">—</td><td class="tc-no th-featured">—</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr15">Consultație nutrițională</td><td class="tc-no">—</td><td class="tc-no th-featured">—</td><td class="tc-yes">✓</td></tr>
+        <tr><td data-i18n="tarife.tr16">Prioritate locuri an următor</td><td class="tc-no">—</td><td class="tc-no th-featured">—</td><td class="tc-yes">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- REDUCERI -->
+<section class="pkg-section">
+  <div class="section-center" style="max-width:600px;margin:0 auto 54px">
+    <span class="section-label" data-i18n="tarife.disc.label">Reduceri disponibile</span>
+    <h2 class="section-title reveal" data-i18n-html="tarife.disc.title">Economisești <span style="color:var(--mint)">inteligent</span> 🎁</h2>
+    <p class="section-sub reveal" data-i18n="tarife.disc.sub">Avem câteva opțiuni care îți permit să reduci costurile fără să compromiți calitatea.</p>
+  </div>
+
+  <div class="discounts-grid reveal">
+    <div class="discount-card">
+      <div class="disc-icon">👨‍👩‍👦</div>
+      <h4 data-i18n="tarife.d1.h">Al doilea copil</h4>
+      <div class="disc-val">−10%</div>
+      <p data-i18n="tarife.d1.p">La înscrierea celui de-al doilea copil din aceeași familie beneficiezi de 10% reducere la taxa lunară.</p>
+    </div>
+    <div class="discount-card">
+      <div class="disc-icon">📅</div>
+      <h4 data-i18n="tarife.d2.h">Plată semestrială</h4>
+      <div class="disc-val">−5%</div>
+      <p data-i18n="tarife.d2.p">Achitând taxa pentru 6 luni în avans, primești o reducere de 5% aplicată automat.</p>
+    </div>
+    <div class="discount-card">
+      <div class="disc-icon">🤝</div>
+      <h4 data-i18n="tarife.d3.h">Recomandare</h4>
+      <div class="disc-val">−200 MDL</div>
+      <p data-i18n="tarife.d3.p">Dacă recomanzi Wonki unui prieten și acesta se înscrie, amândoi primiți 200 MDL reducere în luna următoare.</p>
+    </div>
+    <div class="discount-card">
+      <div class="disc-icon">🌅</div>
+      <h4 data-i18n="tarife.d4.h">Înscrierea timpurie</h4>
+      <div class="disc-val">−300 MDL</div>
+      <p data-i18n="tarife.d4.p">Rezervările pentru noul an școlar efectuate până la 1 iulie beneficiază de 300 MDL reducere la prima lună.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFCF5" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- FAQ PLATI -->
+<section class="faq-section">
+  <div class="section-center" style="max-width:600px;margin:0 auto 54px">
+    <span class="section-label" data-i18n="tarife.faq.label">Întrebări despre plăți</span>
+    <h2 class="section-title reveal" data-i18n-html="tarife.faq.title">Totul despre <span style="color:var(--coral)">taxe</span> 💳</h2>
+    <p class="section-sub reveal" data-i18n="tarife.faq.sub">Răspunsuri la cele mai frecvente întrebări financiare.</p>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <div class="faq-question"><span data-i18n="tarife.faq.q1">Când se plătește taxa lunară?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="tarife.faq.a1">Taxa se achită în primele 5 zile lucrătoare ale fiecărei luni. Acceptăm plata prin transfer bancar sau numerar la secretariat.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question"><span data-i18n="tarife.faq.q2">Există taxă de înscriere?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="tarife.faq.a2">Da, există o taxă de înscriere unică de 500 MDL, care acoperă materialele inițiale, dosarul copilului și evaluarea de integrare. Aceasta se plătește o singură dată, la prima înscriere.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question"><span data-i18n="tarife.faq.q3">Ce se întâmplă dacă copilul lipsește o perioadă mai lungă?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="tarife.faq.a3">La absențe motivate de minim 10 zile lucrătoare consecutive (medical sau vacanță), se aplică o reducere de 30% la taxa lunară respectivă, cu anunț prealabil de minim 3 zile.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question"><span data-i18n="tarife.faq.q4">Pot schimba pachetul în cursul anului?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="tarife.faq.a4">Da! Poți face upgrade sau downgrade la pachet cu o notificare de 15 zile. Modificarea intră în vigoare la începutul lunii următoare.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question"><span data-i18n="tarife.faq.q5">Activitățile extra se plătesc separat?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="tarife.faq.a5">La pachetele Scurt și Lung, activitățile extra (muzică, engleză, gimnastică, teatru) se adaugă cu 300–400 MDL/lună fiecare. La pachetul Premium Plus, 2 activități la alegere sunt deja incluse.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-question"><span data-i18n="tarife.faq.q6">Există perioadă de probă?</span> <span class="faq-arrow">⌄</span></div>
+      <div class="faq-answer" data-i18n="tarife.faq.a6">Oferim o zi de vizită gratuită pentru copil și părinți, fără nicio obligație. Dacă decideți să vă înscriați, primele două săptămâni sunt considerate perioadă de acomodare — taxa se aplică integral, dar procesul de adaptare este asistat de psihologul nostru.</div>
+    </div>
+  </div>
+</section>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FF6B6B" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2 class="reveal" data-i18n="tarife.cta.title">Ai întrebări despre tarife? 💛</h2>
+  <p class="reveal" data-i18n="tarife.cta.sub">Suntem bucuroși să îți explicăm toate detaliile și să găsim împreună soluția potrivită.</p>
+  <a href="/contact" class="btn btn-white reveal" data-i18n="tarife.cta.btn">Contactează-ne →</a>
+</div>
+
+<div id="site-footer"></div>
+
+<script src="../js/global.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/pages.js"></script>
+</body>
+</html>

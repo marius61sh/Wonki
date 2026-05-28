@@ -16,32 +16,34 @@
 <nav id="nav">
   <a href="/" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
   <ul>
-    <li><a href="/">Acasă</a></li>
-    <li><a href="/despre">Despre noi</a></li>
-    <li><a href="/program">Program</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/galerie">Galerie</a></li>
-    <li><a href="/contact" class="nav-btn">Înscrie-te 🎈</a></li>
+    <li><a href="/" data-i18n="nav.home">Acasă</a></li>
+    <li><a href="/despre" data-i18n="nav.about">Despre noi</a></li>
+    <li><a href="/program" data-i18n="nav.program">Program</a></li>
+    <li><a href="/tarife" data-i18n="nav.tarife">Tarife</a></li>
+    <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
+    <li><a href="/galerie" data-i18n="nav.galerie">Galerie</a></li>
+    <li><a href="/contact" class="nav-btn" data-i18n="nav.contact">Înscrie-te 🎈</a></li>
   </ul>
   <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="/">Acasă</a>
-  <a href="/despre">Despre noi</a>
-  <a href="/program">Program</a>
-  <a href="/blog">Blog</a>
-  <a href="/galerie">Galerie</a>
-  <a href="/contact">Înscrie-te 🎈</a>
+  <a href="/" data-i18n="nav.home">Acasă</a>
+  <a href="/despre" data-i18n="nav.about">Despre noi</a>
+  <a href="/program" data-i18n="nav.program">Program</a>
+  <a href="/tarife" data-i18n="nav.tarife">Tarife</a>
+  <a href="/blog" data-i18n="nav.blog">Blog</a>
+  <a href="/galerie" data-i18n="nav.galerie">Galerie</a>
+  <a href="/contact" data-i18n="nav.contact">Înscrie-te 🎈</a>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-bg"></div>
   <div class="page-hero-content">
-    <span class="section-label">Momente speciale</span>
-    <h1>Galeria <span style="color:var(--mint)">Wonki</span> 📸</h1>
-    <p>O privire în lumea colorată și magică pe care o trăiesc copiii noștri în fiecare zi.</p>
+    <span class="section-label" data-i18n="galerie.hero.label">Momente speciale</span>
+    <h1 data-i18n-html="galerie.hero.title">Galeria <span style="color:var(--mint)">Wonki</span> 📸</h1>
+    <p data-i18n="galerie.hero.sub">O privire în lumea colorată și magică pe care o trăiesc copiii noștri în fiecare zi.</p>
   </div>
 </div>
 
@@ -50,11 +52,11 @@
 <!-- GALLERY -->
 <section class="galerie-page">
   <div class="galerie-filters">
-    <button class="filter-btn active" data-filter="all">🌈 Toate</button>
-    <button class="filter-btn" data-filter="activitati">🎯 Activități</button>
-    <button class="filter-btn" data-filter="arta">🎨 Artă</button>
-    <button class="filter-btn" data-filter="natura">🌿 Natură</button>
-    <button class="filter-btn" data-filter="evenimente">🎉 Evenimente</button>
+    <button class="filter-btn active" data-filter="all">🌈 <span data-i18n="galerie.filter.all">Toate</span></button>
+    <button class="filter-btn" data-filter="activitati">🎯 <span data-i18n="galerie.filter.activ">Activități</span></button>
+    <button class="filter-btn" data-filter="arta">🎨 <span data-i18n="galerie.filter.art">Artă</span></button>
+    <button class="filter-btn" data-filter="natura">🌿 <span data-i18n="galerie.filter.curte">Natură</span></button>
+    <button class="filter-btn" data-filter="evenimente">🎉 <span data-i18n="galerie.filter.events">Evenimente</span></button>
   </div>
 
   <div class="masonry-grid">
@@ -74,9 +76,9 @@
 
 <!-- CTA -->
 <div class="cta-banner">
-  <h2 class="reveal">Vrei să faci parte din povestea noastră? 📸</h2>
-  <p class="reveal">Înscrie-te și copilul tău va trăi și el aceste momente magice.</p>
-  <a href="/contact" class="btn btn-white reveal">Înscrie-te acum →</a>
+  <h2 class="reveal" data-i18n="galerie.cta.title">Vrei să faci parte din povestea noastră? 📸</h2>
+  <p class="reveal" data-i18n="galerie.cta.sub">Înscrie-te și copilul tău va trăi și el aceste momente magice.</p>
+  <a href="/contact" class="btn btn-white reveal" data-i18n="galerie.cta.btn">Înscrie-te acum →</a>
 </div>
 
 <div id="site-footer"></div>
@@ -94,6 +96,7 @@
 </div>
 
 <script src="../js/global.js"></script>
+<script src="../js/i18n.js"></script>
 <script src="../js/pages.js"></script>
 <script src="../js/site.js"></script>
 </body>

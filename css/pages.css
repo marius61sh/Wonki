@@ -31,7 +31,7 @@
 .emoji-card .e { font-size: 2.8rem; margin-bottom: 12px; display: block;
   transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
 .emoji-card:hover .e { transform: scale(1.25) rotate(8deg); }
-.emoji-card h4 { font-family: 'Baloo 2', cursive; font-weight: 800; margin-bottom: 6px; }
+.emoji-card h4 { font-family: 'Nunito', sans-serif; font-weight: 800; margin-bottom: 6px; }
 .emoji-card p { font-size: .85rem; color: var(--gray); line-height: 1.5; }
 
 /* Values strip */
@@ -50,7 +50,7 @@
 }
 .value-item:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); }
 .value-icon { font-size: 3rem; margin-bottom: 16px; display: block; }
-.value-item h3 { font-family: 'Baloo 2', cursive; font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; }
+.value-item h3 { font-family: 'Nunito', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; }
 .value-item p { color: var(--gray); line-height: 1.6; font-size: .95rem; }
 
 /* Team section */
@@ -73,7 +73,7 @@
   font-size: 2.8rem;
   border: 4px solid #fff; box-shadow: var(--shadow-sm);
 }
-.team-card h4 { font-family: 'Baloo 2', cursive; font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; }
+.team-card h4 { font-family: 'Nunito', sans-serif; font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; }
 .team-card .role { font-size: .85rem; color: var(--coral); font-weight: 700; margin-bottom: 10px; }
 .team-card p { font-size: .85rem; color: var(--gray); line-height: 1.6; }
 
@@ -86,7 +86,7 @@
 .tab-btn {
   padding: 10px 24px; border-radius: 50px;
   border: 2px solid rgba(0,0,0,.1);
-  background: #fff; font-family: 'Baloo 2', cursive;
+  background: #fff; font-family: 'Nunito', sans-serif;
   font-size: 1rem; font-weight: 700; color: var(--gray);
   cursor: none; transition: all .25s;
 }
@@ -132,7 +132,7 @@
 }
 .ftl-item:hover .ftl-card { transform: translateX(8px); box-shadow: var(--shadow-md); }
 .ftl-emoji { font-size: 2rem; flex-shrink: 0; }
-.ftl-time { font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; min-width: 70px; color: var(--dark); }
+.ftl-time { font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 800; min-width: 70px; color: var(--dark); }
 .ftl-info h4 { font-weight: 800; font-size: .95rem; margin-bottom: 3px; }
 .ftl-info p { font-size: .83rem; color: var(--gray); }
 
@@ -150,7 +150,7 @@
 .group-card:nth-child(3){background:linear-gradient(135deg,var(--mint),var(--sky))}
 .group-card:nth-child(4){background:linear-gradient(135deg,var(--lavender),var(--coral))}
 .group-card .g-emoji { font-size: 2.6rem; margin-bottom: 14px; display: block; }
-.group-card h3 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+.group-card h3 { font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
 .group-card .age { font-size: .9rem; opacity: .85; font-weight: 700; margin-bottom: 12px; }
 .group-card p { font-size: .88rem; opacity: .8; line-height: 1.6; }
 
@@ -176,17 +176,72 @@
 .pkg-badge {
   position: absolute; top: 20px; right: -28px;
   background: var(--coral); color: #fff;
-  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: .8rem;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .8rem;
   padding: 4px 36px; transform: rotate(45deg);
 }
 .pkg-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--coral); }
 .pkg-icon { font-size: 2.8rem; margin-bottom: 18px; }
-.pkg-card h3 { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
-.pkg-card .price { font-family: 'Baloo 2', cursive; font-size: 2.4rem; font-weight: 900; color: var(--coral); margin-bottom: 20px; }
-.pkg-card .price span { font-size: 1rem; color: var(--gray); font-family: 'Quicksand', sans-serif; }
+.pkg-card h3 { font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+.pkg-card .price { font-family: 'Nunito', sans-serif; font-size: 2.4rem; font-weight: 900; color: var(--coral); margin-bottom: 20px; }
+.pkg-card .price span { font-size: 1rem; color: var(--gray); font-family: 'Nunito', sans-serif; }
 .pkg-features { list-style: none; margin-bottom: 28px; }
 .pkg-features li { padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,.05); font-size: .9rem; color: var(--gray); display: flex; gap: 8px; }
 .pkg-features li::before { content: '✓'; color: var(--mint); font-weight: 800; }
+
+/* ─── TARIFE PAGE ─── */
+.tarife-compare-section { background: var(--cream); padding: 80px 60px; }
+@media (max-width: 900px) { .tarife-compare-section { padding: 60px 24px; } }
+
+.tarife-table-wrap {
+  max-width: 900px; margin: 0 auto;
+  overflow-x: auto; border-radius: 20px;
+  box-shadow: var(--shadow-md);
+}
+.tarife-table {
+  width: 100%; border-collapse: collapse;
+  background: #fff; border-radius: 20px; overflow: hidden;
+  font-size: .92rem;
+}
+.tarife-table thead tr { background: var(--dark); color: #fff; }
+.tarife-table th {
+  padding: 18px 20px; text-align: center;
+  font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+}
+.tarife-table th:first-child { text-align: left; }
+.tarife-table .th-featured { background: var(--coral); }
+.tarife-table tbody tr { border-bottom: 1px solid rgba(0,0,0,.06); transition: background .2s; }
+.tarife-table tbody tr:last-child { border-bottom: none; }
+.tarife-table tbody tr:hover { background: rgba(255,107,107,.04); }
+.tarife-table td {
+  padding: 14px 20px; text-align: center; color: var(--gray);
+}
+.tarife-table td:first-child { text-align: left; color: var(--dark); font-weight: 600; }
+.tarife-table .th-featured { background: rgba(255,107,107,.06); }
+.tc-yes { color: var(--mint); font-weight: 800; font-size: 1.1rem; }
+.tc-no  { color: rgba(0,0,0,.2); }
+
+/* Discounts grid */
+.discounts-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px; max-width: 1000px; margin: 0 auto;
+}
+.discount-card {
+  background: var(--cream); border-radius: 24px; padding: 36px 28px;
+  text-align: center; border: 2px solid transparent;
+  transition: transform var(--transition), box-shadow .3s, border-color .3s;
+}
+.discount-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--coral); }
+.disc-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
+.discount-card h4 { font-family: 'Nunito', sans-serif; font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; }
+.disc-val { font-family: 'Nunito', sans-serif; font-size: 2rem; font-weight: 900; color: var(--coral); margin-bottom: 12px; }
+.discount-card p { font-size: .88rem; color: var(--gray); line-height: 1.6; }
+
+/* Dark mode tarife */
+[data-theme="dark"] .tarife-table { background: #1e1e34; }
+[data-theme="dark"] .tarife-table tbody tr:hover { background: rgba(255,107,107,.08); }
+[data-theme="dark"] .tarife-table td:first-child { color: var(--dark); }
+[data-theme="dark"] .tc-no { color: rgba(255,255,255,.2); }
+[data-theme="dark"] .discount-card { background: #1e1e34; }
 
 /* ─── GALERIE PAGE ─── */
 .galerie-page { background: #fff; padding: 80px 60px; }
@@ -196,7 +251,7 @@
 .filter-btn {
   padding: 8px 22px; border-radius: 50px;
   border: 2px solid rgba(0,0,0,.1);
-  background: #fff; font-family: 'Baloo 2', cursive;
+  background: #fff; font-family: 'Nunito', sans-serif;
   font-size: .9rem; font-weight: 700; color: var(--gray);
   cursor: none; transition: all .25s;
 }
@@ -223,7 +278,7 @@
   opacity: 0; transition: opacity .3s;
 }
 .masonry-item:hover .overlay { opacity: 1; }
-.overlay span { color: #fff; font-size: 1rem; font-weight: 700; font-family: 'Baloo 2', cursive; letter-spacing: .05em; }
+.overlay span { color: #fff; font-size: 1rem; font-weight: 700; font-family: 'Nunito', sans-serif; letter-spacing: .05em; }
 .masonry-item:nth-child(1){height:220px;background:linear-gradient(135deg,#FFE0E0,#FFB3B3)}
 .masonry-item:nth-child(2){height:300px;background:linear-gradient(135deg,#E0EDFF,#B3CDFF)}
 .masonry-item:nth-child(3){height:200px;background:linear-gradient(135deg,#E0FFE4,#B3F0BB)}
@@ -264,7 +319,7 @@
   transition: transform .25s cubic-bezier(.34,1.56,.64,1);
 }
 .lb-caption {
-  color: #fff; font-family: 'Baloo 2', cursive;
+  color: #fff; font-family: 'Nunito', sans-serif;
   font-size: 1.35rem; font-weight: 800;
   text-shadow: 0 2px 12px rgba(0,0,0,.4);
   letter-spacing: .02em;
@@ -309,7 +364,7 @@
   display: grid; grid-template-columns: 1fr 1.2fr;
   gap: 64px; max-width: 1050px; margin: 0 auto;
 }
-.contact-left h3 { font-family: 'Baloo 2', cursive; font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+.contact-left h3 { font-family: 'Nunito', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
 .contact-left > p { color: var(--gray); line-height: 1.7; margin-bottom: 36px; }
 .info-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
 .info-row {
@@ -337,13 +392,13 @@
   background: var(--cream); border-radius: 28px; padding: 44px;
   box-shadow: var(--shadow-md); border: 2px solid rgba(0,0,0,.05);
 }
-.contact-form-box h3 { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; margin-bottom: 28px; }
+.contact-form-box h3 { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 28px; }
 .fg { margin-bottom: 18px; }
 .fg label { display: block; font-weight: 700; font-size: .85rem; color: #666; margin-bottom: 7px; }
 .fg input, .fg select, .fg textarea {
   width: 100%; padding: 13px 18px; border-radius: 14px;
   border: 2px solid rgba(0,0,0,.09);
-  font-family: 'Quicksand', sans-serif; font-size: .95rem;
+  font-family: 'Nunito', sans-serif; font-size: .95rem;
   background: #fff; color: var(--dark); outline: none;
   transition: border-color .25s, box-shadow .25s, transform .2s;
 }
@@ -357,7 +412,7 @@
 .submit-btn {
   width: 100%; padding: 16px; border: none; border-radius: 50px;
   background: var(--coral); color: #fff;
-  font-family: 'Baloo 2', cursive; font-size: 1.05rem; font-weight: 800;
+  font-family: 'Nunito', sans-serif; font-size: 1.05rem; font-weight: 800;
   cursor: none; box-shadow: 0 8px 24px rgba(255,107,107,.4);
   transition: transform var(--transition), box-shadow .3s;
   position: relative; overflow: hidden;
@@ -409,7 +464,7 @@
   padding: 8px 20px; border-radius: 50px;
   border: 2px solid rgba(0,0,0,.08);
   background: #fff; color: var(--dark);
-  font-family: 'Quicksand', sans-serif; font-size: .88rem; font-weight: 700;
+  font-family: 'Nunito', sans-serif; font-size: .88rem; font-weight: 700;
   cursor: none; transition: all .2s;
 }
 .blog-filter-btn:hover { border-color: var(--coral); color: var(--coral); }
@@ -445,7 +500,7 @@
 .blog-card-emoji { font-size: 4rem; }
 .blog-card-body { padding: 22px 24px 20px; }
 .blog-card-body h3 {
-  font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800;
+  font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 800;
   margin-bottom: 10px; line-height: 1.35;
 }
 .blog-card-body p { color: var(--gray); font-size: .88rem; line-height: 1.65; margin-bottom: 16px; }
@@ -492,7 +547,7 @@
 }
 .article-emoji { font-size: 5rem; }
 .article-title {
-  font-family: 'Baloo 2', cursive; font-size: 1.8rem; font-weight: 900;
+  font-family: 'Nunito', sans-serif; font-size: 1.8rem; font-weight: 900;
   padding: 28px 36px 8px; line-height: 1.2;
 }
 .article-meta {
@@ -503,7 +558,7 @@
   padding: 0 36px 36px;
   color: var(--dark); line-height: 1.85; font-size: .97rem;
 }
-.article-body h2 { font-family: 'Baloo 2', cursive; font-size: 1.3rem; margin: 24px 0 10px; }
+.article-body h2 { font-family: 'Nunito', sans-serif; font-size: 1.3rem; margin: 24px 0 10px; }
 .article-body p  { margin-bottom: 16px; }
 .article-body ul { padding-left: 20px; margin-bottom: 16px; }
 .article-body li { margin-bottom: 8px; }

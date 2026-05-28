@@ -16,32 +16,34 @@
 <nav id="nav">
   <a href="/" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
   <ul>
-    <li><a href="/">Acasă</a></li>
-    <li><a href="/despre">Despre noi</a></li>
-    <li><a href="/program">Program</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/galerie">Galerie</a></li>
-    <li><a href="/contact" class="nav-btn">Înscrie-te 🎈</a></li>
+    <li><a href="/" data-i18n="nav.home">Acasă</a></li>
+    <li><a href="/despre" data-i18n="nav.about">Despre noi</a></li>
+    <li><a href="/program" data-i18n="nav.program">Program</a></li>
+    <li><a href="/tarife" data-i18n="nav.tarife">Tarife</a></li>
+    <li><a href="/blog" data-i18n="nav.blog">Blog</a></li>
+    <li><a href="/galerie" data-i18n="nav.galerie">Galerie</a></li>
+    <li><a href="/contact" class="nav-btn" data-i18n="nav.contact">Înscrie-te 🎈</a></li>
   </ul>
   <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="/">Acasă</a>
-  <a href="/despre">Despre noi</a>
-  <a href="/program">Program</a>
-  <a href="/blog">Blog</a>
-  <a href="/galerie">Galerie</a>
-  <a href="/contact">Înscrie-te 🎈</a>
+  <a href="/" data-i18n="nav.home">Acasă</a>
+  <a href="/despre" data-i18n="nav.about">Despre noi</a>
+  <a href="/program" data-i18n="nav.program">Program</a>
+  <a href="/tarife" data-i18n="nav.tarife">Tarife</a>
+  <a href="/blog" data-i18n="nav.blog">Blog</a>
+  <a href="/galerie" data-i18n="nav.galerie">Galerie</a>
+  <a href="/contact" data-i18n="nav.contact">Înscrie-te 🎈</a>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-bg"></div>
   <div class="page-hero-content">
-    <span class="section-label">Povestea noastră</span>
-    <h1>Despre <span style="color:var(--coral)">Wonki</span> 💛</h1>
-    <p>Suntem mai mult decât o grădiniță — suntem locul unde fiecare copil descoperă cine poate deveni.</p>
+    <span class="section-label" data-i18n="despre.hero.label">Povestea noastră</span>
+    <h1 data-i18n-html="despre.hero.title">Despre <span style="color:var(--coral)">Wonki</span> 💛</h1>
+    <p data-i18n="despre.hero.sub">Suntem mai mult decât o grădiniță — suntem locul unde fiecare copil descoperă cine poate deveni.</p>
   </div>
 </div>
 
@@ -51,18 +53,18 @@
 <section class="despre-intro">
   <div class="despre-split">
     <div class="text-side reveal-l">
-      <span class="section-label">Cine suntem</span>
-      <h2 class="section-title">O echipă care <span style="color:var(--coral)">iubește</span> copiii</h2>
-      <p>Wonki a luat naștere în 2012 dintr-un vis simplu: să creăm un spațiu unde copiii vin cu bucurie în fiecare dimineață. Un loc care să îmbine cele mai bune practici în educația timpurie cu căldura și grija unui mediu familial.</p>
-      <p>De-a lungul anilor, am crescut împreună cu zeci de familii, adaptând constant metodele noastre la nevoile copiilor moderni. Astăzi, Wonki e recunoscut ca unul dintre cele mai inovatoare centre educaționale private din Chișinău.</p>
-      <p>Credem că fiecare copil e unic și că misiunea noastră e să-l ajutăm să-și descopere supraputerile.</p>
-      <a href="/contact" class="btn btn-primary" style="margin-top:8px">Vizitează-ne 🌟</a>
+      <span class="section-label" data-i18n="despre.intro.label">Cine suntem</span>
+      <h2 class="section-title" data-i18n-html="despre.intro.title">O echipă care <span style="color:var(--coral)">iubește</span> copiii</h2>
+      <p data-i18n="despre.intro.p1">Wonki a luat naștere în 2012 dintr-un vis simplu: să creăm un spațiu unde copiii vin cu bucurie în fiecare dimineață. Un loc care să îmbine cele mai bune practici în educația timpurie cu căldura și grija unui mediu familial.</p>
+      <p data-i18n="despre.intro.p2">De-a lungul anilor, am crescut împreună cu zeci de familii, adaptând constant metodele noastre la nevoile copiilor moderni. Astăzi, Wonki e recunoscut ca unul dintre cele mai inovatoare centre educaționale private din Chișinău.</p>
+      <p data-i18n="despre.intro.p3">Credem că fiecare copil e unic și că misiunea noastră e să-l ajutăm să-și descopere supraputerile.</p>
+      <a href="/contact" class="btn btn-primary" style="margin-top:8px" data-i18n="despre.intro.btn">Vizitează-ne 🌟</a>
     </div>
     <div class="emoji-card-grid reveal-r">
-      <div class="emoji-card"><span class="e">🏆</span><h4>Premii</h4><p>Top 10 grădinițe private Chișinău 2023</p></div>
-      <div class="emoji-card"><span class="e">📜</span><h4>Acreditare</h4><p>Certificare internațională Montessori</p></div>
-      <div class="emoji-card"><span class="e">👨‍👩‍👧‍👦</span><h4>Comunitate</h4><p>Peste 350 de familii Wonki actuale</p></div>
-      <div class="emoji-card"><span class="e">🌱</span><h4>Misiune</h4><p>Copii fericiți, părinți liniștiți</p></div>
+      <div class="emoji-card"><span class="e">🏆</span><h4 data-i18n="despre.c1.h">Premii</h4><p data-i18n="despre.c1.p">Top 10 grădinițe private Chișinău 2023</p></div>
+      <div class="emoji-card"><span class="e">📜</span><h4 data-i18n="despre.c2.h">Acreditare</h4><p data-i18n="despre.c2.p">Certificare internațională Montessori</p></div>
+      <div class="emoji-card"><span class="e">👨‍👩‍👧‍👦</span><h4 data-i18n="despre.c3.h">Comunitate</h4><p data-i18n="despre.c3.p">Peste 350 de familii Wonki actuale</p></div>
+      <div class="emoji-card"><span class="e">🌱</span><h4 data-i18n="despre.c4.h">Misiune</h4><p data-i18n="despre.c4.p">Copii fericiți, părinți liniștiți</p></div>
     </div>
   </div>
 </section>
@@ -72,17 +74,17 @@
 <!-- VALUES -->
 <section class="values-strip">
   <div class="section-center" style="max-width:580px;margin:0 auto 54px">
-    <span class="section-label">Valorile noastre</span>
-    <h2 class="section-title reveal">Principiile care ne <span style="color:var(--sky)">ghidează</span></h2>
-    <p class="section-sub reveal">Fiecare decizie pe care o luăm pornește de la aceste valori fundamentale.</p>
+    <span class="section-label" data-i18n="despre.values.label">Valorile noastre</span>
+    <h2 class="section-title reveal" data-i18n-html="despre.values.title">Principiile care ne <span style="color:var(--sky)">ghidează</span></h2>
+    <p class="section-sub reveal" data-i18n="despre.values.sub">Fiecare decizie pe care o luăm pornește de la aceste valori fundamentale.</p>
   </div>
   <div class="values-grid">
-    <div class="value-item reveal"><span class="value-icon">❤️</span><h3>Dragoste necondiționată</h3><p>Fiecare copil este primit cu deschidere și acceptat exact așa cum este, cu personalitatea și ritmul lui propriu.</p></div>
-    <div class="value-item reveal"><span class="value-icon">🔬</span><h3>Curiozitate cultivată</h3><p>Încurajăm întrebările, experimentele și explorarea. Nu există răspunsuri greșite, doar minți curioase.</p></div>
-    <div class="value-item reveal"><span class="value-icon">🤝</span><h3>Comunitate & colaborare</h3><p>Copiii învață să lucreze împreună, să se respecte și să se susțină reciproc — competențe vitale pentru viitor.</p></div>
-    <div class="value-item reveal"><span class="value-icon">🌿</span><h3>Natură & sustenabilitate</h3><p>Îi conectăm pe copii cu natura prin grădinărit, observații și activități outdoor responsabile.</p></div>
-    <div class="value-item reveal"><span class="value-icon">🎨</span><h3>Creativitate liberă</h3><p>Arta, muzica și jocul imaginativ sunt tratate ca materii esențiale, nu ca extras.</p></div>
-    <div class="value-item reveal"><span class="value-icon">🔒</span><h3>Siguranță & încredere</h3><p>Spații fizice și emoționale sigure, unde copiii și părinții se simt în cele mai bune mâini.</p></div>
+    <div class="value-item reveal"><span class="value-icon">❤️</span><h3 data-i18n="despre.v1.h">Dragoste necondiționată</h3><p data-i18n="despre.v1.p">Fiecare copil este primit cu deschidere și acceptat exact așa cum este, cu personalitatea și ritmul lui propriu.</p></div>
+    <div class="value-item reveal"><span class="value-icon">🔬</span><h3 data-i18n="despre.v2.h">Curiozitate cultivată</h3><p data-i18n="despre.v2.p">Încurajăm întrebările, experimentele și explorarea. Nu există răspunsuri greșite, doar minți curioase.</p></div>
+    <div class="value-item reveal"><span class="value-icon">🤝</span><h3 data-i18n="despre.v3.h">Comunitate & colaborare</h3><p data-i18n="despre.v3.p">Copiii învață să lucreze împreună, să se respecte și să se susțină reciproc — competențe vitale pentru viitor.</p></div>
+    <div class="value-item reveal"><span class="value-icon">🌿</span><h3 data-i18n="despre.v4.h">Natură & sustenabilitate</h3><p data-i18n="despre.v4.p">Îi conectăm pe copii cu natura prin grădinărit, observații și activități outdoor responsabile.</p></div>
+    <div class="value-item reveal"><span class="value-icon">🎨</span><h3 data-i18n="despre.v5.h">Creativitate liberă</h3><p data-i18n="despre.v5.p">Arta, muzica și jocul imaginativ sunt tratate ca materii esențiale, nu ca extras.</p></div>
+    <div class="value-item reveal"><span class="value-icon">🔒</span><h3 data-i18n="despre.v6.h">Siguranță & încredere</h3><p data-i18n="despre.v6.p">Spații fizice și emoționale sigure, unde copiii și părinții se simt în cele mai bune mâini.</p></div>
   </div>
 </section>
 
@@ -91,34 +93,34 @@
 <!-- TEAM -->
 <section class="team-section">
   <div class="section-center" style="max-width:580px;margin:0 auto 54px">
-    <span class="section-label">Echipa noastră</span>
-    <h2 class="section-title reveal">Oamenii din spatele <span style="color:var(--lavender)">magiei</span></h2>
-    <p class="section-sub reveal">Fiecare educator Wonki este ales cu grijă pentru pasiunea, competența și dragostea față de copii.</p>
+    <span class="section-label" data-i18n="despre.team.label">Echipa noastră</span>
+    <h2 class="section-title reveal" data-i18n-html="despre.team.title">Oamenii din spatele <span style="color:var(--lavender)">magiei</span></h2>
+    <p class="section-sub reveal" data-i18n="despre.team.sub">Fiecare educator Wonki este ales cu grijă pentru pasiunea, competența și dragostea față de copii.</p>
   </div>
   <div class="team-grid">
     <div class="team-card reveal">
       <div class="team-avatar" style="background:rgba(255,107,107,.12)">👩‍🏫</div>
       <h4>Ana Marinescu</h4>
-      <div class="role">Fondatoare & Director</div>
-      <p>Psiholog educațional cu 15 ani experiență. Visătoarea din spatele Wonki.</p>
+      <div class="role" data-i18n="despre.tm1.role">Fondatoare & Director</div>
+      <p data-i18n="despre.tm1.p">Psiholog educațional cu 15 ani experiență. Visătoarea din spatele Wonki.</p>
     </div>
     <div class="team-card reveal">
       <div class="team-avatar" style="background:rgba(77,150,255,.12)">👩‍🎨</div>
       <h4>Ioana Petre</h4>
-      <div class="role">Educatoare Senior</div>
-      <p>Specialist Montessori certificat, pasionată de artă și muzică timpurie.</p>
+      <div class="role" data-i18n="despre.tm2.role">Educatoare Senior</div>
+      <p data-i18n="despre.tm2.p">Specialist Montessori certificat, pasionată de artă și muzică timpurie.</p>
     </div>
     <div class="team-card reveal">
       <div class="team-avatar" style="background:rgba(107,203,119,.12)">👨‍🔬</div>
       <h4>Mihai Stoica</h4>
-      <div class="role">Coordonator STEAM</div>
-      <p>Inginer reconvertit în educator, transformă știința în joacă fascinantă.</p>
+      <div class="role" data-i18n="despre.tm3.role">Coordonator STEAM</div>
+      <p data-i18n="despre.tm3.p">Inginer reconvertit în educator, transformă știința în joacă fascinantă.</p>
     </div>
     <div class="team-card reveal">
       <div class="team-avatar" style="background:rgba(199,125,255,.12)">👩‍🍳</div>
       <h4>Elena Vasile</h4>
-      <div class="role">Nutriționist & Bucătar</div>
-      <p>Creează meniuri delicioase și sănătoase adaptate nevoilor fiecărui copil.</p>
+      <div class="role" data-i18n="despre.tm4.role">Nutriționist & Bucătar</div>
+      <p data-i18n="despre.tm4.p">Creează meniuri delicioase și sănătoase adaptate nevoilor fiecărui copil.</p>
     </div>
   </div>
 </section>
@@ -127,15 +129,16 @@
 
 <!-- CTA -->
 <div class="cta-banner">
-  <h2 class="reveal">Vino să ne cunoști personal! 🤗</h2>
-  <p class="reveal">Programează o vizită și descoperă magia Wonki cu ochii tăi.</p>
-  <a href="/contact" class="btn btn-white reveal">Programează vizita →</a>
+  <h2 class="reveal" data-i18n="despre.cta.title">Vino să ne cunoști personal! 🤗</h2>
+  <p class="reveal" data-i18n="despre.cta.sub">Programează o vizită și descoperă magia Wonki cu ochii tăi.</p>
+  <a href="/contact" class="btn btn-white reveal" data-i18n="despre.cta.btn">Programează vizita →</a>
 </div>
 
 <!-- FOOTER -->
 <div id="site-footer"></div>
 
 <script src="../js/global.js"></script>
+<script src="../js/i18n.js"></script>
 <script src="../js/pages.js"></script>
 <script src="../js/site.js"></script>
 </body>

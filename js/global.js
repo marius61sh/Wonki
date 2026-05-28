@@ -64,6 +64,12 @@
     e.preventDefault();
     var dest = href;
 
+    // Actualizeaza culoarea cortinei cu tema CURENTA (poate fi schimbata de la incarcare)
+    var liveTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    var liveBg    = liveTheme === 'dark' ? '#0f0f1a' : '#FFFCF5';
+    curtain.style.background = liveBg;
+    document.documentElement.style.background = liveBg;
+
     // Calculeaza pozitia click-ului ca procent
     var cx = Math.round(e.clientX / window.innerWidth  * 100);
     var cy = Math.round(e.clientY / window.innerHeight * 100);
@@ -280,6 +286,26 @@ document.addEventListener('DOMContentLoaded', () => {
         '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>' +
       '</a>';
     themeBtn.insertAdjacentElement('afterend', navSocials);
+
+    /* ─── LANG TOGGLE (RO / RU) ─── */
+    const navLang = document.createElement('div');
+    navLang.className = 'nav-lang';
+    navLang.innerHTML =
+      '<button class="lang-btn" data-lang="ro">RO</button>' +
+      '<button class="lang-btn" data-lang="ru">RU</button>';
+    navSocials.insertAdjacentElement('afterend', navLang);
+
+    const _savedLang = localStorage.getItem('wonki-lang') || 'ro';
+    navLang.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === _savedLang);
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        navLang.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b === btn));
+        if (window.applyLang) window.applyLang(lang);
+      });
+      btn.addEventListener('mouseenter', () => document.getElementById('cur')?.classList.add('big'));
+      btn.addEventListener('mouseleave', () => document.getElementById('cur')?.classList.remove('big'));
+    });
   }
 
   /* ─── HAMBURGER MENU ─── */
@@ -356,9 +382,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>';
     document.body.appendChild(btn);
 
-    window.addEventListener('scroll', () => {
-      btn.classList.toggle('visible', window.scrollY > 300);
-    }, { passive: true });
+    function checkScroll() {
+      const scrolled = window.scrollY || document.documentElement.scrollTop || 0;
+      btn.classList.toggle('visible', scrolled > 250);
+    }
+
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    // Verifica si la incarcare (ex: pagina reincarcata deja scrollata)
+    checkScroll();
 
     btn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -476,36 +507,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const twText   = twWord.querySelector('.tw-text');
     const twCursor = twWord.querySelector('.tw-cursor');
 
-    const WORDS  = ['superputere', 'magie', 'bucurie', 'aventură', 'creație'];
-    const SPEED_TYPE   = 85;   // ms per caracter la scriere
-    const SPEED_DELETE = 48;   // ms per caracter la stergere
-    const PAUSE_AFTER  = 2000; // ms pauza dupa ce cuvantul e scris complet
-    const PAUSE_BEFORE = 320;  // ms pauza inainte sa inceapa urmatorul cuvant
-
-    // Rezerva spatiu fix = latimea celui mai lung cuvant → previne layout shift
-    const longestWord = WORDS.reduce((a, b) => a.length >= b.length ? a : b);
-    twText.textContent = longestWord;
-    twWord.style.display    = 'inline-block';
-    twWord.style.minWidth   = twWord.offsetWidth + 'px';
-    twWord.style.textAlign  = 'center';
+    let WORDS  = ['superputere', 'magie', 'bucurie', 'aventură', 'creație'];
+    const SPEED_TYPE   = 85;
+    const SPEED_DELETE = 48;
+    const PAUSE_AFTER  = 2000;
+    const PAUSE_BEFORE = 320;
 
     let wi = 0, ci = 0, deleting = false;
+    let twTimer = null;
 
-    // Primul cuvant apare deja scris (odata cu pop-in animatia)
+    function setMinWidth(words) {
+      const longestWord = words.reduce((a, b) => a.length >= b.length ? a : b);
+      twText.textContent = longestWord;
+      twWord.style.display    = 'inline-block';
+      twWord.style.minWidth   = twWord.offsetWidth + 'px';
+      twWord.style.textAlign  = 'center';
+    }
+
+    setMinWidth(WORDS);
     twText.textContent = WORDS[0];
     ci = WORDS[0].length;
 
     function typeStep() {
       const word = WORDS[wi];
-
       if (!deleting) {
         ci++;
         twText.textContent = word.slice(0, ci);
         if (ci >= word.length) {
           deleting = true;
-          setTimeout(typeStep, PAUSE_AFTER);
+          twTimer = setTimeout(typeStep, PAUSE_AFTER);
         } else {
-          setTimeout(typeStep, SPEED_TYPE);
+          twTimer = setTimeout(typeStep, SPEED_TYPE);
         }
       } else {
         ci--;
@@ -513,15 +545,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ci === 0) {
           deleting = false;
           wi = (wi + 1) % WORDS.length;
-          setTimeout(typeStep, PAUSE_BEFORE);
+          twTimer = setTimeout(typeStep, PAUSE_BEFORE);
         } else {
-          setTimeout(typeStep, SPEED_DELETE);
+          twTimer = setTimeout(typeStep, SPEED_DELETE);
         }
       }
     }
 
-    // Porneste ciclul dupa ce animatia initiala e gata (0.65s delay + 0.6s durata + buffer)
-    setTimeout(() => {
+    // Expune restart pentru schimbarea limbii
+    twWord._restart = function(newWords) {
+      if (twTimer) { clearTimeout(twTimer); twTimer = null; }
+      WORDS = newWords;
+      wi = 0; ci = 0; deleting = false;
+      setMinWidth(WORDS);
+      twText.textContent = WORDS[0];
+      ci = WORDS[0].length;
+      twTimer = setTimeout(() => { deleting = true; typeStep(); }, 400);
+    };
+
+    // Porneste ciclul dupa ce animatia initiala e gata
+    twTimer = setTimeout(() => {
       deleting = true;
       typeStep();
     }, 2400);
@@ -538,7 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="f-logo">Wonki ⭐</div>
-      <p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p>
+      <p data-i18n="footer.brand.desc">Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p>
       <div class="f-socials">
         <a class="f-social f-social-fb" href="https://www.facebook.com/wonki.kindergarten" target="_blank" rel="noopener" aria-label="Facebook Wonki">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -549,37 +592,38 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
     <div class="footer-col">
-      <h4>Pagini</h4>
+      <h4 data-i18n="footer.col.pages">Pagini</h4>
       <ul>
-        <li><a href="/">Acasă</a></li>
-        <li><a href="/despre">Despre noi</a></li>
-        <li><a href="/program">Program</a></li>
-        <li><a href="/galerie">Galerie</a></li>
+        <li><a href="/" data-i18n="nav.home">Acasă</a></li>
+        <li><a href="/despre" data-i18n="nav.about">Despre noi</a></li>
+        <li><a href="/program" data-i18n="nav.program">Program</a></li>
+        <li><a href="/tarife" data-i18n="nav.tarife">Tarife</a></li>
+        <li><a href="/galerie" data-i18n="nav.galerie">Galerie</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Grupe</h4>
+      <h4 data-i18n="footer.col.groups">Grupe</h4>
       <ul>
-        <li><a href="#">🐻 Ursuleți (2–3 ani)</a></li>
-        <li><a href="#">🦋 Fluturași (3–4 ani)</a></li>
-        <li><a href="#">⭐ Steluțe (4–5 ani)</a></li>
-        <li><a href="#">🚀 Exploratori (5–7 ani)</a></li>
-        <li><a href="/confidentialitate">Politică confidențialitate</a></li>
+        <li><a href="#" data-i18n="footer.bears">🐻 Ursuleți (2–3 ani)</a></li>
+        <li><a href="#" data-i18n="footer.butterflies">🦋 Fluturași (3–4 ani)</a></li>
+        <li><a href="#" data-i18n="footer.stars">⭐ Steluțe (4–5 ani)</a></li>
+        <li><a href="#" data-i18n="footer.explorers">🚀 Exploratori (5–7 ani)</a></li>
+        <li><a href="/confidentialitate" data-i18n="footer.privacy">Politică confidențialitate</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Contact</h4>
+      <h4 data-i18n="footer.col.contact">Contact</h4>
       <ul>
-        <li><a href="#">📍 str. Grenoble 122, Codru, Chișinău</a></li>
+        <li><a href="#" data-i18n="footer.addr">📍 str. Grenoble 122, Codru, Chișinău</a></li>
         <li><a href="tel:+37369819999">📞 +373 69819999</a></li>
         <li><a href="mailto:wonki.kindergarten@gmail.com">✉️ wonki.kindergarten@gmail.com</a></li>
-        <li><a href="#">🕐 Lun–Vin 07:30–18:30</a></li>
+        <li><a href="#" data-i18n="footer.hours">🕐 Lun–Vin 07:30–18:30</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
+    <p data-i18n="footer.copyright">© 2026 Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
     <div class="footer-hearts">💛 🧡 ❤️ 💜 💙</div>
   </div>
 </footer>`;
