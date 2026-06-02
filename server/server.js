@@ -502,6 +502,258 @@ app.get('/api/admin/stats', auth, async (req, res) => {
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
+// ── CHARTS ───────────────────────────────────────────────────
+app.get('/api/admin/charts', auth, async (req, res) => {
+  try {
+    const db = getDB();
+    const [copiiSnap, inscrieriSnap] = await Promise.all([
+      db.collection('copii').get(),
+      db.collection('inscrieri').orderBy('created', 'desc').get()
+    ]);
+
+    const copii     = copiiSnap.docs.map(docToObj);
+    const inscrieri = inscrieriSnap.docs.map(docToObj);
+
+    // Firestore Timestamp → JS Date
+    const toDate = v => {
+      if (!v) return null;
+      if (v instanceof Date) return v;
+      if (typeof v.toDate === 'function') return v.toDate();
+      if (v._seconds) return new Date(v._seconds * 1000);
+      return new Date(v);
+    };
+
+    // ── Distribuție grupe (copii activi) ──────────────────────
+    const activi = copii.filter(c => c.status === 'activ');
+    const GRUPE  = ['🐻 Ursuleți', '🦋 Fluturași', '⭐ Steluțe', '🚀 Exploratori'];
+    const grupeMap = Object.fromEntries(GRUPE.map(g => [g, 0]));
+    activi.forEach(c => { if (grupeMap[c.grupa] !== undefined) grupeMap[c.grupa]++; });
+    const grupeActive = GRUPE.filter(g => grupeMap[g] > 0);
+
+    // ── Distribuție programe (copii activi) ───────────────────
+    const PROG = { 'Scurt (07:30–13:00)': 'Scurt', 'Lung (07:30–18:00)': 'Lung', 'Premium Plus': 'Premium' };
+    const progMap = {};
+    activi.forEach(c => {
+      const p = PROG[c.program] || c.program || 'Nespecificat';
+      progMap[p] = (progMap[p] || 0) + 1;
+    });
+
+    // ── Înscrieri pe ultimele 6 luni ──────────────────────────
+    const now    = new Date();
+    const months = Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+      return {
+        key:   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`,
+        label: d.toLocaleDateString('ro-RO', { month: 'short', year: '2-digit' }),
+        count: 0
+      };
+    });
+    inscrieri.forEach(ins => {
+      const d = toDate(ins.created);
+      if (!d) return;
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      const m   = months.find(x => x.key === key);
+      if (m) m.count++;
+    });
+
+    // ── Status copii (toți) ────────────────────────────────────
+    const statusMap = { activi: 0, inactivi: 0 };
+    copii.forEach(c => { statusMap[c.status === 'activ' ? 'activi' : 'inactivi']++; });
+
+    ok(res, {
+      grupe:           { labels: grupeActive, data: grupeActive.map(g => grupeMap[g]) },
+      programe:        { labels: Object.keys(progMap), data: Object.values(progMap) },
+      inscrieri_lunar: { labels: months.map(m => m.label), data: months.map(m => m.count) },
+      status:          statusMap
+    });
+  } catch (e) { console.error(e); err(res, 'Eroare server', 500); }
+});
+
+// ── PARENT PORTAL ────────────────────────────────────────────
+
+// Timestamp helper
+const toDate = v => {
+  if (!v) return null;
+  if (v instanceof Date) return v;
+  if (typeof v.toDate === 'function') return v.toDate();
+  if (v._seconds) return new Date(v._seconds * 1000);
+  return new Date(v);
+};
+
+// authParinte middleware
+function authParinte(req, res, next) {
+  const token = (req.headers['authorization'] || '').split(' ')[1];
+  if (!token) return res.status(401).json({ ok: false, error: 'Neautorizat' });
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    if (decoded.role !== 'parinte') return res.status(403).json({ ok: false, error: 'Acces interzis' });
+    req.user = decoded;
+    next();
+  } catch { res.status(401).json({ ok: false, error: 'Token invalid' }); }
+}
+
+// ── ANUNTURI ─────────────────────────────────────────────────
+app.get('/api/admin/anunturi', auth, async (req, res) => {
+  try {
+    const snap = await getDB().collection('anunturi').orderBy('created', 'desc').get();
+    ok(res, snap.docs.map(docToObj));
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.post('/api/admin/anunturi', auth, async (req, res) => {
+  try {
+    const { titlu, text, tip } = req.body;
+    if (!titlu) return err(res, 'Titlul este obligatoriu');
+    const ref = await getDB().collection('anunturi').add({
+      titlu, text: text || '', tip: tip || 'info', created: new Date()
+    });
+    ok(res, { id: ref.id });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.delete('/api/admin/anunturi/:id', auth, async (req, res) => {
+  try {
+    await getDB().collection('anunturi').doc(req.params.id).delete();
+    ok(res, 'Sters');
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.get('/api/parinti/anunturi', authParinte, async (req, res) => {
+  try {
+    const snap = await getDB().collection('anunturi').orderBy('created', 'desc').limit(20).get();
+    ok(res, snap.docs.map(docToObj));
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+// ── PARINTI AUTH ──────────────────────────────────────────────
+app.post('/api/parinti/login', loginLimiter, async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return err(res, 'Email si parola obligatorii');
+    const snap = await getDB().collection('parinti').where('email', '==', email).limit(1).get();
+    if (snap.empty) return err(res, 'Email sau parola incorecta', 401);
+    const doc  = snap.docs[0];
+    const data = doc.data();
+    if (!bcrypt.compareSync(password, data.password)) return err(res, 'Email sau parola incorecta', 401);
+    const token = jwt.sign(
+      { id: doc.id, email: data.email, name: data.name, copilId: data.copilId, role: 'parinte' },
+      SECRET, { expiresIn: '7d' }
+    );
+    ok(res, { token, name: data.name, copilId: data.copilId });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+// ── PARINTI ENDPOINTS ─────────────────────────────────────────
+app.get('/api/parinti/profil', authParinte, async (req, res) => {
+  try {
+    const db = getDB();
+    const [copilDoc, parinteDoc] = await Promise.all([
+      db.collection('copii').doc(req.user.copilId).get(),
+      db.collection('parinti').doc(req.user.id).get()
+    ]);
+    const copil   = copilDoc.exists   ? { id: copilDoc.id,   ...copilDoc.data()   } : null;
+    const parinteRaw = parinteDoc.exists ? { id: parinteDoc.id, ...parinteDoc.data() } : null;
+    if (parinteRaw) delete parinteRaw.password;
+    ok(res, { copil, parinte: parinteRaw });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.get('/api/parinti/mesaje', authParinte, async (req, res) => {
+  try {
+    const db   = getDB();
+    const snap = await db.collection('mesaje_parinti').where('copilId', '==', req.user.copilId).get();
+    const msgs = snap.docs.map(docToObj).sort((a, b) => {
+      const da = toDate(a.created) || 0;
+      const db2 = toDate(b.created) || 0;
+      return da - db2;
+    });
+    // Mark admin messages as read
+    const unread = snap.docs.filter(d => d.data().from === 'admin' && !d.data().read);
+    if (unread.length) {
+      const batch = db.batch();
+      unread.forEach(d => batch.update(d.ref, { read: true }));
+      await batch.commit();
+    }
+    ok(res, msgs);
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.post('/api/parinti/mesaje', authParinte, async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!text || !text.trim()) return err(res, 'Mesajul nu poate fi gol');
+    const ref = await getDB().collection('mesaje_parinti').add({
+      copilId: req.user.copilId,
+      from:    'parinte',
+      text:    text.trim(),
+      read:    false,
+      created: new Date()
+    });
+    ok(res, { id: ref.id });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+// ── ADMIN: CONTURI PARINTI ────────────────────────────────────
+app.post('/api/admin/parinti', auth, async (req, res) => {
+  try {
+    const { email, password, copilId, name } = req.body;
+    if (!email || !password || !copilId || !name) return err(res, 'Toate câmpurile sunt obligatorii');
+    const existing = await getDB().collection('parinti').where('email', '==', email).limit(1).get();
+    if (!existing.empty) return err(res, 'Email deja înregistrat');
+    const hashed = bcrypt.hashSync(password, 10);
+    const ref = await getDB().collection('parinti').add({
+      email, password: hashed, copilId, name, created: new Date()
+    });
+    ok(res, { id: ref.id });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.get('/api/admin/parinti', auth, async (req, res) => {
+  try {
+    const snap = await getDB().collection('parinti').orderBy('created', 'desc').get();
+    ok(res, snap.docs.map(d => {
+      const obj = docToObj(d);
+      delete obj.password;
+      return obj;
+    }));
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.delete('/api/admin/parinti/:id', auth, async (req, res) => {
+  try {
+    await getDB().collection('parinti').doc(req.params.id).delete();
+    ok(res, 'Sters');
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+// ── ADMIN: MESAJE PARINTI ─────────────────────────────────────
+app.get('/api/admin/mesaje-parinti', auth, async (req, res) => {
+  try {
+    const snap = await getDB().collection('mesaje_parinti').get();
+    const msgs = snap.docs.map(docToObj).sort((a, b) => {
+      const da = toDate(a.created) || 0;
+      const db2 = toDate(b.created) || 0;
+      return db2 - da;
+    });
+    ok(res, msgs);
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.post('/api/admin/mesaje-parinti/:copilId', auth, async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!text || !text.trim()) return err(res, 'Mesajul nu poate fi gol');
+    const ref = await getDB().collection('mesaje_parinti').add({
+      copilId: req.params.copilId,
+      from:    'admin',
+      text:    text.trim(),
+      read:    false,
+      created: new Date()
+    });
+    ok(res, { id: ref.id });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
 // ── RUTE CURATE (fara .html) ─────────────────────────────────
 const rootDir  = path.join(__dirname, '..');
 const pagesDir = path.join(__dirname, '..', 'pages');
@@ -517,6 +769,8 @@ app.get('/contact',           (req, res) => res.sendFile(path.join(pagesDir, 'co
 app.get('/confidentialitate', (req, res) => res.sendFile(path.join(pagesDir, 'confidentialitate.html')));
 app.get('/admin',             (req, res) => res.sendFile(path.join(rootDir,  'admin', 'admin.html')));
 app.get('/admin/login',       (req, res) => res.sendFile(path.join(rootDir,  'admin', 'login.html')));
+app.get('/parinti',           (req, res) => res.sendFile(path.join(pagesDir, 'parinti', 'portal.html')));
+app.get('/parinti/login',     (req, res) => res.sendFile(path.join(pagesDir, 'parinti', 'login.html')));
 
 // ── SPA fallback ─────────────────────────────────────────────
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));

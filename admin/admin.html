@@ -35,6 +35,12 @@
         <span class="nav-group-label">Configurare</span>
         <div class="nav-item" data-page="setari"><span class="nav-icon">⚙️</span> Setări</div>
       </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Portal Părinți</span>
+        <div class="nav-item" data-page="anunturi"><span class="nav-icon">📢</span> Anunțuri</div>
+        <div class="nav-item" data-page="conturi-parinti"><span class="nav-icon">👨‍👩‍👧</span> Conturi Părinți</div>
+        <div class="nav-item" data-page="mesaje-parinti"><span class="nav-icon">💬</span> Mesaje Părinți <span class="nav-badge mp-badge" style="display:none">0</span></div>
+      </div>
     </nav>
     <div class="sidebar-footer">
       <div class="admin-profile">
@@ -75,16 +81,8 @@
       </div>
       <div class="grid-65-35">
         <div class="card">
-          <div class="card-title">📈 Activitate</div>
-          <div class="chart-bars">
-            <div class="bar-wrap"><div class="bar" data-h="45" style="background:var(--coral)"></div><div class="bar-label">Lu</div></div>
-            <div class="bar-wrap"><div class="bar" data-h="62" style="background:var(--sky)"></div><div class="bar-label">Ma</div></div>
-            <div class="bar-wrap"><div class="bar" data-h="38" style="background:var(--mint)"></div><div class="bar-label">Mi</div></div>
-            <div class="bar-wrap"><div class="bar" data-h="70" style="background:var(--lavender)"></div><div class="bar-label">Jo</div></div>
-            <div class="bar-wrap"><div class="bar" data-h="55" style="background:var(--peach)"></div><div class="bar-label">Vi</div></div>
-            <div class="bar-wrap"><div class="bar" data-h="30" style="background:var(--sun)"></div><div class="bar-label">Sâ</div></div>
-            <div class="bar-wrap"><div class="bar" data-h="22" style="background:var(--coral)"></div><div class="bar-label">Du</div></div>
-          </div>
+          <div class="card-title">📈 Înscrieri — ultimele 6 luni</div>
+          <canvas id="chart-inscrieri" height="175"></canvas>
         </div>
         <div class="card">
           <div class="card-title">⚡ Acțiuni rapide</div>
@@ -94,6 +92,23 @@
             <button class="btn btn-success"   onclick="showPage('galerie')">🖼️ Adaugă poze</button>
             <button class="btn btn-secondary" onclick="showPage('setari')">⚙️ Setări site</button>
           </div>
+        </div>
+      </div>
+
+      <!-- DONUT CHARTS ROW -->
+      <div class="charts-grid" style="margin-top:20px">
+        <div class="card chart-card">
+          <div class="card-title" style="justify-content:center">👦 Distribuție grupe</div>
+          <canvas id="chart-grupe"></canvas>
+        </div>
+        <div class="card chart-card">
+          <div class="card-title" style="justify-content:center">📋 Programe alese</div>
+          <canvas id="chart-programe"></canvas>
+        </div>
+        <div class="card chart-card">
+          <div class="card-title" style="justify-content:center">✅ Status copii</div>
+          <canvas id="chart-status"></canvas>
+          <div id="chart-status-center" style="text-align:center;margin-top:8px;font-size:.8rem;color:var(--muted)"></div>
         </div>
       </div>
     </section>
@@ -115,7 +130,10 @@
     <section class="admin-page" id="page-copii">
       <div class="section-hdr">
         <h2>👦 Copii înscriși</h2>
-        <button class="btn btn-primary btn-sm" onclick="openAddCopil()">➕ Adaugă copil</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-success btn-sm" onclick="exportCopiiCSV()">📥 Export CSV</button>
+          <button class="btn btn-primary btn-sm" onclick="openAddCopil()">➕ Adaugă copil</button>
+        </div>
       </div>
 
       <!-- Mini stats grupe -->
@@ -375,9 +393,72 @@
       </div>
     </section>
 
+    <!-- ANUNTURI -->
+    <section class="admin-page" id="page-anunturi">
+      <div class="section-hdr"><h2>📢 Anunțuri Portal Părinți</h2></div>
+      <div class="card">
+        <div class="card-title">➕ Anunț nou</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Titlu *</label><input id="an-titlu" type="text" placeholder="Ex: Ședință cu părinții..."></div>
+          <div class="form-row">
+            <div class="form-group"><label>Tip</label>
+              <select id="an-tip">
+                <option value="info">ℹ️ Informare</option>
+                <option value="important">⚠️ Important</option>
+                <option value="eveniment">🎉 Eveniment</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label>Text</label><textarea id="an-text" placeholder="Detalii anunț..."></textarea></div>
+          <button class="btn btn-primary" onclick="saveAnunt()">📢 Publică anunț</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 Anunțuri active</div>
+        <div id="list-anunturi"><div style="text-align:center;padding:32px;color:var(--muted)">⏳ Se încarcă...</div></div>
+      </div>
+    </section>
+
+    <!-- CONTURI PARINTI -->
+    <section class="admin-page" id="page-conturi-parinti">
+      <div class="section-hdr"><h2>👨‍👩‍👧 Conturi Părinți</h2></div>
+      <div class="card">
+        <div class="card-title">👥 Conturi active</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Părinte</th><th>Email</th><th>Copil</th><th>Creat</th><th>Acțiuni</th></tr></thead>
+            <tbody id="tbody-parinti"><tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">⏳ Se încarcă...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MESAJE PARINTI -->
+    <section class="admin-page" id="page-mesaje-parinti">
+      <div class="section-hdr"><h2>💬 Mesaje Părinți</h2></div>
+      <div class="grid-65-35">
+        <div class="card">
+          <div class="card-title">📨 Conversații</div>
+          <div id="list-conv" style="display:flex;flex-direction:column;gap:2px">
+            <div style="text-align:center;padding:32px;color:var(--muted)">⏳ Se încarcă...</div>
+          </div>
+        </div>
+        <div class="card" id="conv-panel" style="display:flex;flex-direction:column">
+          <div class="card-title" id="conv-title">💬 Selectează o conversație</div>
+          <div id="conv-messages" style="flex:1;overflow-y:auto;max-height:400px;display:flex;flex-direction:column;gap:8px;padding:8px 0"></div>
+          <div id="conv-reply" style="display:none;margin-top:12px;gap:8px;align-items:center">
+            <input id="conv-input" type="text" placeholder="Răspunde..." style="flex:1;background:var(--darker);border:1.5px solid var(--border);color:var(--text);padding:9px 14px;border-radius:10px;font-family:inherit;outline:none">
+            <button class="btn btn-primary" onclick="sendReply()">Trimite</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <script>
 /* ─── CONFIG ─── */
 const API = '/api';
@@ -431,7 +512,7 @@ function toast(msg, type='success') {
 }
 
 /* ─── NAVIGATION ─── */
-const pageMeta = { dashboard:'Dashboard', inscrieri:'Înscrieri', copii:'Copii înscriși', mesaje:'Mesaje', blog:'Blog & Știri', galerie:'Galerie', testimoniale:'Testimoniale', echipa:'Echipă', setari:'Setări' };
+const pageMeta = { dashboard:'Dashboard', inscrieri:'Înscrieri', copii:'Copii înscriși', mesaje:'Mesaje', blog:'Blog & Știri', galerie:'Galerie', testimoniale:'Testimoniale', echipa:'Echipă', setari:'Setări', 'anunturi':'Anunțuri', 'conturi-parinti':'Conturi Părinți', 'mesaje-parinti':'Mesaje Părinți' };
 
 function showPage(id) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.toggle('active', i.dataset.page===id));
@@ -440,12 +521,7 @@ function showPage(id) {
   document.getElementById('page-crumb').textContent = 'Acasă / ' + (pageMeta[id]||id);
   document.querySelector('.sidebar').classList.remove('open');
   // animate bars on dashboard
-  if (id==='dashboard') {
-    document.querySelectorAll('.bar[data-h]').forEach((b,i) => {
-      b.style.height='0'; setTimeout(()=>b.style.height=b.dataset.h+'px', i*60+100);
-    });
-    loadStats();
-  }
+  if (id==='dashboard') { loadStats(); loadCharts(); }
   if (id==='inscrieri')    loadInscrieri();
   if (id==='copii')        loadCopii();
   if (id==='mesaje')       loadMesaje();
@@ -454,6 +530,10 @@ function showPage(id) {
   if (id==='testimoniale') loadTestimoniale();
   if (id==='echipa')       loadEchipa();
   if (id==='setari')       loadSetari();
+  if (id==='anunturi')         loadAnunturi();
+  if (id==='conturi-parinti')  loadConturiParinti();
+  if (id==='mesaje-parinti')   { loadMesajeParinti(); startConvPolling(); }
+  else                          stopConvPolling();
 }
 
 document.querySelectorAll('.nav-item[data-page]').forEach(item => {
@@ -468,6 +548,110 @@ function doLogout() {
   localStorage.removeItem('wonki_token');
   localStorage.removeItem('wonki_name');
   window.location.href = 'login.html';
+}
+
+/* ─── CHARTS ─── */
+let _charts = {};
+
+async function loadCharts() {
+  const r = await api('GET', '/admin/charts');
+  if (!r || !r.ok) return;
+  const d = r.data;
+
+  const C         = ['#FF6B6B', '#4D96FF', '#6BCB77', '#C77DFF', '#FFD93D', '#FF9F45'];
+  const textColor = 'rgba(255,255,255,0.6)';
+  const gridColor = 'rgba(255,255,255,0.07)';
+
+  // Distruge graficele existente înainte de a le recrea
+  Object.values(_charts).forEach(c => { try { c.destroy(); } catch(e){} });
+  _charts = {};
+
+  const doughnutOpts = {
+    responsive: true,
+    cutout: '68%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: textColor, padding: 14, font: { size: 11, family: 'Nunito' }, boxWidth: 12, boxHeight: 12 }
+      },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}` } }
+    }
+  };
+
+  // ── Bar: Înscrieri pe luni ────────────────────────────────
+  const c1 = document.getElementById('chart-inscrieri');
+  if (c1) {
+    _charts.inscrieri = new Chart(c1, {
+      type: 'bar',
+      data: {
+        labels: d.inscrieri_lunar.labels,
+        datasets: [{
+          label: 'Înscrieri',
+          data:  d.inscrieri_lunar.data,
+          backgroundColor: 'rgba(255,107,107,0.25)',
+          borderColor:     '#FF6B6B',
+          borderWidth: 2,
+          borderRadius: 10,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} înscrieri` } }
+        },
+        scales: {
+          x: { ticks: { color: textColor, font: { family: 'Nunito' } }, grid: { color: gridColor } },
+          y: { beginAtZero: true, ticks: { stepSize: 1, color: textColor, font: { family: 'Nunito' } }, grid: { color: gridColor } }
+        }
+      }
+    });
+  }
+
+  // ── Donut: Grupe ─────────────────────────────────────────
+  const c2 = document.getElementById('chart-grupe');
+  if (c2) {
+    _charts.grupe = new Chart(c2, {
+      type: 'doughnut',
+      data: {
+        labels: d.grupe.labels,
+        datasets: [{ data: d.grupe.data, backgroundColor: C, borderWidth: 0, hoverOffset: 8 }]
+      },
+      options: doughnutOpts
+    });
+  }
+
+  // ── Donut: Programe ──────────────────────────────────────
+  const c3 = document.getElementById('chart-programe');
+  if (c3) {
+    _charts.programe = new Chart(c3, {
+      type: 'doughnut',
+      data: {
+        labels: d.programe.labels,
+        datasets: [{ data: d.programe.data, backgroundColor: [C[1], C[2], C[3]], borderWidth: 0, hoverOffset: 8 }]
+      },
+      options: doughnutOpts
+    });
+  }
+
+  // ── Donut: Status copii ──────────────────────────────────
+  const c4 = document.getElementById('chart-status');
+  if (c4) {
+    const total = (d.status.activi || 0) + (d.status.inactivi || 0);
+    const pct   = total ? Math.round((d.status.activi / total) * 100) : 0;
+    const centerEl = document.getElementById('chart-status-center');
+    if (centerEl) centerEl.innerHTML = `<span style="font-size:1.6rem;font-weight:900;color:#6BCB77">${pct}%</span><br>activi`;
+
+    _charts.status = new Chart(c4, {
+      type: 'doughnut',
+      data: {
+        labels: ['Activi', 'Inactivi'],
+        datasets: [{ data: [d.status.activi, d.status.inactivi], backgroundColor: ['#6BCB77', 'rgba(255,255,255,0.1)'], borderWidth: 0, hoverOffset: 8 }]
+      },
+      options: doughnutOpts
+    });
+  }
 }
 
 /* ─── STATS ─── */
@@ -603,6 +787,7 @@ function renderCopii() {
         <div style="display:flex;gap:5px">
           <button class="btn btn-sm btn-secondary" onclick="editCopil('${c.id}')" title="Editează">✏️</button>
           <button class="btn btn-sm ${c.status==='activ'?'btn-warning':'btn-success'}" onclick="toggleCopil('${c.id}','${c.status}')" title="${c.status==='activ'?'Dezactivează':'Activează'}">${c.status==='activ'?'⏸':'▶'}</button>
+          <button class="btn btn-sm btn-sky" onclick="openCreateCont('${c.id}','${(c.numeCopil||'').replace(/'/g,"\\'")}','${(c.numeParinte||'').replace(/'/g,"\\'")}','${(c.email||'').replace(/'/g,"\\'")}')">🔑 Cont</button>
           <button class="btn btn-sm btn-danger" onclick="deleteCopil('${c.id}')" title="Șterge">🗑️</button>
         </div>
       </td>
@@ -727,6 +912,127 @@ async function deleteCopil(id) {
   if (!confirm('Ștergi definitiv acest profil de copil?')) return;
   await api('DELETE', '/admin/copii/'+id);
   toast('Șters!','error'); loadCopii(); loadStats();
+}
+
+/* ─── EXPORT EXCEL ─── */
+async function exportCopiiCSV() {
+  if (!_copiiAll.length) { toast('Nu există copii de exportat!', 'error'); return; }
+
+  // Aplică filtrele active
+  let list = _copiiAll;
+  if (_copiiGrupa  !== 'toate') list = list.filter(c => c.grupa  === _copiiGrupa);
+  if (_copiiStatus !== 'toti')  list = list.filter(c => c.status === _copiiStatus);
+  const q = (document.getElementById('copii-search')?.value || '').toLowerCase();
+  if (q) list = list.filter(c =>
+    (c.numeCopil||'').toLowerCase().includes(q) ||
+    (c.numeParinte||'').toLowerCase().includes(q) ||
+    (c.email||'').toLowerCase().includes(q)
+  );
+  if (!list.length) { toast('Niciun copil în selecția curentă!', 'error'); return; }
+
+  const v = val => val == null ? '' : String(val);
+
+  const wb = new ExcelJS.Workbook();
+  wb.creator  = 'Wonki Admin';
+  wb.created  = new Date();
+  const ws = wb.addWorksheet('Copii înscriși', { views: [{ state: 'frozen', ySplit: 1 }] });
+
+  // ── Coloane + lățimi ──────────────────────────────────────────
+  ws.columns = [
+    { key: 'nr',            header: 'Nr.',                    width: 6  },
+    { key: 'numeCopil',     header: 'Numele copilului',       width: 24 },
+    { key: 'dataNasterii',  header: 'Data nașterii',          width: 15 },
+    { key: 'varsta',        header: 'Vârstă',                 width: 10 },
+    { key: 'grupa',         header: 'Grupă',                  width: 20 },
+    { key: 'program',       header: 'Program',                width: 24 },
+    { key: 'status',        header: 'Status',                 width: 10 },
+    { key: 'numeParinte',   header: 'Nume Părinte',           width: 24 },
+    { key: 'telefon',       header: 'Telefon',                width: 16 },
+    { key: 'email',         header: 'Email',                  width: 30 },
+    { key: 'alergii',       header: 'Alergii / Restricții',   width: 24 },
+    { key: 'observatii',    header: 'Observații',             width: 30 },
+    { key: 'dataInscriere', header: 'Data înscrierii',        width: 16 },
+  ];
+
+  // ── Stil header ───────────────────────────────────────────────
+  const headerRow = ws.getRow(1);
+  headerRow.height = 30;
+  headerRow.eachCell(cell => {
+    cell.fill      = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF6B6B' } };
+    cell.font      = { bold: true, color: { argb: 'FFFFFFFF' }, size: 11, name: 'Nunito' };
+    cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: false };
+    cell.border    = {
+      top:    { style: 'thin', color: { argb: 'FFE05555' } },
+      bottom: { style: 'medium', color: { argb: 'FFE05555' } },
+      left:   { style: 'thin', color: { argb: 'FFE05555' } },
+      right:  { style: 'thin', color: { argb: 'FFE05555' } },
+    };
+  });
+
+  // ── Rânduri de date ───────────────────────────────────────────
+  list.forEach((c, i) => {
+    const age    = calcAge(c.dataNasterii);
+    const isActiv = c.status === 'activ';
+    const row    = ws.addRow({
+      nr:            i + 1,
+      numeCopil:     v(c.numeCopil),
+      dataNasterii:  c.dataNasterii ? new Date(c.dataNasterii).toLocaleDateString('ro-RO') : '',
+      varsta:        age !== null ? age + ' ani' : v(c.varsta),
+      grupa:         v(c.grupa),
+      program:       v(c.program),
+      status:        isActiv ? 'Activ' : 'Inactiv',
+      numeParinte:   v(c.numeParinte),
+      telefon:       v(c.telefon),
+      email:         v(c.email),
+      alergii:       v(c.alergii),
+      observatii:    v(c.observatii),
+      dataInscriere: c.created ? new Date(c.created).toLocaleDateString('ro-RO') : ''
+    });
+
+    row.height = 22;
+    const rowBg = i % 2 === 0 ? 'FFFFFFFF' : 'FFFFF0F0';
+
+    row.eachCell({ includeEmpty: true }, cell => {
+      cell.fill      = { type: 'pattern', pattern: 'solid', fgColor: { argb: rowBg } };
+      cell.font      = { size: 10, name: 'Nunito' };
+      cell.alignment = { vertical: 'middle' };
+      cell.border    = {
+        top:    { style: 'hair', color: { argb: 'FFD0D0D0' } },
+        bottom: { style: 'hair', color: { argb: 'FFD0D0D0' } },
+        left:   { style: 'hair', color: { argb: 'FFD0D0D0' } },
+        right:  { style: 'hair', color: { argb: 'FFD0D0D0' } },
+      };
+    });
+
+    // Colorează celula Status
+    const statusCell = row.getCell('status');
+    statusCell.font = {
+      bold: true, size: 10, name: 'Nunito',
+      color: { argb: isActiv ? 'FF2D9B5A' : 'FF999999' }
+    };
+
+    // Colorează celula Alergii dacă există valoare
+    if (c.alergii) {
+      const alCell = row.getCell('alergii');
+      alCell.font = { size: 10, name: 'Nunito', color: { argb: 'FFCC3333' } };
+    }
+  });
+
+  // ── Descarcă ──────────────────────────────────────────────────
+  const buffer = await wb.xlsx.writeBuffer();
+  const blob   = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  const url    = URL.createObjectURL(blob);
+  const a      = document.createElement('a');
+  const date   = new Date().toLocaleDateString('ro-RO').replace(/\./g, '-');
+  a.href       = url;
+  a.download   = `wonki-copii-${date}.xlsx`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  const filterInfo = _copiiGrupa !== 'toate' ? ` (${_copiiGrupa})` : '';
+  toast(`📥 Export reușit — ${list.length} copii${filterInfo}`);
 }
 
 /* ─── MESAJE ─── */
@@ -1011,6 +1317,270 @@ async function deleteMember(id) {
   toast('Șters!','error'); loadEchipa();
 }
 
+/* ─── ANUNTURI ─── */
+async function loadAnunturi() {
+  const r = await api('GET', '/admin/anunturi');
+  const el = document.getElementById('list-anunturi');
+  if (!r || !r.ok) { el.innerHTML = '<div style="text-align:center;padding:24px;color:var(--coral)">Eroare la încărcare</div>'; return; }
+  if (!r.data.length) { el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted)">Niciun anunț publicat 📢</div>'; return; }
+  const tipIcon  = { info: 'ℹ️', important: '⚠️', eveniment: '🎉' };
+  const tipBadge = { info: 'badge-sky', important: 'badge-coral', eveniment: 'badge-green' };
+  el.innerHTML = r.data.map(a => `
+    <div class="notif-item" style="border-bottom:1px solid var(--border)">
+      <div class="notif-icon">${tipIcon[a.tip] || 'ℹ️'}</div>
+      <div class="notif-text" style="flex:1">
+        <strong>${a.titlu}</strong>
+        <small style="display:block;color:var(--muted);font-size:.78rem">${a.text || ''}</small>
+        <span><span class="badge ${tipBadge[a.tip]||'badge-sky'}" style="font-size:.7rem">${a.tip}</span></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:.75rem;color:var(--muted);white-space:nowrap">${a.created ? new Date(a.created).toLocaleDateString('ro-RO') : ''}</span>
+        <button class="btn btn-sm btn-danger" onclick="deleteAnunt('${a.id}')">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+async function saveAnunt() {
+  const titlu = document.getElementById('an-titlu').value.trim();
+  if (!titlu) { toast('Titlul este obligatoriu!', 'error'); return; }
+  const r = await api('POST', '/admin/anunturi', {
+    titlu,
+    text: document.getElementById('an-text').value,
+    tip:  document.getElementById('an-tip').value
+  });
+  if (r && r.ok) {
+    toast('Anunț publicat! 📢');
+    document.getElementById('an-titlu').value = '';
+    document.getElementById('an-text').value  = '';
+    loadAnunturi();
+  } else toast(r?.error || 'Eroare', 'error');
+}
+
+async function deleteAnunt(id) {
+  if (!confirm('Ștergi acest anunț?')) return;
+  await api('DELETE', '/admin/anunturi/' + id);
+  toast('Anunț șters!', 'error');
+  loadAnunturi();
+}
+
+/* ─── CONTURI PARINTI ─── */
+let _conturiParinti = [];
+
+async function loadConturiParinti() {
+  const r = await api('GET', '/admin/parinti');
+  const tbody = document.getElementById('tbody-parinti');
+  if (!r || !r.ok) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--coral)">Eroare la încărcare</td></tr>'; return; }
+  _conturiParinti = r.data;
+  if (!r.data.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">Niciun cont de părinte creat 👨‍👩‍👧</td></tr>'; return; }
+
+  // Build copil name map from _copiiAll if loaded
+  const copilName = id => {
+    const c = (_copiiAll || []).find(x => x.id === id);
+    return c ? c.numeCopil : `<span style="color:var(--muted);font-size:.8rem">${id ? id.substring(0,8)+'…' : '—'}</span>`;
+  };
+
+  tbody.innerHTML = r.data.map(p => `
+    <tr>
+      <td><strong>${p.name || '—'}</strong></td>
+      <td><a href="mailto:${p.email}" style="color:var(--sky);font-size:.85rem">${p.email || '—'}</a></td>
+      <td>${copilName(p.copilId)}</td>
+      <td style="font-size:.82rem;color:var(--muted)">${p.created ? new Date(p.created).toLocaleDateString('ro-RO') : '—'}</td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-sky" onclick="mesajCatreParinte('${p.copilId}','${(p.name||'Părinte').replace(/'/g,"\\'")}')">💬 Mesaj</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteContParinte('${p.id}')">🗑️ Șterge</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function openCreateCont(copilId, numeCopil, numeParinte, email) {
+  showModal('🔑 Creare cont părinte', `
+    <div class="form-grid" style="gap:14px">
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:4px">Copil: <strong style="color:var(--text)">${numeCopil || copilId}</strong></p>
+      <div class="form-group"><label>Nume Părinte *</label><input id="cp-name" type="text" value="${numeParinte || ''}" placeholder="Maria Ionescu"></div>
+      <div class="form-group"><label>Email *</label><input id="cp-email" type="email" value="${email || ''}" placeholder="maria@email.ro"></div>
+      <div class="form-group"><label>Parolă *</label><input id="cp-password" type="password" placeholder="Minim 6 caractere"></div>
+      <button class="btn btn-primary" onclick="createContParinte('${copilId}')">🔑 Creează cont</button>
+    </div>`);
+}
+
+async function createContParinte(copilId) {
+  const name     = document.getElementById('cp-name')?.value.trim();
+  const email    = document.getElementById('cp-email')?.value.trim();
+  const password = document.getElementById('cp-password')?.value;
+  if (!name || !email || !password) { toast('Completează toate câmpurile!', 'error'); return; }
+  if (password.length < 6) { toast('Parola trebuie să aibă minim 6 caractere!', 'error'); return; }
+  const r = await api('POST', '/admin/parinti', { name, email, password, copilId });
+  if (r && r.ok) {
+    toast('Cont creat! 🎉');
+    closeModal();
+    loadConturiParinti();
+  } else toast(r?.error || 'Eroare', 'error');
+}
+
+async function deleteContParinte(id) {
+  if (!confirm('Ștergi definitiv contul acestui părinte?')) return;
+  await api('DELETE', '/admin/parinti/' + id);
+  toast('Cont șters!', 'error');
+  loadConturiParinti();
+}
+
+/* ─── MESAJE PARINTI ─── */
+let _convPollInterval = null;
+let _lastConvMsgCount = -1;
+
+function startConvPolling() {
+  stopConvPolling();
+  _convPollInterval = setInterval(async () => {
+    if (!_activeCopilId) return;
+    const r = await api('GET', '/admin/mesaje-parinti');
+    if (!r || !r.ok) return;
+    const count = r.data.filter(m => m.copilId === _activeCopilId).length;
+    if (count === _lastConvMsgCount) return; // nimic nou
+    _lastConvMsgCount = count;
+    _mesajeParinti = r.data;
+    // re-renderează conversația fără a restarta polling-ul
+    renderConvMessages(_activeCopilId);
+    loadMesajeParinti(); // actualizează și lista din stânga
+  }, 3000);
+}
+
+function stopConvPolling() {
+  if (_convPollInterval) { clearInterval(_convPollInterval); _convPollInterval = null; }
+  _lastConvMsgCount = -1;
+}
+
+function renderConvMessages(copilId) {
+  const msgs = _mesajeParinti.filter(m => m.copilId === copilId)
+    .sort((a, b) => {
+      const da = a.created ? new Date(a.created) : 0;
+      const db_ = b.created ? new Date(b.created) : 0;
+      return da - db_;
+    });
+  const container = document.getElementById('conv-messages');
+  if (!msgs.length) {
+    container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted)">Niciun mesaj în această conversație</div>';
+    return;
+  }
+  container.innerHTML = msgs.map(m => {
+    const isAdmin = m.from === 'admin';
+    const bg    = isAdmin ? '#4D96FF' : 'var(--darker)';
+    const col   = isAdmin ? '#fff'    : 'var(--text)';
+    const align = isAdmin ? 'flex-end' : 'flex-start';
+    const lbl   = isAdmin ? '🏫 Wonki' : '👤 Părinte';
+    const dt    = m.created ? new Date(m.created).toLocaleString('ro-RO', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '';
+    return `
+      <div style="display:flex;flex-direction:column;align-items:${align};gap:2px">
+        <span style="font-size:.68rem;color:var(--muted);font-weight:700">${lbl}</span>
+        <div style="background:${bg};color:${col};padding:10px 14px;border-radius:14px;max-width:75%;font-size:.88rem;font-weight:600;line-height:1.5">${escDisplay(m.text)}</div>
+        <span style="font-size:.68rem;color:var(--muted)">${dt}</span>
+      </div>`;
+  }).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+async function mesajCatreParinte(copilId, numeParinte) {
+  showPage('mesaje-parinti');
+  // Încarcă mesajele proaspăt și deschide conversația (chiar dacă e goală)
+  const r = await api('GET', '/admin/mesaje-parinti');
+  if (r && r.ok) _mesajeParinti = r.data;
+  openConversatie(copilId, numeParinte);
+}
+
+let _activeCopilId   = null;
+let _mesajeParinti   = [];
+
+async function loadMesajeParinti() {
+  const r = await api('GET', '/admin/mesaje-parinti');
+  const listConv = document.getElementById('list-conv');
+  if (!r || !r.ok) { listConv.innerHTML = '<div style="text-align:center;padding:24px;color:var(--coral)">Eroare la încărcare</div>'; return; }
+  _mesajeParinti = r.data;
+
+  // Group by copilId — keep unique copilIds, last message preview
+  const convMap = {};
+  r.data.forEach(m => {
+    if (!convMap[m.copilId]) convMap[m.copilId] = { copilId: m.copilId, lastMsg: m, unread: 0 };
+    else convMap[m.copilId].lastMsg = m;
+    if (m.from === 'parinte' && !m.read) convMap[m.copilId].unread++;
+  });
+
+  const convs = Object.values(convMap);
+  if (!convs.length) {
+    listConv.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted)">Niciun mesaj de la părinți 💬</div>';
+    // Count unread for badge
+    setBadge('mp-badge', 0);
+    return;
+  }
+
+  // Count total unread from parents
+  const totalUnread = convs.reduce((s, c) => s + c.unread, 0);
+  setBadge('mp-badge', totalUnread);
+
+  // Get copil names from _copiiAll
+  const copilName = id => {
+    const c = (_copiiAll || []).find(x => x.id === id);
+    return c ? c.numeCopil : id;
+  };
+
+  listConv.innerHTML = convs.map(c => `
+    <div class="notif-item" style="border-bottom:1px solid var(--border);cursor:pointer;${_activeCopilId===c.copilId?'background:rgba(255,107,107,.07)':''}"
+         onclick="openConversatie('${c.copilId}', '${(copilName(c.copilId)||'').replace(/'/g,"\\'")}')">
+      <div class="notif-icon">👶</div>
+      <div class="notif-text" style="flex:1">
+        <strong>${copilName(c.copilId)}</strong>
+        <small style="display:block;color:var(--muted);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px">${c.lastMsg.text || ''}</small>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <span style="font-size:.72rem;color:var(--muted)">${c.lastMsg.created ? new Date(c.lastMsg.created).toLocaleDateString('ro-RO') : ''}</span>
+        ${c.unread ? `<span style="background:var(--coral);color:#fff;border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center">${c.unread}</span>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+async function openConversatie(copilId, copilName) {
+  _activeCopilId = copilId;
+  const msgs = _mesajeParinti.filter(m => m.copilId === copilId);
+  _lastConvMsgCount = msgs.length;
+
+  document.getElementById('conv-title').innerHTML =
+    '💬 ' + copilName +
+    ' <span style="display:inline-flex;align-items:center;gap:4px;font-size:.72rem;color:#6BCB77;font-weight:700;margin-left:8px">' +
+    '<span style="width:7px;height:7px;background:#6BCB77;border-radius:50%;display:inline-block;animation:convPulse 1.5s ease-in-out infinite"></span>Live</span>';
+
+  document.getElementById('conv-reply').style.display = 'flex';
+  renderConvMessages(copilId);
+  loadMesajeParinti();
+}
+
+async function sendReply() {
+  if (!_activeCopilId) return;
+  const input = document.getElementById('conv-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  const r = await api('POST', '/admin/mesaje-parinti/' + _activeCopilId, { text });
+  if (r && r.ok) {
+    toast('Mesaj trimis! 💬');
+    // Reload messages
+    const r2 = await api('GET', '/admin/mesaje-parinti');
+    if (r2 && r2.ok) {
+      _mesajeParinti = r2.data;
+      const copilName = document.getElementById('conv-title').textContent.replace('💬 ', '');
+      openConversatie(_activeCopilId, copilName);
+    }
+  } else toast(r?.error || 'Eroare', 'error');
+}
+
+function escDisplay(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br>');
+}
+
 /* ─── SETARI ─── */
 async function loadSetari() {
   const r = await api('GET', '/admin/setari');
@@ -1057,12 +1627,7 @@ document.addEventListener('click', e => { if (e.target.id==='admin-modal') close
 
 /* ─── INIT ─── */
 loadStats();
-// Animate bars on load
-setTimeout(() => {
-  document.querySelectorAll('.bar[data-h]').forEach((b,i) => {
-    b.style.height='0'; setTimeout(()=>b.style.height=b.dataset.h+'px', i*60+100);
-  });
-}, 200);
+loadCharts();
 </script>
 
 <!-- MODAL -->

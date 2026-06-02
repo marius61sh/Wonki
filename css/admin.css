@@ -442,6 +442,9 @@ tr:hover td { background: rgba(255,255,255,.02); }
 /* ─── GRID HELPERS ─── */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; }
+.charts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.chart-card { text-align: center; }
+.chart-card canvas { max-height: 220px; }
 .grid-65-35 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; }
 
 /* ─── MOBILE SIDEBAR TOGGLE ─── */
@@ -450,10 +453,16 @@ tr:hover td { background: rgba(255,255,255,.02); }
   color: var(--text); font-size: 1.4rem; cursor: pointer; padding: 4px;
 }
 
+@keyframes convPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.75); }
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 1100px) {
   .stats-row { grid-template-columns: 1fr 1fr; }
   .grid-3 { grid-template-columns: 1fr 1fr; }
+  .charts-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 800px) {
   .admin-layout { grid-template-columns: 1fr; }
@@ -467,6 +476,7 @@ tr:hover td { background: rgba(255,255,255,.02); }
   .admin-header { padding: 0 16px; }
   .stats-row { grid-template-columns: 1fr 1fr; }
   .grid-2, .grid-65-35 { grid-template-columns: 1fr; }
+  .charts-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 500px) {

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Părinți – Wonki</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:  #FF6B6B;
+      --coral2: #FF4F4F;
+      --mint:   #6BCB77;
+      --sky:    #4D96FF;
+      --warm:   #FFF5F5;
+      --text:   #2D2D2D;
+      --muted:  #888;
+      --shadow: 0 20px 60px rgba(255, 107, 107, 0.18);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #FF9A9A 0%, #FF6B6B 40%, #FF4F4F 70%, #FF8C69 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative blobs */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px;
+      right: -120px;
+      width: 350px;
+      height: 350px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -100px;
+      left: -100px;
+      width: 280px;
+      height: 280px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .top-brand {
+      text-align: center;
+      margin-bottom: 28px;
+      animation: fadeDown 0.6s ease both;
+    }
+    .top-brand .logo {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -1px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .top-brand .logo span {
+      display: inline-block;
+      animation: spin 3s linear infinite;
+    }
+    .top-brand .tagline {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.88);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px 40px 36px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .card-header .icon {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .card-header h1 {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .card-header p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--text);
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #F0F0F0;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #FAFAFA;
+    }
+    .form-group input:focus {
+      border-color: var(--coral);
+      box-shadow: 0 0 0 4px rgba(255,107,107,0.12);
+      background: #fff;
+    }
+    .form-group input::placeholder {
+      color: #BCC;
+      font-weight: 400;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--coral), var(--coral2));
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 6px 20px rgba(255,107,107,0.35);
+      margin-top: 8px;
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(255,107,107,0.45);
+    }
+    .btn-login:active {
+      transform: translateY(0);
+    }
+    .btn-login:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-msg {
+      display: none;
+      background: #FFF0F0;
+      border: 1.5px solid #FFCACA;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #D44;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .error-msg.show { display: block; }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 22px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s;
+      animation: fadeUp 0.6s ease 0.25s both;
+    }
+    .back-link:hover { color: #fff; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-5px); }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-brand">
+    <div class="logo">Wonki <span>⭐</span></div>
+    <div class="tagline">Unde curiozitatea devine supraputere</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="icon">👨‍👩‍👧</span>
+      <h1>Portal Părinți</h1>
+      <p>Autentifică-te pentru a vedea informații despre copilul tău</p>
+    </div>
+
+    <div id="error-msg" class="error-msg"></div>
+
+    <div class="form-group">
+      <label>Adresă email</label>
+      <input type="email" id="email" placeholder="maria@email.ro" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Parolă</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+
+    <button class="btn-login" id="btn-login" onclick="doLogin()">🔓 Intră în portal</button>
+  </div>
+
+  <a href="/" class="back-link">← Înapoi la site</a>
+
+  <script>
+    // Redirect if already logged in
+    if (localStorage.getItem('wonki_parinte_token')) {
+      window.location.href = '/parinti';
+    }
+
+    document.getElementById('password').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+    document.getElementById('email').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('password').focus();
+    });
+
+    async function doLogin() {
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errEl    = document.getElementById('error-msg');
+      const btn      = document.getElementById('btn-login');
+
+      errEl.classList.remove('show');
+
+      if (!email || !password) {
+        errEl.textContent = '⚠️ Completează emailul și parola.';
+        errEl.classList.add('show');
+        return;
+      }
+
+      btn.disabled    = true;
+      btn.textContent = '⏳ Se verifică...';
+
+      try {
+        const r = await fetch('/api/parinti/login', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ email, password })
+        });
+        const data = await r.json();
+
+        if (data.ok) {
+          localStorage.setItem('wonki_parinte_token',  data.data.token);
+          localStorage.setItem('wonki_parinte_name',   data.data.name);
+          localStorage.setItem('wonki_parinte_copilId', data.data.copilId);
+          window.location.href = '/parinti';
+        } else {
+          errEl.textContent = '❌ ' + (data.error || 'Email sau parolă incorectă.');
+          errEl.classList.add('show');
+          btn.disabled    = false;
+          btn.textContent = '🔓 Intră în portal';
+        }
+      } catch (e) {
+        errEl.textContent = '❌ Eroare de conexiune. Încearcă din nou.';
+        errEl.classList.add('show');
+        btn.disabled    = false;
+        btn.textContent = '🔓 Intră în portal';
+      }
+    }
+  </script>
+</body>
+</html>

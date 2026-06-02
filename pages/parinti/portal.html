@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Părinți – Wonki</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:   #FF6B6B;
+      --coral2:  #FF4F4F;
+      --mint:    #6BCB77;
+      --sky:     #4D96FF;
+      --sun:     #FFD93D;
+      --bg:      #F8F9FA;
+      --surface: #FFFFFF;
+      --text:    #1A1A2E;
+      --text2:   #555;
+      --muted:   #999;
+      --border:  #E8ECF0;
+      --radius:  16px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .portal-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--coral);
+      background: linear-gradient(135deg, #FF6B6B, #FF4F4F);
+      color: #fff;
+      padding: 0 20px;
+      box-shadow: 0 4px 20px rgba(255,107,107,0.3);
+    }
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .header-brand {
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .header-brand span { margin-left: 4px; }
+    .btn-logout {
+      background: rgba(255,255,255,0.22);
+      border: none;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 7px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.35); }
+
+    /* ── GREETING ── */
+    .greeting-bar {
+      background: linear-gradient(135deg, #FF8C8C, #FF6B6B);
+      color: #fff;
+      text-align: center;
+      padding: 14px 20px;
+    }
+    .greeting-bar .greeting-text {
+      font-size: 1rem;
+      font-weight: 800;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ── TABS ── */
+    .tab-bar {
+      background: var(--surface);
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+    }
+    .tab-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 14px 10px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+    .tab-btn .tab-icon { font-size: 1.3rem; }
+    .tab-btn:hover { color: var(--coral); }
+    .tab-btn.active {
+      color: var(--coral);
+      border-bottom-color: var(--coral);
+    }
+
+    /* ── CONTENT ── */
+    .main-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px 16px 100px;
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── PROFIL TAB ── */
+    .child-hero {
+      text-align: center;
+      padding: 12px 0 20px;
+    }
+    .child-avatar {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: float 3s ease-in-out infinite;
+    }
+    .child-name {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .child-group-badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      justify-content: center;
+    }
+    .chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #F0F0F0;
+      color: var(--text2);
+    }
+    .chip.coral  { background: #FFF0F0; color: var(--coral); }
+    .chip.sky    { background: #F0F5FF; color: var(--sky); }
+    .chip.mint   { background: #F0FFF4; color: #2D9B5A; }
+    .chip.danger { background: #FFE0E0; color: #CC3333; font-weight: 800; }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .info-item {}
+    .info-item .info-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .info-item .info-val {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    /* ── ANUNTURI TAB ── */
+    .anunt-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      border-left: 4px solid var(--sky);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .anunt-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.1);
+    }
+    .anunt-card.important { border-left-color: var(--coral); }
+    .anunt-card.eveniment { border-left-color: var(--mint); }
+
+    .anunt-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .anunt-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 1px; }
+    .anunt-titlu {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+      flex: 1;
+      line-height: 1.3;
+    }
+    .anunt-text {
+      font-size: 0.9rem;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-left: 42px;
+    }
+    .anunt-date {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-left: 42px;
+      margin-top: 8px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+    }
+    .empty-state .empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.95rem; font-weight: 600; }
+
+    /* ── MESAJE TAB ── */
+    .chat-container {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      min-height: 400px;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      min-height: 320px;
+      max-height: 480px;
+    }
+
+    .msg-bubble {
+      max-width: 72%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.5;
+      position: relative;
+    }
+    .msg-bubble.admin {
+      background: #F0F0F5;
+      color: var(--text);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+    .msg-bubble.parinte {
+      background: linear-gradient(135deg, var(--coral), var(--coral2));
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .msg-sender {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      opacity: 0.7;
+    }
+    .msg-time {
+      font-size: 0.7rem;
+      margin-top: 5px;
+      opacity: 0.6;
+      display: block;
+    }
+
+    .chat-input-area {
+      padding: 16px 20px;
+      border-top: 1.5px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: #fff;
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+    .chat-input {
+      flex: 1;
+      padding: 11px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .chat-input:focus { border-color: var(--coral); }
+    .chat-input::placeholder { color: #BCC; font-weight: 400; }
+
+    .btn-send {
+      background: var(--coral);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 11px 18px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .btn-send:hover { background: var(--coral2); transform: scale(1.03); }
+    .btn-send:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    /* ── LOADING SKELETON ── */
+    .skeleton {
+      background: linear-gradient(90deg, #F0F0F0 25%, #E8E8E8 50%, #F0F0F0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+      height: 18px;
+      margin-bottom: 10px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    @media (max-width: 480px) {
+      .info-grid { grid-template-columns: 1fr; }
+      .main-content { padding: 16px 12px 80px; }
+      .msg-bubble { max-width: 86%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="portal-header">
+  <div class="header-inner">
+    <div class="header-brand">Wonki <span>⭐</span></div>
+    <button class="btn-logout" onclick="doLogout()">🚪 Ieșire</button>
+  </div>
+</header>
+
+<!-- GREETING -->
+<div class="greeting-bar">
+  <div class="greeting-text" id="greeting-text">👋 Bună ziua!</div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <div class="tab-inner">
+    <button class="tab-btn active" data-tab="profil" onclick="switchTab('profil')">
+      <span class="tab-icon">🏠</span> Profil
+    </button>
+    <button class="tab-btn" data-tab="anunturi" onclick="switchTab('anunturi')">
+      <span class="tab-icon">📢</span> Anunțuri
+    </button>
+    <button class="tab-btn" data-tab="mesaje" onclick="switchTab('mesaje')">
+      <span class="tab-icon">💬</span> Mesaje
+    </button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+  <!-- TAB: PROFIL -->
+  <div class="tab-pane active" id="tab-profil">
+    <div class="card" id="profil-card">
+      <div style="text-align:center;padding:32px;color:var(--muted)">
+        <div class="skeleton" style="width:60px;height:60px;border-radius:50%;margin:0 auto 16px"></div>
+        <div class="skeleton" style="width:60%;margin:0 auto 8px"></div>
+        <div class="skeleton" style="width:40%;margin:0 auto"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: ANUNTURI -->
+  <div class="tab-pane" id="tab-anunturi">
+    <div id="anunturi-list">
+      <div class="empty-state">
+        <span class="empty-icon">⏳</span>
+        <p>Se încarcă anunțurile...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: MESAJE -->
+  <div class="tab-pane" id="tab-mesaje">
+    <div class="chat-container">
+      <div style="padding:10px 20px 0;display:flex;align-items:center;gap:6px">
+        <span style="width:8px;height:8px;background:#6BCB77;border-radius:50%;display:inline-block;animation:livePulse 1.5s ease-in-out infinite"></span>
+        <span style="font-size:.75rem;font-weight:700;color:#6BCB77">Live</span>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="empty-state" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px">
+          <span class="empty-icon">⏳</span>
+          <p>Se încarcă mesajele...</p>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Scrie un mesaj...">
+        <button class="btn-send" id="btn-send" onclick="sendMessage()">✉️ Trimite</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ── CONFIG ── */
+  const TOKEN   = localStorage.getItem('wonki_parinte_token');
+  const NAME    = localStorage.getItem('wonki_parinte_name')   || 'Părinte';
+  const COPILID = localStorage.getItem('wonki_parinte_copilId') || '';
+
+  if (!TOKEN) {
+    window.location.href = '/parinti/login';
+  }
+
+  /* ── GREETING ── */
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Bună dimineața' : hour < 18 ? 'Bună ziua' : 'Bună seara';
+  document.getElementById('greeting-text').textContent = `👋 ${greet}, ${NAME}!`;
+
+  /* ── API HELPER ── */
+  async function apiGet(path) {
+    const r = await fetch('/api' + path, {
+      headers: { 'Authorization': 'Bearer ' + TOKEN }
+    });
+    if (r.status === 401) { doLogout(); return null; }
+    return r.json();
+  }
+
+  async function apiPost(path, body) {
+    const r = await fetch('/api' + path, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: JSON.stringify(body)
+    });
+    if (r.status === 401) { doLogout(); return null; }
+    return r.json();
+  }
+
+  /* ── POLLING ── */
+  let _pollInterval  = null;
+  let _lastMsgCount  = -1;
+
+  function startPolling() {
+    stopPolling();
+    _pollInterval = setInterval(() => loadMesaje(false), 3000);
+  }
+  function stopPolling() {
+    if (_pollInterval) { clearInterval(_pollInterval); _pollInterval = null; }
+  }
+
+  /* ── TABS ── */
+  function switchTab(id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === 'tab-' + id));
+    if (id === 'profil')   { stopPolling(); loadProfil(); }
+    if (id === 'anunturi') { stopPolling(); loadAnunturi(); }
+    if (id === 'mesaje')   { loadMesaje(); startPolling(); }
+  }
+
+  /* ── FORMAT DATE ── */
+  function fmtDate(d) {
+    if (!d) return '';
+    const dt = new Date(d);
+    if (isNaN(dt.getTime())) return '';
+    return dt.toLocaleDateString('ro-RO', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+  function fmtDateTime(d) {
+    if (!d) return '';
+    const dt = new Date(d);
+    if (isNaN(dt.getTime())) return '';
+    return dt.toLocaleDateString('ro-RO', { day: '2-digit', month: 'short' }) + ' ' +
+           dt.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  /* ── PROFIL ── */
+  async function loadProfil() {
+    const r = await apiGet('/parinti/profil');
+    const card = document.getElementById('profil-card');
+    if (!r || !r.ok) {
+      card.innerHTML = '<div class="empty-state"><span class="empty-icon">❌</span><p>Eroare la încărcare</p></div>';
+      return;
+    }
+    const { copil, parinte } = r.data;
+    if (!copil) {
+      card.innerHTML = '<div class="empty-state"><span class="empty-icon">👶</span><p>Nu s-a găsit profilul copilului.</p></div>';
+      return;
+    }
+
+    const grupaColors = {
+      '🐻 Ursuleți':   '#FF6B6B',
+      '🦋 Fluturași':  '#4D96FF',
+      '⭐ Steluțe':    '#FFB700',
+      '🚀 Exploratori':'#6BCB77',
+    };
+    const grupaColor = grupaColors[copil.grupa] || '#999';
+    const avatar = calcAge(copil.dataNasterii) !== null && calcAge(copil.dataNasterii) >= 4 ? '🧒' : '👶';
+
+    let html = `
+      <div class="child-hero">
+        <span class="child-avatar">${avatar}</span>
+        <div class="child-name">${copil.numeCopil || 'Copil'}</div>
+        ${copil.grupa ? `<div class="child-group-badge" style="background:${grupaColor}">${copil.grupa}</div>` : ''}
+        <div class="chips-row">
+          ${copil.program ? `<div class="chip sky">📅 ${copil.program}</div>` : ''}
+          ${copil.varsta  ? `<div class="chip mint">🎂 ${copil.varsta}</div>` : ''}
+          ${copil.alergii ? `<div class="chip danger">⚠️ Alergii: ${copil.alergii}</div>` : ''}
+        </div>
+      </div>
+    `;
+
+    if (parinte) {
+      html += `
+        <div class="divider"></div>
+        <div class="card-title">👤 Informații Părinte</div>
+        <div class="info-grid">
+          ${parinte.name  ? `<div class="info-item"><div class="info-label">Nume</div><div class="info-val">${parinte.name}</div></div>` : ''}
+          ${copil.telefon ? `<div class="info-item"><div class="info-label">Telefon</div><div class="info-val">${copil.telefon}</div></div>` : ''}
+          ${parinte.email ? `<div class="info-item"><div class="info-label">Email</div><div class="info-val" style="font-size:.85rem;word-break:break-all">${parinte.email}</div></div>` : ''}
+          ${copil.dataNasterii ? `<div class="info-item"><div class="info-label">Data nașterii</div><div class="info-val">${fmtDate(copil.dataNasterii)}</div></div>` : ''}
+        </div>
+      `;
+    }
+
+    if (copil.observatii) {
+      html += `
+        <div class="divider"></div>
+        <div class="card-title">📝 Observații</div>
+        <p style="font-size:.9rem;color:var(--text2);line-height:1.6">${copil.observatii}</p>
+      `;
+    }
+
+    card.innerHTML = html;
+  }
+
+  function calcAge(dataNasterii) {
+    if (!dataNasterii) return null;
+    const dob = new Date(dataNasterii);
+    if (isNaN(dob.getTime())) return null;
+    const now = new Date();
+    let age = now.getFullYear() - dob.getFullYear();
+    const m = now.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+    return age;
+  }
+
+  /* ── ANUNTURI ── */
+  async function loadAnunturi() {
+    const container = document.getElementById('anunturi-list');
+    container.innerHTML = '<div class="empty-state"><span class="empty-icon">⏳</span><p>Se încarcă...</p></div>';
+
+    const r = await apiGet('/parinti/anunturi');
+    if (!r || !r.ok) {
+      container.innerHTML = '<div class="empty-state"><span class="empty-icon">❌</span><p>Eroare la încărcare</p></div>';
+      return;
+    }
+
+    if (!r.data.length) {
+      container.innerHTML = '<div class="empty-state"><span class="empty-icon">📢</span><p>Nu există anunțuri momentan.</p></div>';
+      return;
+    }
+
+    const tipIcon = { info: 'ℹ️', important: '⚠️', eveniment: '🎉' };
+    const tipClass = { info: '', important: 'important', eveniment: 'eveniment' };
+
+    container.innerHTML = r.data.map(a => `
+      <div class="anunt-card ${tipClass[a.tip] || ''}">
+        <div class="anunt-header">
+          <span class="anunt-icon">${tipIcon[a.tip] || 'ℹ️'}</span>
+          <div class="anunt-titlu">${escHtml(a.titlu)}</div>
+        </div>
+        ${a.text ? `<div class="anunt-text">${escHtml(a.text)}</div>` : ''}
+        <div class="anunt-date">${fmtDate(a.created)}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ── MESAJE ── */
+  async function loadMesaje(scrollToBottom = true) {
+    const container = document.getElementById('chat-messages');
+    const r = await apiGet('/parinti/mesaje');
+
+    if (!r || !r.ok) {
+      if (scrollToBottom) container.innerHTML = '<div class="empty-state" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center"><span class="empty-icon">❌</span><p>Eroare la încărcare</p></div>';
+      return;
+    }
+
+    // Nu re-renda dacă nu s-a schimbat nimic (anti-flickering la poll)
+    if (!scrollToBottom && r.data.length === _lastMsgCount) return;
+    _lastMsgCount = r.data.length;
+
+    if (!r.data.length) {
+      container.innerHTML = '<div class="empty-state" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center"><span class="empty-icon">💬</span><p>Niciun mesaj încă.<br><small style="font-weight:600;color:var(--muted)">Trimite primul mesaj!</small></p></div>';
+      return;
+    }
+
+    container.innerHTML = r.data.map(m => {
+      const isParinte = m.from === 'parinte';
+      return `
+        <div class="msg-bubble ${isParinte ? 'parinte' : 'admin'}">
+          <div class="msg-sender">${isParinte ? '👤 Eu' : '🏫 Wonki'}</div>
+          ${escHtml(m.text)}
+          <span class="msg-time">${fmtDateTime(m.created)}</span>
+        </div>
+      `;
+    }).join('');
+
+    if (scrollToBottom) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const btn   = document.getElementById('btn-send');
+    const text  = input.value.trim();
+    if (!text) return;
+
+    // Optimistic update
+    const container = document.getElementById('chat-messages');
+    const nowStr = fmtDateTime(new Date());
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble parinte';
+    bubble.innerHTML = `<div class="msg-sender">👤 Eu</div>${escHtml(text)}<span class="msg-time">${nowStr}</span>`;
+    // Remove empty state if present
+    const emptyState = container.querySelector('.empty-state');
+    if (emptyState) emptyState.remove();
+    container.appendChild(bubble);
+    container.scrollTop = container.scrollHeight;
+
+    input.value = '';
+    btn.disabled = true;
+
+    try {
+      const r = await apiPost('/parinti/mesaje', { text });
+      if (!r || !r.ok) {
+        bubble.style.opacity = '0.5';
+        bubble.title = 'Eroare la trimitere';
+      }
+    } catch (e) {
+      bubble.style.opacity = '0.5';
+    }
+
+    btn.disabled = false;
+    // Reload to sync
+    setTimeout(() => loadMesaje(false), 800);
+  }
+
+  /* ── HELPERS ── */
+  function escHtml(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/\n/g, '<br>');
+  }
+
+  /* ── LOGOUT ── */
+  function doLogout() {
+    localStorage.removeItem('wonki_parinte_token');
+    localStorage.removeItem('wonki_parinte_name');
+    localStorage.removeItem('wonki_parinte_copilId');
+    window.location.href = '/parinti/login';
+  }
+
+  /* ── ENTER KEY FOR CHAT ── */
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  /* ── INIT ── */
+  loadProfil();
+</script>
+
+</body>
+</html>
