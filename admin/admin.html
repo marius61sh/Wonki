@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin – Wonki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon-admin.svg">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
@@ -1492,6 +1493,11 @@ let _activeCopilId   = null;
 let _mesajeParinti   = [];
 
 async function loadMesajeParinti() {
+  // Asigură că avem lista de conturi părinți pentru a afișa numele
+  if (!_conturiParinti.length) {
+    const rp = await api('GET', '/admin/parinti');
+    if (rp && rp.ok) _conturiParinti = rp.data;
+  }
   const r = await api('GET', '/admin/mesaje-parinti');
   const listConv = document.getElementById('list-conv');
   if (!r || !r.ok) { listConv.innerHTML = '<div style="text-align:center;padding:24px;color:var(--coral)">Eroare la încărcare</div>'; return; }
@@ -1517,18 +1523,21 @@ async function loadMesajeParinti() {
   const totalUnread = convs.reduce((s, c) => s + c.unread, 0);
   setBadge('mp-badge', totalUnread);
 
-  // Get copil names from _copiiAll
-  const copilName = id => {
-    const c = (_copiiAll || []).find(x => x.id === id);
-    return c ? c.numeCopil : id;
+  // Numele părintelui după copilId (din _conturiParinti)
+  const parenteName = copilId => {
+    const p = (_conturiParinti || []).find(x => x.copilId === copilId);
+    if (p && p.name) return p.name;
+    // fallback: numele copilului dacă părintele nu e găsit
+    const c = (_copiiAll || []).find(x => x.id === copilId);
+    return c ? c.numeParinte || c.numeCopil : copilId;
   };
 
   listConv.innerHTML = convs.map(c => `
     <div class="notif-item" style="border-bottom:1px solid var(--border);cursor:pointer;${_activeCopilId===c.copilId?'background:rgba(255,107,107,.07)':''}"
-         onclick="openConversatie('${c.copilId}', '${(copilName(c.copilId)||'').replace(/'/g,"\\'")}')">
-      <div class="notif-icon">👶</div>
+         onclick="openConversatie('${c.copilId}', '${(parenteName(c.copilId)||'').replace(/'/g,"\\'")}')">
+      <div class="notif-icon">👤</div>
       <div class="notif-text" style="flex:1">
-        <strong>${copilName(c.copilId)}</strong>
+        <strong>${parenteName(c.copilId)}</strong>
         <small style="display:block;color:var(--muted);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px">${c.lastMsg.text || ''}</small>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">

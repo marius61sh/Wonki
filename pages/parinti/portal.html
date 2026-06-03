@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Părinți – Wonki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon-parinti.svg">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,6 +23,47 @@
       --border:  #E8ECF0;
       --radius:  16px;
     }
+    [data-theme="dark"] {
+      --coral:   #c45c5c;
+      --coral2:  #a84848;
+      --bg:      #0f0f1a;
+      --surface: #1a1a2e;
+      --text:    #e8e8f0;
+      --text2:   #a0a0b8;
+      --muted:   #5a5a7a;
+      --border:  #2a2a42;
+    }
+
+    /* Header & greeting mai întunecat în dark mode */
+    [data-theme="dark"] .portal-header {
+      background: linear-gradient(135deg, #2a1515, #1f1010);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    [data-theme="dark"] .greeting-bar {
+      background: linear-gradient(135deg, #2a1515, #1f1010);
+    }
+    /* Tab active — mai subtil */
+    [data-theme="dark"] .tab-btn.active {
+      color: #e07070;
+      border-bottom-color: #e07070;
+    }
+    [data-theme="dark"] .tab-btn:hover { color: #e07070; }
+    /* Bula de mesaj parinte — mai puțin vibrantă */
+    [data-theme="dark"] .msg-bubble.parinte {
+      background: linear-gradient(135deg, #8a3030, #6e2424);
+    }
+    /* Buton trimite */
+    [data-theme="dark"] .btn-send {
+      background: #8a3030;
+    }
+    [data-theme="dark"] .btn-send:hover { background: #6e2424; }
+    /* Chip coral */
+    [data-theme="dark"] .chip.coral { background: #2a1515; color: #e07070; }
+    [data-theme="dark"] .chip.danger { background: #2a1010; color: #e07070; }
+    /* Anunt important border */
+    [data-theme="dark"] .anunt-card.important { border-left-color: #c45c5c; }
+    /* Badge grupă */
+    [data-theme="dark"] .child-group-badge { filter: brightness(0.75) saturate(0.8); }
 
     html, body {
       height: 100%;
@@ -186,7 +228,7 @@
       border-radius: 20px;
       font-size: 0.82rem;
       font-weight: 700;
-      background: #F0F0F0;
+      background: var(--border);
       color: var(--text2);
     }
     .chip.coral  { background: #FFF0F0; color: var(--coral); }
@@ -303,7 +345,7 @@
       position: relative;
     }
     .msg-bubble.admin {
-      background: #F0F0F5;
+      background: var(--border);
       color: var(--text);
       align-self: flex-start;
       border-bottom-left-radius: 4px;
@@ -335,7 +377,7 @@
       display: flex;
       gap: 10px;
       align-items: center;
-      background: #fff;
+      background: var(--surface);
       border-radius: 0 0 var(--radius) var(--radius);
     }
     .chat-input {
@@ -347,11 +389,12 @@
       font-size: 0.92rem;
       font-weight: 600;
       color: var(--text);
+      background: var(--bg);
       outline: none;
       transition: border-color 0.2s;
     }
     .chat-input:focus { border-color: var(--coral); }
-    .chat-input::placeholder { color: #BCC; font-weight: 400; }
+    .chat-input::placeholder { color: var(--muted); font-weight: 400; }
 
     .btn-send {
       background: var(--coral);
@@ -371,7 +414,7 @@
 
     /* ── LOADING SKELETON ── */
     .skeleton {
-      background: linear-gradient(90deg, #F0F0F0 25%, #E8E8E8 50%, #F0F0F0 75%);
+      background: linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
       border-radius: 8px;
@@ -405,7 +448,10 @@
 <header class="portal-header">
   <div class="header-inner">
     <div class="header-brand">Wonki <span>⭐</span></div>
-    <button class="btn-logout" onclick="doLogout()">🚪 Ieșire</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn-logout" id="btn-theme" onclick="toggleTheme()" style="font-size:1rem;padding:6px 10px">🌙</button>
+      <button class="btn-logout" onclick="doLogout()">🚪 Ieșire</button>
+    </div>
   </div>
 </header>
 
@@ -481,9 +527,20 @@
   const NAME    = localStorage.getItem('wonki_parinte_name')   || 'Părinte';
   const COPILID = localStorage.getItem('wonki_parinte_copilId') || '';
 
-  if (!TOKEN) {
-    window.location.href = '/parinti/login';
+  if (!TOKEN) { window.location.href = '/parinti/login'; }
+
+  /* ── DARK MODE ── */
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('btn-theme').textContent = theme === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('wonki-theme', theme);
   }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  // Aplică tema salvată imediat
+  applyTheme(localStorage.getItem('wonki-theme') || 'light');
 
   /* ── GREETING ── */
   const hour = new Date().getHours();

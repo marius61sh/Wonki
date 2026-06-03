@@ -2,6 +2,16 @@
    WONKI – Global JavaScript (global.js)
    ============================================================ */
 
+/* ─── FAVICON ─── */
+(function () {
+  if (document.querySelector('link[rel="icon"]')) return;
+  var link = document.createElement('link');
+  link.rel  = 'icon';
+  link.type = 'image/svg+xml';
+  link.href = '/favicon.svg';
+  document.head.appendChild(link);
+})();
+
 /* ─── PAGE TRANSITIONS — radial clip (cerc din punctul de click) ─── */
 (function () {
   var DURATION_IN  = 420; // ms cerc se extinde (exit)
@@ -18,7 +28,7 @@
   // Detecteaza tema curenta inainte de render (evita flash cu culoare gresita)
   var _theme = localStorage.getItem('wonki-theme') ||
     (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  var CURTAIN_BG = _theme === 'dark' ? '#0f0f1a' : '#FFFCF5';
+  var CURTAIN_BG = _theme === 'dark' ? '#111110' : '#FAFAFA';
 
   // Seteaza si fundalul <html> ca sa nu fie flash intre pagini
   document.documentElement.style.background = CURTAIN_BG;
@@ -66,7 +76,7 @@
 
     // Actualizeaza culoarea cortinei cu tema CURENTA (poate fi schimbata de la incarcare)
     var liveTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    var liveBg    = liveTheme === 'dark' ? '#0f0f1a' : '#FFFCF5';
+    var liveBg    = liveTheme === 'dark' ? '#111110' : '#FAFAFA';
     curtain.style.background = liveBg;
     document.documentElement.style.background = liveBg;
 
@@ -125,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateWaves(theme) {
     document.querySelectorAll('.wave path').forEach(path => {
-      path.setAttribute('fill', theme === 'dark' ? '#0f0f1a' : (path.dataset.lightFill || '#ffffff'));
+      path.setAttribute('fill', theme === 'dark' ? '#111110' : (path.dataset.lightFill || '#ffffff'));
     });
   }
 
@@ -294,6 +304,13 @@ document.addEventListener('DOMContentLoaded', () => {
       '<button class="lang-btn" data-lang="ro">RO</button>' +
       '<button class="lang-btn" data-lang="ru">RU</button>';
     navSocials.insertAdjacentElement('afterend', navLang);
+
+    /* ─── PORTAL PARINTI LINK ─── */
+    const navParinti = document.createElement('a');
+    navParinti.href = '/parinti/login';
+    navParinti.className = 'nav-parinti-btn';
+    navParinti.textContent = '👨‍👩‍👧 Portal';
+    navLang.insertAdjacentElement('afterend', navParinti);
 
     const _savedLang = localStorage.getItem('wonki-lang') || 'ro';
     navLang.querySelectorAll('.lang-btn').forEach(btn => {
@@ -580,7 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="f-logo">Wonki ⭐</div>
+      <div class="f-logo">wonki</div>
       <p data-i18n="footer.brand.desc">Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p>
       <div class="f-socials">
         <a class="f-social f-social-fb" href="https://www.facebook.com/wonki.kindergarten" target="_blank" rel="noopener" aria-label="Facebook Wonki">
@@ -600,6 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <li><a href="/tarife" data-i18n="nav.tarife">Tarife</a></li>
         <li><a href="/galerie" data-i18n="nav.galerie">Galerie</a></li>
         <li><a href="/contact">Contact</a></li>
+        <li><a href="/parinti/login" style="color:var(--coral);font-weight:700">👨‍👩‍👧 Portal Părinți</a></li>
       </ul>
     </div>
     <div class="footer-col">

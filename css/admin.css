@@ -2,7 +2,7 @@
    WONKI – Admin Panel CSS
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --coral:    #FF6B6B;
@@ -25,7 +25,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; }
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background: var(--darker);
   color: var(--text);
   overflow-x: hidden;
@@ -64,7 +64,7 @@ img { display: block; max-width: 100%; }
   display: flex; align-items: center; gap: 10px;
 }
 .brand-logo {
-  font-family: 'Nunito', sans-serif; font-size: 1.5rem;
+  font-family: 'DM Sans', sans-serif; font-size: 1.5rem;
   font-weight: 900; color: var(--coral);
 }
 .brand-tag {
@@ -134,7 +134,7 @@ img { display: block; max-width: 100%; }
   position: sticky; top: 0; z-index: 50;
 }
 .header-left { display: flex; align-items: center; gap: 16px; }
-.page-title { font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 800; }
+.page-title { font-family: 'DM Sans', sans-serif; font-size: 1.2rem; font-weight: 800; }
 .breadcrumb { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 
 .header-right { display: flex; align-items: center; gap: 12px; }
@@ -196,7 +196,7 @@ img { display: block; max-width: 100%; }
 .stat-card:nth-child(3) .stat-icon { background: rgba(107,203,119,.12); }
 .stat-card:nth-child(4) .stat-icon { background: rgba(255,217,61,.12); }
 .stat-info .value {
-  font-family: 'Nunito', sans-serif; font-size: 1.9rem;
+  font-family: 'DM Sans', sans-serif; font-size: 1.9rem;
   font-weight: 900; line-height: 1;
 }
 .stat-info .label { font-size: .8rem; color: var(--muted); margin-top: 3px; font-weight: 600; }
@@ -213,7 +213,7 @@ img { display: block; max-width: 100%; }
   margin-bottom: 18px;
 }
 .section-hdr h2 {
-  font-family: 'Nunito', sans-serif; font-size: 1.2rem; font-weight: 800;
+  font-family: 'DM Sans', sans-serif; font-size: 1.2rem; font-weight: 800;
 }
 .section-hdr .meta { font-size: .8rem; color: var(--muted); }
 
@@ -224,7 +224,7 @@ img { display: block; max-width: 100%; }
   margin-bottom: 22px;
 }
 .card-title {
-  font-family: 'Nunito', sans-serif; font-size: 1.05rem;
+  font-family: 'DM Sans', sans-serif; font-size: 1.05rem;
   font-weight: 800; margin-bottom: 18px;
   display: flex; align-items: center; gap: 8px;
 }
@@ -263,7 +263,7 @@ tr:hover td { background: rgba(255,255,255,.02); }
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 9px 18px; border-radius: 10px; border: none;
-  font-family: 'Nunito', sans-serif; font-size: .85rem; font-weight: 700;
+  font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 700;
   cursor: pointer; transition: all .2s; white-space: nowrap;
 }
 .btn:hover { transform: translateY(-1px); }
@@ -282,7 +282,7 @@ tr:hover td { background: rgba(255,255,255,.02); }
 /* ─── FILTER CHIPS ─── */
 .filter-chip {
   padding: 5px 14px; border-radius: 50px; border: 1.5px solid var(--border);
-  background: transparent; color: var(--muted); font-family: 'Nunito', sans-serif;
+  background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif;
   font-size: .8rem; font-weight: 700; cursor: pointer;
   transition: all .2s; white-space: nowrap;
 }

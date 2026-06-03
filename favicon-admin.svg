@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Fundal dark navy -->
+  <rect width="32" height="32" rx="8" fill="#1a1a2e"/>
+  <!-- W coral -->
+  <text x="16" y="22" font-family="Arial Black, Arial, sans-serif" font-size="17" font-weight="900" text-anchor="middle" fill="#FF6B6B">W</text>
+  <!-- Punct mic roșu în colț dreapta sus (indicator admin) -->
+  <circle cx="25" cy="7" r="4" fill="#FF6B6B"/>
+  <text x="25" y="10" font-family="Arial" font-size="6" font-weight="900" text-anchor="middle" fill="#ffffff">A</text>
+</svg>
