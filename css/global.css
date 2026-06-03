@@ -63,7 +63,7 @@ select, label { cursor: none; }
 
 /* ─── CANVAS ─── */
 #canvas {
-  position: fixed; inset: 0; z-index: 0;
+  position: fixed; inset: 0; z-index: 2;
   pointer-events: none; opacity: .45;
 }
 

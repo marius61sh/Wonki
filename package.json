@@ -1,0 +1,24 @@
+{
+  "name": "wonki",
+  "version": "1.0.0",
+  "description": "**Dublu-click pe `START.bat`** — gata!",
+  "main": "remove-bg.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marius61sh/Wonki.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/marius61sh/Wonki/issues"
+  },
+  "homepage": "https://github.com/marius61sh/Wonki#readme",
+  "devDependencies": {
+    "jimp": "^0.22.12"
+  }
+}

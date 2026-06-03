@@ -44,6 +44,10 @@
 <!-- HERO -->
 <div class="hero-pin">
 <section class="hero">
+  <video class="hero-video" autoplay loop muted playsinline preload="auto">
+    <source src="/videos/hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
   <div class="page-hero-bg"></div>
   <div class="floaties">
     <div class="floaty">🌈</div><div class="floaty">🦋</div>
@@ -79,6 +83,17 @@
 
 <div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
 
+<!-- BRAND STATEMENT -->
+<section class="brand-statement reveal" style="position:relative;overflow:hidden">
+  <img src="/images/illu-goat.png" class="illu-deco illu-deco-right" aria-hidden="true">
+  <div class="brand-text">
+    <p><span>WONKI</span> este o grădiniță privată, proiectată de la zero, conform standardelor europene, care oferă copiilor condiții premium pentru a se dezvolta armonios și a se bucura de o copilărie fericită.</p>
+  </div>
+  <div class="brand-photo">
+    <img src="/images/photo-child.jpg" alt="Copil Wonki">
+  </div>
+</section>
+
 <!-- FEATURES -->
 <div class="features-pin sj-section">
 <section id="features">
@@ -104,18 +119,25 @@
 <!-- PROGRAM PREVIEW -->
 <div class="timeline-pin sj-section">
 <section id="program-preview">
-  <div class="section-center" style="max-width:600px;margin:0 auto 40px">
+  <div class="section-center" style="max-width:600px;margin:0 auto 36px">
     <span class="section-label" data-i18n="home.day.label">O zi la Wonki</span>
     <h2 class="section-title" data-i18n-html="home.day.title">Fiecare zi, o <span style="color:var(--sky)">aventură nouă</span></h2>
     <p class="section-sub" data-i18n="home.day.sub">Structurată cu grijă pentru echilibrul perfect între învățare și distracție.</p>
   </div>
-  <div class="timeline">
-    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌅</div><div class="tl-time">07:30</div><div><div class="tl-act" data-i18n="home.tl1.act">Primire & joc liber</div><div class="tl-desc" data-i18n="home.tl1.desc">Copiii sosesc și se pregătesc pentru o zi magică</div></div></div></div>
-    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎯</div><div class="tl-time">09:00</div><div><div class="tl-act" data-i18n="home.tl2.act">Activități educative</div><div class="tl-desc" data-i18n="home.tl2.desc">STEAM, matematică și limbaj prin joc</div></div></div></div>
-    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎨</div><div class="tl-time">11:00</div><div><div class="tl-act" data-i18n="home.tl3.act">Artă & creativitate</div><div class="tl-desc" data-i18n="home.tl3.desc">Pictură, modelaj, muzică și dans</div></div></div></div>
-    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌳</div><div class="tl-time">15:30</div><div><div class="tl-act" data-i18n="home.tl4.act">Joacă în curte</div><div class="tl-desc" data-i18n="home.tl4.desc">Explorare, sport și aer curat</div></div></div></div>
+  <div class="program-preview-grid">
+    <div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌅</div><div class="tl-time">07:30</div><div><div class="tl-act" data-i18n="home.tl1.act">Primire & joc liber</div><div class="tl-desc" data-i18n="home.tl1.desc">Copiii sosesc și se pregătesc pentru o zi magică</div></div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎯</div><div class="tl-time">09:00</div><div><div class="tl-act" data-i18n="home.tl2.act">Activități educative</div><div class="tl-desc" data-i18n="home.tl2.desc">STEAM, matematică și limbaj prin joc</div></div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎨</div><div class="tl-time">11:00</div><div><div class="tl-act" data-i18n="home.tl3.act">Artă & creativitate</div><div class="tl-desc" data-i18n="home.tl3.desc">Pictură, modelaj, muzică și dans</div></div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌳</div><div class="tl-time">15:30</div><div><div class="tl-act" data-i18n="home.tl4.act">Joacă în curte</div><div class="tl-desc" data-i18n="home.tl4.desc">Explorare, sport și aer curat</div></div></div></div>
+      </div>
+      <div style="margin-top:28px"><a href="/program" class="btn btn-sky sj-cta" data-i18n="home.day.cta">Vezi programul complet →</a></div>
+    </div>
+    <div class="program-preview-photo">
+      <img src="/images/photo-room.png" alt="Sala de activități Wonki">
+    </div>
   </div>
-  <div style="text-align:center;margin-top:32px"><a href="/program" class="btn btn-sky sj-cta" data-i18n="home.day.cta">Vezi programul complet →</a></div>
 </section>
 </div><!-- /timeline-pin -->
 
@@ -130,7 +152,8 @@
 <div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
 
 <!-- TESTIMONIALE -->
-<section id="testimoniale">
+<section id="testimoniale" style="position:relative;overflow:hidden">
+  <img src="/images/illu-duck.png" class="illu-deco illu-deco-left" aria-hidden="true">
   <div class="inner">
     <div class="section-center" style="max-width:600px;margin:0 auto 50px">
       <span class="section-label" data-i18n="home.testi.label">Ce spun părinții</span>
@@ -153,7 +176,7 @@
   </div>
 </section>
 
-<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFCF5" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FAFAFA" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
 
 <!-- GALERIE PREVIEW -->
 <section id="galerie">
@@ -174,18 +197,20 @@
 </section>
 
 <!-- BLOG -->
-<section style="padding:80px 24px;background:var(--cream)">
+<section style="padding:80px 24px 0;background:var(--cream);position:relative;overflow:hidden">
+  <img src="/images/illu-sheep.png" class="illu-deco illu-deco-left" aria-hidden="true">
+  <img src="/images/illu-bunny.png" class="illu-deco illu-deco-right" aria-hidden="true">
   <div style="max-width:1100px;margin:0 auto">
-    <div class="section-center" style="max-width:580px;margin:0 auto 50px">
+    <div class="section-center" style="max-width:580px;margin:0 auto 48px">
       <span class="section-label" data-i18n="home.blog.label">Blog & Știri</span>
       <h2 class="section-title reveal" data-i18n-html="home.blog.title">Noutăți din lumea <span style="color:var(--coral)">Wonki</span></h2>
       <p class="section-sub reveal" data-i18n="home.blog.sub">Sfaturi, povești și momente din viața grădiniței noastre.</p>
     </div>
+
     <div id="blog-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px">
-      <!-- Încărcat dinamic din API -->
       <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1" data-i18n="home.blog.loading">Se încarcă articolele... ✍️</div>
     </div>
-    <div style="text-align:center;margin-top:40px">
+    <div style="text-align:center;margin-top:40px;padding-bottom:80px">
       <a href="/contact" class="btn btn-primary reveal" data-i18n="home.blog.cta">Citește mai mult →</a>
     </div>
   </div>
@@ -319,6 +344,7 @@
   const tlHeader = tlPin && tlPin.querySelector('.section-center');
   const tlItems  = tlPin ? [...tlPin.querySelectorAll('.tl-item')] : [];
   const tlCta    = tlPin && tlPin.querySelector('.sj-cta');
+  const tlPhoto  = tlPin && tlPin.querySelector('.program-preview-photo');
 
   function updateTimeline() {
     if (!tlPin) return;
@@ -338,6 +364,12 @@
       item.style.opacity   = String(tp);
       item.style.transform = `translateX(${(1 - tp) * 60}px)`;
     });
+
+    if (tlPhoto) {
+      const pp = ease(sub(p, 0.35, 0.68));
+      tlPhoto.style.opacity   = String(pp);
+      tlPhoto.style.transform = `translateX(${(1 - pp) * 60}px)`;
+    }
 
     if (tlCta) {
       const cp = ease(sub(p, 0.80, 0.93));

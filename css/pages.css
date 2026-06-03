@@ -3,6 +3,24 @@
    ============================================================ */
 
 /* ─── DESPRE NOI ─── */
+
+.despre-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  padding: 48px 60px;
+  background: var(--cream);
+}
+.despre-icons img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+@media (max-width: 600px) {
+  .despre-icons { gap: 32px; padding: 36px 24px; }
+  .despre-icons img { width: 60px; height: 60px; }
+}
 .despre-intro {
   background: #fff; padding: 80px 60px;
 }
@@ -31,6 +49,13 @@
 .emoji-card .e { font-size: 2.8rem; margin-bottom: 12px; display: block;
   transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
 .emoji-card:hover .e { transform: scale(1.25) rotate(8deg); }
+.emoji-card .e-img {
+  width: 72px; height: 72px;
+  object-fit: contain;
+  display: block; margin: 0 auto 14px;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.emoji-card:hover .e-img { transform: scale(1.2) rotate(6deg); }
 .emoji-card h4 { font-family: 'DM Sans', sans-serif; font-weight: 800; margin-bottom: 6px; }
 .emoji-card p { font-size: .85rem; color: var(--gray); line-height: 1.5; }
 
