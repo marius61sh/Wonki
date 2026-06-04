@@ -215,9 +215,14 @@
   pointer-events: none;
   z-index: 0;
   opacity: .9;
+  transition: opacity .3s, filter .3s;
 }
 .illu-deco-left  { left: 0; }
 .illu-deco-right { right: 0; }
+[data-theme="dark"] .illu-deco {
+  opacity: 0.65;
+  filter: brightness(0.9) saturate(0.85);
+}
 @media (max-width: 768px) {
   .illu-deco { height: 120px; }
 }
@@ -523,14 +528,18 @@
   .g-item:nth-child(n) { grid-column: span 1; height: 140px; }
   .hero { padding: 110px 24px 60px; }
 }
+@media (max-width: 600px) {
+  /* Hero buttons: stack-uite de la 600px in jos */
+  .hero-btns { flex-direction: column; align-items: stretch; gap: 12px; }
+  .hero-btns .btn { max-width: 100%; width: 100%; justify-content: center; }
+}
+
 @media (max-width: 480px) {
   /* Hero */
   .hero { padding: 90px 16px 48px; }
   .hero h1 { font-size: clamp(2.4rem, 10vw, 3.2rem); }
   .hero p { font-size: 1rem; margin-bottom: 32px; }
-  .hero-btns { flex-direction: column; align-items: stretch; gap: 12px; }
   .hero-btns .btn {
-    max-width: 100%; width: 100%; justify-content: center;
     padding: 13px 18px; font-size: .92rem; white-space: nowrap;
   }
   .floaty { font-size: 1.6rem; }

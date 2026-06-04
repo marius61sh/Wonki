@@ -282,10 +282,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ─── NAV SOCIAL ICONS ─── */
+  /* ─── NAV RIGHT WRAPPER + ELEMENTE ─── */
   const navEl = document.getElementById('nav');
   const themeBtn = document.getElementById('theme-toggle');
+  const hamburgerBtn = document.getElementById('hamburger');
   if (navEl && themeBtn) {
+    /* Creează wrapper-ul nav-right care grupează toate elementele din dreapta */
+    const navRight = document.createElement('div');
+    navRight.className = 'nav-right';
+
+    /* Mută theme-toggle și hamburger în nav-right */
+    navRight.appendChild(themeBtn);
+    if (hamburgerBtn) navRight.appendChild(hamburgerBtn);
+    navEl.appendChild(navRight);
+
     const navSocials = document.createElement('div');
     navSocials.className = 'nav-socials';
     navSocials.innerHTML =
@@ -295,6 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '<a class="nav-social nav-social-ig" href="https://www.instagram.com/kindergarten.wonki/" target="_blank" rel="noopener" aria-label="Instagram">' +
         '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>' +
       '</a>';
+    /* Ordinea dorită: theme | socials | lang | portal | hamburger */
     themeBtn.insertAdjacentElement('afterend', navSocials);
 
     /* ─── LANG TOGGLE (RO / RU) ─── */
@@ -329,6 +340,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger   = document.getElementById('hamburger');
   const mobileMenu  = document.getElementById('mobile-menu');
   if (hamburger && mobileMenu) {
+    /* Adaugă Portal + lang toggle în mobile menu dacă nu există deja */
+    if (!mobileMenu.querySelector('.mobile-parinti-btn')) {
+      /* Separator vizual */
+      const sep = document.createElement('div');
+      sep.style.cssText = 'width:40px;height:2px;background:rgba(0,0,0,.1);border-radius:2px;margin:4px 0';
+      mobileMenu.appendChild(sep);
+
+      /* Lang toggle în mobile menu */
+      const mobileLang = document.createElement('div');
+      mobileLang.className = 'mobile-lang';
+      mobileLang.innerHTML =
+        '<button class="lang-btn" data-lang="ro">RO</button>' +
+        '<button class="lang-btn" data-lang="ru">RU</button>';
+      const _ml = localStorage.getItem('wonki-lang') || 'ro';
+      mobileLang.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === _ml);
+        btn.addEventListener('click', () => {
+          mobileLang.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b === btn));
+          if (window.applyLang) window.applyLang(btn.dataset.lang);
+        });
+      });
+      mobileMenu.appendChild(mobileLang);
+
+      /* Portal părinți */
+      const mobileParinti = document.createElement('a');
+      mobileParinti.href = '/parinti/login';
+      mobileParinti.className = 'mobile-parinti-btn';
+      mobileParinti.textContent = '👨‍👩‍👧 Portal părinți';
+      mobileMenu.appendChild(mobileParinti);
+    }
+
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('open');
       mobileMenu.classList.toggle('open');

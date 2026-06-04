@@ -2,6 +2,31 @@
    WONKI – Pages CSS (despre, program, galerie, contact)
    ============================================================ */
 
+/* ─── ILLUSTRATION DECORATIONS (shared across all pages) ─── */
+.illu-deco {
+  position: absolute;
+  bottom: 0;
+  height: 200px;
+  width: auto;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .9;
+  transition: opacity .3s, filter .3s;
+}
+.illu-deco-left  { left: 0; }
+.illu-deco-right { right: 0; }
+[data-theme="dark"] .illu-deco {
+  opacity: 0.65;
+  filter: brightness(0.9) saturate(0.85);
+}
+@media (max-width: 768px) {
+  .illu-deco { height: 100px; }
+}
+@media (max-width: 480px) {
+  /* Ascunde ilustrații pe telefon — prea aglomerat */
+  .illu-deco { display: none; }
+}
+
 /* ─── DESPRE NOI ─── */
 
 .despre-icons {
@@ -650,9 +675,11 @@
 
   /* Program / Full timeline */
   .full-timeline { padding-left: 16px; }
-  .ftl-card { gap: 10px; padding: 14px 16px; }
-  .ftl-emoji { font-size: 1.6rem; }
-  .ftl-time { font-size: .9rem; min-width: 54px; }
+  .ftl-card { gap: 8px; padding: 12px 14px; flex-wrap: wrap; }
+  .ftl-emoji { font-size: 1.5rem; }
+  .ftl-time { font-size: .85rem; min-width: 50px; }
+  .ftl-info h4 { font-size: .88rem; }
+  .ftl-info p  { font-size: .78rem; }
   .ftl-dot { left: -29px; }
   .group-card { padding: 28px 20px; }
 
