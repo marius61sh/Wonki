@@ -167,8 +167,9 @@
     <form id="quick-form">
       <div class="fg-row">
         <div class="fg"><label data-i18n="contact.q.name.l">Numele tău *</label><input type="text" id="qm-name" placeholder="Maria Ionescu" data-i18n-ph="contact.f.name.ph" required></div>
-        <div class="fg"><label data-i18n="contact.q.email.l">Email *</label><input type="email" id="qm-email" placeholder="maria@email.ro" required></div>
+        <div class="fg"><label data-i18n="contact.f.phone.l">Telefon *</label><input type="tel" id="qm-phone" placeholder="07xx xxx xxx" data-i18n-ph="contact.f.phone.ph" required></div>
       </div>
+      <div class="fg"><label data-i18n="contact.q.email.l">Email</label><input type="email" id="qm-email" placeholder="maria@email.ro"></div>
       <div class="fg"><label data-i18n="contact.q.subj.l">Subiect</label><input type="text" id="qm-subject" placeholder="Ex: Vreau mai multe detalii despre program..." data-i18n-ph="contact.q.subj.ph"></div>
       <div class="fg"><label data-i18n="contact.q.msg.l">Mesajul tău *</label><textarea id="qm-body" rows="5" placeholder="Scrie mesajul tău aici... 💛" data-i18n-ph="contact.q.msg.ph" required></textarea></div>
       <button type="submit" class="submit-btn" id="qm-btn" data-i18n="contact.q.btn">✉️ Trimite mesajul</button>
@@ -191,8 +192,15 @@
     e.preventDefault();
     const btn = document.getElementById('qm-btn');
     btn.textContent = '⏳ Se trimite...'; btn.disabled = true;
+    const telefon = document.getElementById('qm-phone').value.trim();
+    if (!telefon) {
+      btn.textContent = '✉️ Trimite mesajul'; btn.disabled = false;
+      alert('⚠️ Numărul de telefon este obligatoriu!');
+      return;
+    }
     const body = {
       from_name: document.getElementById('qm-name').value.trim(),
+      telefon,
       email:     document.getElementById('qm-email').value.trim(),
       subject:   document.getElementById('qm-subject').value.trim(),
       body:      document.getElementById('qm-body').value.trim(),

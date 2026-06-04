@@ -92,6 +92,7 @@
             <button class="btn btn-sky"       onclick="showPage('inscrieri')">📋 Vezi înscrierile</button>
             <button class="btn btn-success"   onclick="showPage('galerie')">🖼️ Adaugă poze</button>
             <button class="btn btn-secondary" onclick="showPage('setari')">⚙️ Setări site</button>
+            <button class="btn" style="background:#fff3cd;color:#856404;border:1px solid #ffc107" onclick="cleanupDuplicates()">🧹 Curăță duplicate</button>
           </div>
         </div>
       </div>
@@ -439,7 +440,12 @@
       <div class="section-hdr"><h2>💬 Mesaje Părinți</h2></div>
       <div class="grid-65-35">
         <div class="card">
-          <div class="card-title">📨 Conversații</div>
+          <div class="card-title" style="justify-content:space-between">
+            <span>📨 Conversații</span>
+            <input id="conv-search" type="text" placeholder="🔍 Caută părinte..."
+              style="background:var(--darker);border:1.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;font-size:.83rem;outline:none;width:180px"
+              oninput="filterConv(this.value)">
+          </div>
           <div id="list-conv" style="display:flex;flex-direction:column;gap:2px">
             <div style="text-align:center;padding:32px;color:var(--muted)">⏳ Se încarcă...</div>
           </div>
@@ -543,6 +549,24 @@ document.querySelectorAll('.nav-item[data-page]').forEach(item => {
 document.getElementById('mob-toggle').addEventListener('click', () => {
   document.querySelector('.sidebar').classList.toggle('open');
 });
+
+/* ─── CLEANUP DUPLICATE ─── */
+async function cleanupDuplicates() {
+  if (!confirm('Șterge toate înregistrările duplicate din baza de date?\n(se păstrează cea mai recentă din fiecare grup)')) return;
+  try {
+    const r    = await fetch(API + '/admin/cleanup-duplicates', {
+      method: 'POST', headers: { Authorization: 'Bearer ' + TOKEN }
+    });
+    const data = await r.json();
+    if (data.ok) {
+      const { deleted, report } = data.data;
+      alert('✅ Curățare finalizată!\n\n' + report.join('\n') + '\n\nTotal șters: ' + deleted + ' înregistrări');
+      loadStats();
+    } else {
+      alert('❌ ' + (data.error || 'Eroare'));
+    }
+  } catch { alert('❌ Eroare de conexiune'); }
+}
 
 /* ─── LOGOUT ─── */
 function doLogout() {
@@ -1043,9 +1067,15 @@ async function loadMesaje() {
   if (!r||!r.ok) { el.innerHTML='<div style="text-align:center;padding:24px;color:var(--coral)">Eroare</div>'; return; }
   if (!r.data.length) { el.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)">Niciun mesaj 💬</div>'; return; }
   el.innerHTML = r.data.map(m => `
-    <div class="notif-item ${m.read?'':'unread'}" style="border-bottom:1px solid var(--border);cursor:pointer" onclick="openMesaj('${m.id}','${(m.from_name||'Anonim').replace(/'/g,"\\'")}','${(m.email||'').replace(/'/g,"\\'")}','${(m.subject||'').replace(/'/g,"\\'")}',\`${(m.body||'').replace(/`/g,'\\`')}\`)">
+    <div class="notif-item ${m.read?'':'unread'}" style="border-bottom:1px solid var(--border);cursor:pointer" onclick="openMesaj('${m.id}','${(m.from_name||'Anonim').replace(/'/g,"\\'")}','${(m.telefon||'').replace(/'/g,"\\'")}','${(m.email||'').replace(/'/g,"\\'")}','${(m.subject||'').replace(/'/g,"\\'")}',\`${(m.body||'').replace(/`/g,'\\`')}\`)">
       <div class="notif-icon">${m.read?'📨':'📩'}</div>
-      <div class="notif-text" style="flex:1"><strong>${m.from_name||'Anonim'}</strong><small style="display:block;color:var(--muted);font-size:.78rem">${m.email||''}</small><span>${m.subject||m.body||'—'}</span></div>
+      <div class="notif-text" style="flex:1">
+        <strong>${m.from_name||'Anonim'}</strong>
+        <small style="display:block;color:var(--muted);font-size:.78rem">
+          ${m.telefon ? `📞 ${m.telefon}` : ''}${m.telefon && m.email ? ' · ' : ''}${m.email||''}
+        </small>
+        <span>${m.subject||m.body||'—'}</span>
+      </div>
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-size:.75rem;color:var(--muted);white-space:nowrap">${m.created?new Date(m.created).toLocaleDateString('ro-RO'):''}</span>
         <button class="btn btn-sm btn-danger btn-icon" onclick="event.stopPropagation();deleteMesaj('${m.id}')">🗑️</button>
@@ -1053,7 +1083,7 @@ async function loadMesaje() {
     </div>`).join('');
 }
 
-async function openMesaj(id, fromName, email, subject, body) {
+async function openMesaj(id, fromName, telefon, email, subject, body) {
   await api('PUT', '/admin/mesaje/'+id+'/read');
   const html = `<div style="padding:4px 0">
     <div style="margin-bottom:14px">
@@ -1061,7 +1091,8 @@ async function openMesaj(id, fromName, email, subject, body) {
     </div>
     <div style="display:flex;gap:24px;margin-bottom:16px;flex-wrap:wrap">
       <div><span style="color:var(--muted);font-size:.8rem">De la</span><br><strong>${fromName}</strong></div>
-      <div><span style="color:var(--muted);font-size:.8rem">Email</span><br><a href="mailto:${email}" style="color:var(--coral)">${email||'—'}</a></div>
+      <div><span style="color:var(--muted);font-size:.8rem">Telefon</span><br><a href="tel:${telefon}" style="color:var(--coral);font-weight:700">📞 ${telefon||'—'}</a></div>
+      ${email ? `<div><span style="color:var(--muted);font-size:.8rem">Email</span><br><a href="mailto:${email}" style="color:var(--sky)">${email}</a></div>` : ''}
     </div>
     <div style="background:var(--darker);border-radius:12px;padding:16px;white-space:pre-wrap;line-height:1.7;font-size:.9rem">${body||'—'}</div>
   </div>`;
@@ -1532,19 +1563,60 @@ async function loadMesajeParinti() {
     return c ? c.numeParinte || c.numeCopil : copilId;
   };
 
-  listConv.innerHTML = convs.map(c => `
-    <div class="notif-item" style="border-bottom:1px solid var(--border);cursor:pointer;${_activeCopilId===c.copilId?'background:rgba(255,107,107,.07)':''}"
-         onclick="openConversatie('${c.copilId}', '${(parenteName(c.copilId)||'').replace(/'/g,"\\'")}')">
-      <div class="notif-icon">👤</div>
-      <div class="notif-text" style="flex:1">
+  _convs = convs; // salvează pentru search
+  renderConvList(document.getElementById('conv-search')?.value || '');
+}
+
+let _convs = [];
+
+function renderConvList(query) {
+  const listConv = document.getElementById('list-conv');
+  const q = (query || '').toLowerCase();
+  const parenteName = copilId => {
+    const p = (_conturiParinti || []).find(x => x.copilId === copilId);
+    if (p && p.name) return p.name;
+    const c = (_copiiAll || []).find(x => x.id === copilId);
+    return c ? c.numeParinte || c.numeCopil : copilId;
+  };
+  const filtered = q ? _convs.filter(c => parenteName(c.copilId).toLowerCase().includes(q)) : _convs;
+  if (!filtered.length) {
+    listConv.innerHTML = `<div style="text-align:center;padding:32px;color:var(--muted)">${q ? '🔍 Niciun rezultat' : 'Niciun mesaj de la părinți 💬'}</div>`;
+    return;
+  }
+  listConv.innerHTML = filtered.map(c => `
+    <div class="notif-item" style="border-bottom:1px solid var(--border);cursor:pointer;${_activeCopilId===c.copilId?'background:rgba(255,107,107,.07)':''}">
+      <div class="notif-icon" onclick="openConversatie('${c.copilId}','${(parenteName(c.copilId)||'').replace(/'/g,"\\'")}')">👤</div>
+      <div class="notif-text" style="flex:1" onclick="openConversatie('${c.copilId}','${(parenteName(c.copilId)||'').replace(/'/g,"\\'")}')">
         <strong>${parenteName(c.copilId)}</strong>
         <small style="display:block;color:var(--muted);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px">${c.lastMsg.text || ''}</small>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
         <span style="font-size:.72rem;color:var(--muted)">${c.lastMsg.created ? new Date(c.lastMsg.created).toLocaleDateString('ro-RO') : ''}</span>
         ${c.unread ? `<span style="background:var(--coral);color:#fff;border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center">${c.unread}</span>` : ''}
+        <button class="btn btn-sm btn-danger" style="padding:3px 7px;font-size:.7rem;margin-top:2px"
+          onclick="event.stopPropagation();deleteConversatie('${c.copilId}','${(parenteName(c.copilId)||'').replace(/'/g,"\\'")}')">🗑️</button>
       </div>
     </div>`).join('');
+}
+
+function filterConv(q) {
+  renderConvList(q);
+}
+
+async function deleteConversatie(copilId, numePar) {
+  if (!confirm(`Ștergi toată conversația cu ${numePar}?\nMesajele vor fi șterse definitiv.`)) return;
+  const r = await api('DELETE', '/admin/mesaje-parinti/' + copilId);
+  if (r && r.ok) {
+    toast('Conversație ștearsă!', 'error');
+    if (_activeCopilId === copilId) {
+      _activeCopilId = null;
+      document.getElementById('conv-title').textContent = '💬 Selectează o conversație';
+      document.getElementById('conv-messages').innerHTML = '';
+      document.getElementById('conv-reply').style.display = 'none';
+      stopConvPolling();
+    }
+    loadMesajeParinti();
+  } else toast(r?.error || 'Eroare', 'error');
 }
 
 async function openConversatie(copilId, copilName) {

@@ -301,6 +301,52 @@
     </div>
 
     <button class="btn-login" id="btn-login" onclick="doLogin()">🔓 Intră în portal</button>
+
+    <p style="text-align:center;margin-top:16px;font-size:.85rem">
+      <a href="#" onclick="showForgot(event)" style="color:var(--coral);font-weight:700;text-decoration:underline">Am uitat parola</a>
+    </p>
+  </div>
+
+  <!-- FORGOT PASSWORD CARD -->
+  <div class="card" id="card-forgot" style="display:none;margin-top:16px">
+    <div class="card-header">
+      <span class="icon">🔑</span>
+      <h1>Resetare parolă</h1>
+      <p>Introdu emailul și îți trimitem un cod de verificare</p>
+    </div>
+
+    <!-- Step 1: email -->
+    <div id="step-email">
+      <div id="forgot-err" class="error-msg"></div>
+      <div class="form-group">
+        <label>Email cont</label>
+        <input type="email" id="forgot-email" placeholder="maria@email.ro">
+      </div>
+      <button class="btn-login" id="btn-forgot" onclick="sendCode()">📨 Trimite codul</button>
+    </div>
+
+    <!-- Step 2: cod + parolă nouă -->
+    <div id="step-reset" style="display:none">
+      <div id="reset-err" class="error-msg"></div>
+      <div id="reset-info" style="background:#f0fff4;border:1.5px solid #a3e9b8;border-radius:10px;padding:12px 14px;font-size:.85rem;font-weight:700;color:#2a7a4a;margin-bottom:16px;text-align:center"></div>
+      <div class="form-group">
+        <label>Cod primit (6 cifre)</label>
+        <input type="text" id="reset-code" placeholder="123456" maxlength="6" style="letter-spacing:6px;font-size:1.3rem;text-align:center">
+      </div>
+      <div class="form-group">
+        <label>Parolă nouă</label>
+        <input type="password" id="new-password" placeholder="min. 6 caractere">
+      </div>
+      <div class="form-group">
+        <label>Confirmă parola nouă</label>
+        <input type="password" id="confirm-password" placeholder="••••••••">
+      </div>
+      <button class="btn-login" id="btn-reset" onclick="doReset()">✅ Setează parola nouă</button>
+    </div>
+
+    <p style="text-align:center;margin-top:14px;font-size:.84rem">
+      <a href="#" onclick="showLogin(event)" style="color:var(--coral);font-weight:700;text-decoration:underline">← Înapoi la login</a>
+    </p>
   </div>
 
   <a href="/" class="back-link">← Înapoi la site</a>
@@ -325,6 +371,77 @@
     document.getElementById('email').addEventListener('keydown', e => {
       if (e.key === 'Enter') document.getElementById('password').focus();
     });
+
+    const cardLogin  = document.querySelector('.card');
+    const cardForgot = document.getElementById('card-forgot');
+
+    function showForgot(e) {
+      e.preventDefault();
+      cardLogin.style.display  = 'none';
+      cardForgot.style.display = 'block';
+      document.getElementById('step-email').style.display = 'block';
+      document.getElementById('step-reset').style.display = 'none';
+    }
+    function showLogin(e) {
+      e.preventDefault();
+      cardLogin.style.display  = 'block';
+      cardForgot.style.display = 'none';
+    }
+
+    async function sendCode() {
+      const email  = document.getElementById('forgot-email').value.trim();
+      const errEl  = document.getElementById('forgot-err');
+      const btn    = document.getElementById('btn-forgot');
+      errEl.classList.remove('show');
+      if (!email) { errEl.textContent = '⚠️ Introdu emailul.'; errEl.classList.add('show'); return; }
+      btn.disabled = true; btn.textContent = '⏳ Se trimite...';
+      try {
+        const r    = await fetch('/api/parinti/forgot-password', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await r.json();
+        btn.disabled = false; btn.textContent = '📨 Trimite codul';
+        if (data.ok) {
+          document.getElementById('step-email').style.display = 'none';
+          document.getElementById('step-reset').style.display = 'block';
+          document.getElementById('reset-info').textContent =
+            '📧 Codul tău (demo): ' + data.data.code + ' — expiră în 15 minute.';
+          document.querySelector('#step-reset #forgot-email-hidden')?.remove();
+          window._resetEmail = email;
+        } else {
+          errEl.textContent = '❌ ' + (data.error || 'Eroare.');
+          errEl.classList.add('show');
+        }
+      } catch { btn.disabled = false; btn.textContent = '📨 Trimite codul'; errEl.textContent = '❌ Eroare conexiune.'; errEl.classList.add('show'); }
+    }
+
+    async function doReset() {
+      const code     = document.getElementById('reset-code').value.trim();
+      const newPwd   = document.getElementById('new-password').value;
+      const confPwd  = document.getElementById('confirm-password').value;
+      const errEl    = document.getElementById('reset-err');
+      const btn      = document.getElementById('btn-reset');
+      errEl.classList.remove('show');
+      if (!code || !newPwd || !confPwd) { errEl.textContent = '⚠️ Completează toate câmpurile.'; errEl.classList.add('show'); return; }
+      if (newPwd !== confPwd) { errEl.textContent = '❌ Parolele nu coincid.'; errEl.classList.add('show'); return; }
+      btn.disabled = true; btn.textContent = '⏳ Se salvează...';
+      try {
+        const r    = await fetch('/api/parinti/reset-password', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: window._resetEmail, code, newPassword: newPwd })
+        });
+        const data = await r.json();
+        btn.disabled = false; btn.textContent = '✅ Setează parola nouă';
+        if (data.ok) {
+          errEl.style.cssText = 'display:block;background:#f0fff4;border-color:#a3e9b8;color:#2a7a4a';
+          errEl.textContent = '✅ Parola a fost schimbată! Te poți autentifica acum.';
+          setTimeout(() => showLogin({ preventDefault: () => {} }), 2500);
+        } else {
+          errEl.textContent = '❌ ' + (data.error || 'Eroare.'); errEl.classList.add('show');
+        }
+      } catch { btn.disabled = false; btn.textContent = '✅ Setează parola nouă'; errEl.textContent = '❌ Eroare conexiune.'; errEl.classList.add('show'); }
+    }
 
     async function doLogin() {
       const email    = document.getElementById('email').value.trim();

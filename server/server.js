@@ -185,6 +185,24 @@ app.post('/api/inscrieri', async (req, res) => {
   try {
     const { numeCopil, dataNasterii, numeParinte, telefon, email, program, sursa, mesaj } = req.body;
     if (!numeParinte) return err(res, 'Numele obligatoriu');
+
+    // ── Verificare duplicate ──────────────────────────────────
+    const db = getDB();
+    if (email) {
+      const dupEmail = await db.collection('inscrieri').where('email', '==', email.toLowerCase()).limit(1).get();
+      if (!dupEmail.empty) return err(res, 'Există deja o cerere de înscriere cu acest email.');
+    }
+    if (telefon) {
+      const clean = telefon.replace(/\s/g, '');
+      const dupTel = await db.collection('inscrieri').where('telefon', '==', clean).limit(1).get();
+      if (!dupTel.empty) return err(res, 'Există deja o cerere de înscriere cu acest număr de telefon.');
+    }
+    if (numeCopil && dataNasterii) {
+      const dupCopil = await db.collection('inscrieri')
+        .where('numeCopil', '==', numeCopil).where('dataNasterii', '==', dataNasterii).limit(1).get();
+      if (!dupCopil.empty) return err(res, 'Există deja o cerere pentru acest copil.');
+    }
+
     const varstaAnni = calcVarsta(dataNasterii);
     const ref = await getDB().collection('inscrieri').add({
       numeCopil:    numeCopil    || '',
@@ -287,6 +305,24 @@ app.post('/api/admin/copii', auth, async (req, res) => {
   try {
     const { numeCopil, dataNasterii, numeParinte, telefon, email, program, grupa, observatii, alergii } = req.body;
     if (!numeCopil) return err(res, 'Numele copilului este obligatoriu');
+
+    // ── Verificare duplicate ──────────────────────────────────
+    const db = getDB();
+    if (email) {
+      const dup = await db.collection('copii').where('email', '==', email.toLowerCase()).limit(1).get();
+      if (!dup.empty) return err(res, 'Există deja un copil înregistrat cu acest email.');
+    }
+    if (telefon) {
+      const clean = telefon.replace(/\s/g, '');
+      const dup = await db.collection('copii').where('telefon', '==', clean).limit(1).get();
+      if (!dup.empty) return err(res, 'Există deja un copil înregistrat cu acest număr de telefon.');
+    }
+    if (dataNasterii) {
+      const dup = await db.collection('copii')
+        .where('numeCopil', '==', numeCopil).where('dataNasterii', '==', dataNasterii).limit(1).get();
+      if (!dup.empty) return err(res, 'Există deja un profil pentru acest copil (nume + dată naștere identice).');
+    }
+
     const varstaCalc = calcVarsta(dataNasterii);
     const ref = await getDB().collection('copii').add({
       numeCopil,
@@ -337,14 +373,73 @@ app.delete('/api/admin/inscrieri/:id', auth, async (req, res) => {
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
+// ── ADMIN: CLEANUP DUPLICATE ──────────────────────────────────
+app.post('/api/admin/cleanup-duplicates', auth, async (req, res) => {
+  try {
+    const db = getDB();
+    let totalDeleted = 0;
+    const report = [];
+
+    async function deduplicateCollection(colName, keys) {
+      const snap = await db.collection(colName).get();
+      const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const seen = new Map(); // key → doc cu created cel mai recent
+      const toDelete = [];
+
+      for (const doc of docs) {
+        for (const key of keys) {
+          const val = (doc[key] || '').toString().trim().toLowerCase().replace(/\s/g, '');
+          if (!val) continue;
+          const mapKey = `${key}::${val}`;
+          if (seen.has(mapKey)) {
+            // Păstrăm cel mai recent (created mai mare)
+            const existing = seen.get(mapKey);
+            const existDate = existing.created?.toDate ? existing.created.toDate() : new Date(existing.created || 0);
+            const curDate   = doc.created?.toDate     ? doc.created.toDate()       : new Date(doc.created || 0);
+            if (curDate > existDate) {
+              toDelete.push(existing.id);
+              seen.set(mapKey, doc);
+            } else {
+              toDelete.push(doc.id);
+            }
+          } else {
+            seen.set(mapKey, doc);
+          }
+        }
+      }
+
+      // Deduplicare unică (un doc poate apărea de mai multe ori în toDelete)
+      const uniqueDelete = [...new Set(toDelete)];
+      for (const id of uniqueDelete) {
+        await db.collection(colName).doc(id).delete();
+        totalDeleted++;
+      }
+      if (uniqueDelete.length > 0) {
+        report.push(`${colName}: ${uniqueDelete.length} duplicate șterse`);
+      }
+    }
+
+    await deduplicateCollection('inscrieri', ['email', 'telefon']);
+    await deduplicateCollection('copii',     ['email', 'telefon']);
+    await deduplicateCollection('parinti',   ['email']);
+
+    ok(res, {
+      deleted: totalDeleted,
+      report: report.length ? report : ['Nicio duplicată găsită — baza de date este curată ✅']
+    });
+  } catch (e) { console.error(e); err(res, 'Eroare server', 500); }
+});
+
 // ── MESAJE ───────────────────────────────────────────────────
 app.post('/api/mesaje', async (req, res) => {
   try {
-    const { from_name, email, subject, body } = req.body;
+    const { from_name, telefon, email, subject, body } = req.body;
+    if (!from_name) return err(res, 'Numele este obligatoriu');
+    if (!telefon)   return err(res, 'Numărul de telefon este obligatoriu');
     await getDB().collection('mesaje').add({
-      from_name: from_name || '', email: email || '',
-      subject: subject || '', body: body || '',
-      read: false, created: new Date()
+      from_name: from_name || '', telefon: telefon || '',
+      email: email || '', subject: subject || '',
+      body: body || '', read: false, created: new Date()
     });
     ok(res, 'Trimis');
   } catch (e) { err(res, 'Eroare server', 500); }
@@ -693,6 +788,56 @@ app.post('/api/parinti/mesaje', authParinte, async (req, res) => {
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
+// ── PARINTI: FORGOT PASSWORD ─────────────────────────────────
+app.post('/api/parinti/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return err(res, 'Email obligatoriu');
+    const snap = await getDB().collection('parinti').where('email', '==', email).limit(1).get();
+    if (snap.empty) return err(res, 'Nu există niciun cont cu acest email');
+    // Generează cod de 6 cifre + expiră în 15 min
+    const code    = Math.floor(100000 + Math.random() * 900000).toString();
+    const expires = new Date(Date.now() + 15 * 60 * 1000);
+    await getDB().collection('parinti').doc(snap.docs[0].id).update({ resetCode: code, resetExpires: expires });
+    // Într-un proiect real trimitem email — aici returnăm codul direct pentru demo
+    ok(res, { code, message: 'Cod generat. Într-un proiect real acesta ar fi trimis pe email.' });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.post('/api/parinti/reset-password', async (req, res) => {
+  try {
+    const { email, code, newPassword } = req.body;
+    if (!email || !code || !newPassword) return err(res, 'Toate câmpurile sunt obligatorii');
+    if (newPassword.length < 6) return err(res, 'Parola trebuie să aibă cel puțin 6 caractere');
+    const snap = await getDB().collection('parinti').where('email', '==', email).limit(1).get();
+    if (snap.empty) return err(res, 'Email inexistent');
+    const doc  = snap.docs[0];
+    const data = doc.data();
+    if (!data.resetCode || data.resetCode !== code) return err(res, 'Cod incorect');
+    const expires = data.resetExpires?.toDate ? data.resetExpires.toDate() : new Date(data.resetExpires);
+    if (new Date() > expires) return err(res, 'Codul a expirat. Solicită unul nou.');
+    await getDB().collection('parinti').doc(doc.id).update({
+      password: bcrypt.hashSync(newPassword, 10),
+      resetCode: null, resetExpires: null
+    });
+    ok(res, { message: 'Parola a fost schimbată cu succes!' });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+// ── PARINTI: SCHIMBA PAROLA (logat) ──────────────────────────
+app.post('/api/parinti/change-password', authParinte, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) return err(res, 'Câmpuri obligatorii');
+    if (newPassword.length < 6) return err(res, 'Parola nouă trebuie să aibă cel puțin 6 caractere');
+    const doc  = await getDB().collection('parinti').doc(req.user.id).get();
+    if (!doc.exists) return err(res, 'Cont inexistent');
+    if (!bcrypt.compareSync(currentPassword, doc.data().password)) return err(res, 'Parola curentă este incorectă');
+    await getDB().collection('parinti').doc(req.user.id).update({ password: bcrypt.hashSync(newPassword, 10) });
+    ok(res, { message: 'Parola a fost schimbată!' });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
 // ── ADMIN: CONTURI PARINTI ────────────────────────────────────
 app.post('/api/admin/parinti', auth, async (req, res) => {
   try {
@@ -751,6 +896,20 @@ app.post('/api/admin/mesaje-parinti/:copilId', auth, async (req, res) => {
       created: new Date()
     });
     ok(res, { id: ref.id });
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+// ── ADMIN: STERGE CONVERSATIE PARINTE ────────────────────────
+app.delete('/api/admin/mesaje-parinti/:copilId', auth, async (req, res) => {
+  try {
+    const db   = getDB();
+    const snap = await db.collection('mesaje_parinti')
+      .where('copilId', '==', req.params.copilId).get();
+    if (snap.empty) return ok(res, { deleted: 0 });
+    const batch = db.batch();
+    snap.docs.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+    ok(res, { deleted: snap.size });
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 

@@ -61,16 +61,34 @@
     <button class="filter-btn" data-filter="evenimente">🎉 <span data-i18n="galerie.filter.events">Evenimente</span></button>
   </div>
 
-  <div class="masonry-grid">
-    <div class="masonry-item reveal" data-cat="arta">🎨<div class="overlay"><span>Atelier de pictură</span></div></div>
-    <div class="masonry-item reveal" data-cat="activitati">🧩<div class="overlay"><span>Jocuri logice</span></div></div>
-    <div class="masonry-item reveal" data-cat="natura">🌱<div class="overlay"><span>Grădinăritul nostru</span></div></div>
-    <div class="masonry-item reveal" data-cat="activitati">📚<div class="overlay"><span>Ora de povești</span></div></div>
-    <div class="masonry-item reveal" data-cat="arta">🎵<div class="overlay"><span>Muzică & dans</span></div></div>
-    <div class="masonry-item reveal" data-cat="evenimente">🎉<div class="overlay"><span>Serbare de toamnă</span></div></div>
-    <div class="masonry-item reveal" data-cat="natura">🦋<div class="overlay"><span>Explorăm natura</span></div></div>
-    <div class="masonry-item reveal" data-cat="activitati">🔬<div class="overlay"><span>Experimente STEAM</span></div></div>
-    <div class="masonry-item reveal" data-cat="evenimente">🎂<div class="overlay"><span>Ziua Miei</span></div></div>
+  <div class="masonry-grid" id="masonry-grid">
+    <div class="masonry-item" data-cat="arta">🎨<div class="overlay"><span>Atelier de pictură</span></div></div>
+    <div class="masonry-item" data-cat="activitati">🧩<div class="overlay"><span>Jocuri logice</span></div></div>
+    <div class="masonry-item" data-cat="natura">🌱<div class="overlay"><span>Grădinăritul nostru</span></div></div>
+    <div class="masonry-item" data-cat="activitati">📚<div class="overlay"><span>Ora de povești</span></div></div>
+    <div class="masonry-item" data-cat="arta">🎵<div class="overlay"><span>Muzică & dans</span></div></div>
+    <div class="masonry-item" data-cat="evenimente">🎉<div class="overlay"><span>Serbare de toamnă</span></div></div>
+    <div class="masonry-item" data-cat="natura">🦋<div class="overlay"><span>Explorăm natura</span></div></div>
+    <div class="masonry-item" data-cat="activitati">🔬<div class="overlay"><span>Experimente STEAM</span></div></div>
+    <div class="masonry-item" data-cat="evenimente">🎂<div class="overlay"><span>Ziua Miei</span></div></div>
+    <div class="masonry-item" data-cat="arta">🖌️<div class="overlay"><span>Pictură cu degețelele</span></div></div>
+    <div class="masonry-item" data-cat="natura">🌻<div class="overlay"><span>Grădina de flori</span></div></div>
+    <div class="masonry-item" data-cat="activitati">🎲<div class="overlay"><span>Jocuri de echipă</span></div></div>
+    <div class="masonry-item" data-cat="evenimente">🎄<div class="overlay"><span>Serbarea de iarnă</span></div></div>
+    <div class="masonry-item" data-cat="arta">🎭<div class="overlay"><span>Spectacol de teatru</span></div></div>
+    <div class="masonry-item" data-cat="natura">🐛<div class="overlay"><span>Lumea insectelor</span></div></div>
+    <div class="masonry-item" data-cat="activitati">🧪<div class="overlay"><span>Laborator micuț</span></div></div>
+    <div class="masonry-item" data-cat="evenimente">🌸<div class="overlay"><span>Ziua mamei</span></div></div>
+    <div class="masonry-item" data-cat="arta">🎶<div class="overlay"><span>Concert de primăvară</span></div></div>
+    <div class="masonry-item" data-cat="natura">🍂<div class="overlay"><span>Plimbare de toamnă</span></div></div>
+    <div class="masonry-item" data-cat="activitati">🏃<div class="overlay"><span>Jocuri în curte</span></div></div>
+    <div class="masonry-item" data-cat="evenimente">🎈<div class="overlay"><span>Ziua grădiniței</span></div></div>
+  </div>
+
+  <!-- Load more -->
+  <div style="text-align:center;padding:32px 0 16px" id="load-more-wrap">
+    <button class="btn btn-outline" id="load-more-btn">Arată mai multe 🖼️</button>
+    <p id="gallery-counter" style="margin-top:12px;font-size:.85rem;color:var(--gray)"></p>
   </div>
 </section>
 
@@ -101,5 +119,70 @@
 <script src="../js/i18n.js"></script>
 <script src="../js/pages.js"></script>
 <script src="../js/site.js"></script>
+<script>
+(function () {
+  const PER_PAGE   = 9;   // câte se afișează inițial
+  const LOAD_MORE  = 6;   // câte se adaugă la fiecare click
+
+  const grid       = document.getElementById('masonry-grid');
+  const btn        = document.getElementById('load-more-btn');
+  const counter    = document.getElementById('gallery-counter');
+  const wrap       = document.getElementById('load-more-wrap');
+  const allItems   = [...grid.querySelectorAll('.masonry-item')];
+
+  let activeFilter = 'all';
+  let visible      = 0;
+
+  function getFiltered() {
+    return allItems.filter(el =>
+      activeFilter === 'all' || el.dataset.cat === activeFilter
+    );
+  }
+
+  function showItems(items, count) {
+    /* Ascunde tot */
+    allItems.forEach(el => { el.style.display = 'none'; el.classList.remove('reveal', 'vis'); });
+
+    /* Arată primele `count` din lista filtrată */
+    items.slice(0, count).forEach(el => {
+      el.style.display = '';
+      requestAnimationFrame(() => el.classList.add('vis'));
+    });
+
+    visible = Math.min(count, items.length);
+    updateUI(items);
+  }
+
+  function updateUI(items) {
+    const total = items.length;
+    counter.textContent = visible + ' din ' + total + ' fotografii';
+    if (visible >= total) {
+      btn.style.display = 'none';
+    } else {
+      btn.style.display = '';
+      btn.textContent = 'Arată mai multe 🖼️';
+    }
+    /* Ascunde wrap-ul dacă e gol */
+    wrap.style.display = total === 0 ? 'none' : '';
+  }
+
+  /* Buton load more */
+  btn.addEventListener('click', () => {
+    const items = getFiltered();
+    showItems(items, visible + LOAD_MORE);
+  });
+
+  /* Filtre — integrare cu pages.js */
+  document.querySelectorAll('.filter-btn').forEach(filterBtn => {
+    filterBtn.addEventListener('click', () => {
+      activeFilter = filterBtn.dataset.filter;
+      showItems(getFiltered(), PER_PAGE);
+    });
+  });
+
+  /* Init */
+  showItems(getFiltered(), PER_PAGE);
+})();
+</script>
 </body>
 </html>

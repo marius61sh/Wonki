@@ -472,6 +472,9 @@
     <button class="tab-btn" data-tab="mesaje" onclick="switchTab('mesaje')">
       <span class="tab-icon">💬</span> Mesaje
     </button>
+    <button class="tab-btn" data-tab="setari" onclick="switchTab('setari')">
+      <span class="tab-icon">⚙️</span> Setări
+    </button>
   </div>
 </div>
 
@@ -495,6 +498,35 @@
       <div class="empty-state">
         <span class="empty-icon">⏳</span>
         <p>Se încarcă anunțurile...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: SETARI -->
+  <div class="tab-pane" id="tab-setari">
+    <div class="card" style="max-width:480px;margin:0 auto;padding:32px">
+      <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:24px">🔑 Schimbă parola</h3>
+      <div id="pwd-msg" style="display:none;border-radius:10px;padding:11px 14px;font-size:.88rem;font-weight:700;margin-bottom:16px;text-align:center"></div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label style="display:block;font-weight:700;font-size:.82rem;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Parola curentă</label>
+          <input type="password" id="pwd-current" placeholder="••••••••"
+            style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--text);background:var(--bg);outline:none">
+        </div>
+        <div>
+          <label style="display:block;font-weight:700;font-size:.82rem;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Parola nouă</label>
+          <input type="password" id="pwd-new" placeholder="min. 6 caractere"
+            style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--text);background:var(--bg);outline:none">
+        </div>
+        <div>
+          <label style="display:block;font-weight:700;font-size:.82rem;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Confirmă parola nouă</label>
+          <input type="password" id="pwd-confirm" placeholder="••••••••"
+            style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--text);background:var(--bg);outline:none">
+        </div>
+        <button onclick="changePassword()"
+          style="width:100%;padding:13px;background:linear-gradient(135deg,var(--coral),var(--coral2));color:#fff;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-top:4px">
+          💾 Salvează parola nouă
+        </button>
       </div>
     </div>
   </div>
@@ -787,6 +819,43 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/\n/g, '<br>');
+  }
+
+  /* ── SCHIMBĂ PAROLA ── */
+  async function changePassword() {
+    const current = document.getElementById('pwd-current').value;
+    const newPwd  = document.getElementById('pwd-new').value;
+    const confirm = document.getElementById('pwd-confirm').value;
+    const msgEl   = document.getElementById('pwd-msg');
+
+    function showMsg(text, ok) {
+      msgEl.textContent = text;
+      msgEl.style.display = 'block';
+      msgEl.style.background = ok ? '#f0fff4' : '#fff0f0';
+      msgEl.style.border = ok ? '1.5px solid #a3e9b8' : '1.5px solid #ffcaca';
+      msgEl.style.color  = ok ? '#2a7a4a' : '#d44';
+    }
+
+    if (!current || !newPwd || !confirm) return showMsg('⚠️ Completează toate câmpurile.', false);
+    if (newPwd !== confirm)              return showMsg('❌ Parolele noi nu coincid.', false);
+    if (newPwd.length < 6)              return showMsg('❌ Parola trebuie să aibă cel puțin 6 caractere.', false);
+
+    try {
+      const r    = await fetch('/api/parinti/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+        body: JSON.stringify({ currentPassword: current, newPassword: newPwd })
+      });
+      const data = await r.json();
+      if (data.ok) {
+        showMsg('✅ Parola a fost schimbată cu succes!', true);
+        document.getElementById('pwd-current').value = '';
+        document.getElementById('pwd-new').value     = '';
+        document.getElementById('pwd-confirm').value = '';
+      } else {
+        showMsg('❌ ' + (data.error || 'Eroare.'), false);
+      }
+    } catch { showMsg('❌ Eroare de conexiune.', false); }
   }
 
   /* ── LOGOUT ── */

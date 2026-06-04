@@ -527,6 +527,8 @@
   .gal-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
   .g-item:nth-child(n) { grid-column: span 1; height: 140px; }
   .hero { padding: 110px 24px 60px; }
+  .program-preview-photo { display: none; }
+  .program-preview-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   /* Hero buttons: stack-uite de la 600px in jos */
