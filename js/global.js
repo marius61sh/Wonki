@@ -12,6 +12,125 @@
   document.head.appendChild(link);
 })();
 
+/* ─── PWA: MANIFEST + SERVICE WORKER ─── */
+(function () {
+  // Adaugă manifest link dacă nu există deja
+  if (!document.querySelector('link[rel="manifest"]')) {
+    var mLink = document.createElement('link');
+    mLink.rel  = 'manifest';
+    mLink.href = '/manifest.json';
+    document.head.appendChild(mLink);
+  }
+
+  // Meta theme-color
+  if (!document.querySelector('meta[name="theme-color"]')) {
+    var meta = document.createElement('meta');
+    meta.name    = 'theme-color';
+    meta.content = '#918880';
+    document.head.appendChild(meta);
+  }
+
+  // Înregistrare Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(function (reg) {
+          console.log('[SW] Înregistrat:', reg.scope);
+          // Verifică update disponibil
+          reg.addEventListener('updatefound', function () {
+            var newWorker = reg.installing;
+            newWorker.addEventListener('statechange', function () {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showPwaUpdateToast();
+              }
+            });
+          });
+        })
+        .catch(function (err) { console.warn('[SW] Eroare:', err); });
+    });
+  }
+})();
+
+/* ─── PWA: BANNER INSTALARE ─── */
+(function () {
+  var _deferredPrompt = null;
+  var _bannerShown    = false;
+
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    _deferredPrompt = e;
+    // Arată bannerul după 3s de la load, o singură dată per sesiune
+    if (!sessionStorage.getItem('pwa-banner-seen')) {
+      setTimeout(showInstallBanner, 3000);
+    }
+  });
+
+  function showInstallBanner() {
+    if (_bannerShown || !_deferredPrompt) return;
+    _bannerShown = true;
+    sessionStorage.setItem('pwa-banner-seen', '1');
+
+    var banner = document.createElement('div');
+    banner.id  = 'pwa-banner';
+    banner.innerHTML =
+      '<div style="display:flex;align-items:center;gap:14px;flex:1">' +
+        '<img src="/images/icons/icon-72.png" width="44" height="44" style="border-radius:10px;flex-shrink:0" alt="Wonki">' +
+        '<div>' +
+          '<div style="font-weight:800;font-size:.95rem;color:#1A1A18">Instalează Wonki 📲</div>' +
+          '<div style="font-size:.78rem;color:#777;margin-top:2px">Acces rapid de pe ecranul principal</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:8px;flex-shrink:0">' +
+        '<button id="pwa-install-btn" style="padding:8px 18px;background:#918880;color:#fff;border:none;border-radius:20px;font-weight:800;font-size:.85rem;cursor:pointer">Instalează</button>' +
+        '<button id="pwa-dismiss-btn" style="padding:8px 12px;background:transparent;color:#aaa;border:none;font-size:1.1rem;cursor:pointer;line-height:1">✕</button>' +
+      '</div>';
+
+    banner.style.cssText =
+      'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);' +
+      'background:#fff;border-radius:18px;padding:14px 18px;' +
+      'box-shadow:0 8px 40px rgba(0,0,0,.15);z-index:9990;' +
+      'display:flex;align-items:center;gap:16px;' +
+      'max-width:420px;width:calc(100% - 32px);' +
+      'transition:transform .4s cubic-bezier(.34,1.56,.64,1);';
+
+    document.body.appendChild(banner);
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        banner.style.transform = 'translateX(-50%) translateY(0)';
+      });
+    });
+
+    document.getElementById('pwa-install-btn').addEventListener('click', function () {
+      _deferredPrompt.prompt();
+      _deferredPrompt.userChoice.then(function (choice) {
+        if (choice.outcome === 'accepted') {
+          console.log('[PWA] Instalat!');
+        }
+        _deferredPrompt = null;
+        hideBanner();
+      });
+    });
+
+    document.getElementById('pwa-dismiss-btn').addEventListener('click', hideBanner);
+  }
+
+  function hideBanner() {
+    var b = document.getElementById('pwa-banner');
+    if (!b) return;
+    b.style.transform = 'translateX(-50%) translateY(120px)';
+    setTimeout(function () { b && b.remove(); }, 400);
+  }
+
+  // Banner update SW
+  window.showPwaUpdateToast = function () {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.innerHTML = '🔄 Versiune nouă disponibilă — <a href="javascript:location.reload(true)" style="color:#fff;text-decoration:underline;font-weight:900">Actualizează</a>';
+    t.classList.add('show');
+  };
+})();
+
 /* ─── PAGE TRANSITIONS — radial clip (cerc din punctul de click) ─── */
 (function () {
   var DURATION_IN  = 420; // ms cerc se extinde (exit)

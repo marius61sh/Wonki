@@ -52,8 +52,8 @@ async function seedIfEmpty() {
   const now = new Date();
 
   await db.collection('users').add({
-    email:    'admin@wonki.ro',
-    password: bcrypt.hashSync('wonki2025', 10),
+    email:    'admin@',
+    password: bcrypt.hashSync('wonki2026', 10),
     name:     'Administrator',
     created:  now
   });
@@ -62,14 +62,14 @@ async function seedIfEmpty() {
   await db.collection('blog').add({ title: 'Programul de toamna 2025', content: 'Noul program de activitati pentru trimestrul de toamna este disponibil acum pe site.',           category: 'Evenimente', status: 'publicat', views: 0, created: now });
   await db.collection('blog').add({ title: 'Atelier de pictura',       content: 'Copiii nostri au participat la un atelier special de pictura cu artisti locali.',                  category: 'Activitati', status: 'publicat', views: 0, created: now });
 
-  await db.collection('testimoniale').add({ name: 'Maria Ionescu',      role: 'Mama lui Andrei, 4 ani', text: 'Wonki este locul perfect pentru copilul meu! Educatoarele sunt minunate.',                           stars: 5, status: 'activ', created: now });
-  await db.collection('testimoniale').add({ name: 'Alexandru Popa',     role: 'Tata Sofiei, 3 ani',    text: 'Copilul nostru asteapta cu nerabdare sa mearga in fiecare zi. Recomandam cu caldura!',                stars: 5, status: 'activ', created: now });
-  await db.collection('testimoniale').add({ name: 'Elena Dumitrescu',   role: 'Mama lui Radu, 5 ani',  text: 'Mediul calduros si activitatile creative fac din Wonki alegerea perfecta pentru familia noastra.', stars: 5, status: 'activ', created: now });
+  await db.collection('testimoniale').add({ name: 'Natalia Ciobanu',  role: 'Mama lui Maxim, 4 ani',  text: 'Wonki este locul perfect pentru copilul meu! Educatoarele sunt minunate.',                           stars: 5, status: 'activ', created: now });
+  await db.collection('testimoniale').add({ name: 'Viorel Lupu',      role: 'Tata Sofiei, 3 ani',     text: 'Copilul nostru asteapta cu nerabdare sa mearga in fiecare zi. Recomandam cu caldura!',                stars: 5, status: 'activ', created: now });
+  await db.collection('testimoniale').add({ name: 'Aliona Moraru',    role: 'Mama lui Daniil, 5 ani', text: 'Mediul calduros si activitatile creative fac din Wonki alegerea perfecta pentru familia noastra.', stars: 5, status: 'activ', created: now });
 
-  await db.collection('echipa').add({ name: 'Ana Popescu',      role: 'Director & Educator',  emoji: '👩‍🏫', bio: 'Cu 15 ani de experienta in educatia timpurie.',      status: 'activ', created: now });
-  await db.collection('echipa').add({ name: 'Maria Constantin', role: 'Educator Senior',      emoji: '🌟',   bio: 'Specialista in educatie prin joc si creativitate.',  status: 'activ', created: now });
-  await db.collection('echipa').add({ name: 'Elena Ionescu',    role: 'Profesor Muzica',      emoji: '🎵',   bio: 'Aduce magia muzicii in viata copiilor.',             status: 'activ', created: now });
-  await db.collection('echipa').add({ name: 'Cristina Popa',    role: 'Nutritionist',         emoji: '🥗',   bio: 'Creeaza meniuri sanatoase si delicioase zilnic.',   status: 'activ', created: now });
+  await db.collection('echipa').add({ name: 'Tatiana Botnaru', role: 'Director & Educator',  emoji: '👩‍🏫', bio: 'Cu 15 ani de experienta in educatia timpurie.',      status: 'activ', created: now });
+  await db.collection('echipa').add({ name: 'Olga Vrabie',     role: 'Educator Senior',      emoji: '🌟',   bio: 'Specialista in educatie prin joc si creativitate.',  status: 'activ', created: now });
+  await db.collection('echipa').add({ name: 'Dorina Rusu',     role: 'Profesor Muzica',      emoji: '🎵',   bio: 'Aduce magia muzicii in viata copiilor.',             status: 'activ', created: now });
+  await db.collection('echipa').add({ name: 'Liliana Grosu',   role: 'Nutritionist',         emoji: '🥗',   bio: 'Creeaza meniuri sanatoase si delicioase zilnic.',   status: 'activ', created: now });
 
   console.log(' Date initiale create cu succes!');
 }

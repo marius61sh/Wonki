@@ -10,14 +10,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --coral:  #FF6B6B;
-      --coral2: #FF4F4F;
-      --mint:   #6BCB77;
-      --sky:    #4D96FF;
-      --warm:   #FFF5F5;
-      --text:   #2D2D2D;
-      --muted:  #888;
-      --shadow: 0 20px 60px rgba(255, 107, 107, 0.18);
+      --accent:  #918880;
+      --accent2: #7a7068;
+      --warm:    #F5F3EF;
+      --text:    #1A1A18;
+      --muted:   #918880;
+      --shadow:  0 20px 60px rgba(145, 136, 128, 0.22);
     }
 
     html, body {
@@ -26,7 +24,7 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(135deg, #FF9A9A 0%, #FF6B6B 40%, #FF4F4F 70%, #FF8C69 100%);
+      background: linear-gradient(135deg, #b0a898 0%, #918880 40%, #7a7068 70%, #a09888 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -142,7 +140,7 @@
       background: #FAFAFA;
     }
     .form-group input:focus {
-      border-color: var(--coral);
+      border-color: var(--accent);
       box-shadow: 0 0 0 4px rgba(255,107,107,0.12);
       background: #fff;
     }
@@ -154,7 +152,7 @@
     .btn-login {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, var(--coral), var(--coral2));
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #fff;
       border: none;
       border-radius: 14px;
@@ -163,12 +161,12 @@
       font-weight: 800;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 6px 20px rgba(255,107,107,0.35);
+      box-shadow: 0 6px 20px rgba(145,136,128,0.35);
       margin-top: 8px;
     }
     .btn-login:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(255,107,107,0.45);
+      box-shadow: 0 10px 28px rgba(145,136,128,0.45);
     }
     .btn-login:active {
       transform: translateY(0);
@@ -223,40 +221,38 @@
       to   { transform: rotate(360deg); }
     }
 
-    [data-theme="dark"] body {
-      background: linear-gradient(135deg, #0f0f1a 0%, #1a1020 50%, #12101a 100%);
-    }
-    [data-theme="dark"] .top-brand .logo { color: #e8e8f0; }
-    [data-theme="dark"] .top-brand .tagline { color: rgba(200,200,220,0.7); }
+    [data-theme="dark"] body { background: #111110; }
+    [data-theme="dark"] .top-brand .logo   { color: #e8e0d0; }
+    [data-theme="dark"] .top-brand .tagline { color: #9a9080; }
     [data-theme="dark"] .card {
-      background: #1a1a2e;
+      background: #1e1e18;
       box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     }
-    [data-theme="dark"] .card-header h1 { color: #e8e8f0; }
-    [data-theme="dark"] .card-header p  { color: #7a7a9a; }
-    [data-theme="dark"] .form-group label { color: #c8c8e0; }
+    [data-theme="dark"] .card-header h1 { color: #e8e0d0; }
+    [data-theme="dark"] .card-header p  { color: #9a9080; }
+    [data-theme="dark"] .form-group label { color: #9a9080; }
     [data-theme="dark"] .form-group input {
-      background: #0f0f1a;
-      border-color: #2a2a42;
-      color: #e8e8f0;
+      background: #141412;
+      border: 2px solid rgba(255,255,255,.06);
+      color: #e8e0d0;
     }
     [data-theme="dark"] .form-group input:focus {
-      border-color: #c45c5c;
-      background: #14142a;
-      box-shadow: 0 0 0 4px rgba(196,92,92,0.15);
+      border-color: #a08078;
+      background: #141412;
+      box-shadow: 0 0 0 4px rgba(160,128,120,0.15);
     }
-    [data-theme="dark"] .form-group input::placeholder { color: #4a4a6a; }
+    [data-theme="dark"] .form-group input::placeholder { color: #6a6050; }
     [data-theme="dark"] .btn-login {
-      background: linear-gradient(135deg, #c45c5c, #a84848);
+      background: linear-gradient(135deg, #a08078, #8a6e66);
       box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     }
     [data-theme="dark"] .error-msg {
-      background: #2a1010;
-      border-color: #5a2020;
-      color: #e08080;
+      background: #1e1e18;
+      border-color: rgba(160,128,120,0.3);
+      color: #a08078;
     }
-    [data-theme="dark"] .back-link { color: rgba(200,200,220,0.7); }
-    [data-theme="dark"] .back-link:hover { color: #e8e8f0; }
+    [data-theme="dark"] .back-link       { color: #9a9080; }
+    [data-theme="dark"] .back-link:hover { color: #e8e0d0; }
 
     .theme-toggle-login {
       position: fixed; top: 16px; right: 16px;
@@ -292,18 +288,21 @@
     <div id="error-msg" class="error-msg"></div>
 
     <div class="form-group">
-      <label>Adresă email</label>
-      <input type="email" id="email" placeholder="maria@email.ro" autocomplete="email">
+      <label>Adresă email</label> 
+      <input type="email" id="email" placeholder="user@email.com" autocomplete="email">
     </div>
     <div class="form-group">
       <label>Parolă</label>
-      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+      <div style="position:relative">
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" style="padding-right:46px">
+        <button type="button" onclick="togglePwd('password','eye-login')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;padding:4px;line-height:1;color:var(--muted)" id="eye-login"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
     </div>
 
     <button class="btn-login" id="btn-login" onclick="doLogin()">🔓 Intră în portal</button>
 
     <p style="text-align:center;margin-top:16px;font-size:.85rem">
-      <a href="#" onclick="showForgot(event)" style="color:var(--coral);font-weight:700;text-decoration:underline">Am uitat parola</a>
+      <a href="#" onclick="showForgot(event)" style="color:var(--accent);font-weight:700;text-decoration:underline">Am uitat parola</a>
     </p>
   </div>
 
@@ -320,7 +319,7 @@
       <div id="forgot-err" class="error-msg"></div>
       <div class="form-group">
         <label>Email cont</label>
-        <input type="email" id="forgot-email" placeholder="maria@email.ro">
+        <input type="email" id="forgot-email" placeholder="user@email.com">
       </div>
       <button class="btn-login" id="btn-forgot" onclick="sendCode()">📨 Trimite codul</button>
     </div>
@@ -335,17 +334,23 @@
       </div>
       <div class="form-group">
         <label>Parolă nouă</label>
-        <input type="password" id="new-password" placeholder="min. 6 caractere">
+        <div style="position:relative">
+          <input type="password" id="new-password" placeholder="min. 6 caractere" style="padding-right:46px">
+          <button type="button" onclick="togglePwd('new-password','eye-new')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;padding:4px;line-height:1;color:var(--muted)" id="eye-new"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
       </div>
       <div class="form-group">
         <label>Confirmă parola nouă</label>
-        <input type="password" id="confirm-password" placeholder="••••••••">
+        <div style="position:relative">
+          <input type="password" id="confirm-password" placeholder="••••••••" style="padding-right:46px">
+          <button type="button" onclick="togglePwd('confirm-password','eye-confirm')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;padding:4px;line-height:1;color:var(--muted)" id="eye-confirm"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        </div>
       </div>
       <button class="btn-login" id="btn-reset" onclick="doReset()">✅ Setează parola nouă</button>
     </div>
 
     <p style="text-align:center;margin-top:14px;font-size:.84rem">
-      <a href="#" onclick="showLogin(event)" style="color:var(--coral);font-weight:700;text-decoration:underline">← Înapoi la login</a>
+      <a href="#" onclick="showLogin(event)" style="color:var(--accent);font-weight:700;text-decoration:underline">← Înapoi la login</a>
     </p>
   </div>
 
@@ -353,6 +358,17 @@
 
   <script>
     if (localStorage.getItem('wonki_parinte_token')) { window.location.href = '/parinti'; }
+
+    const EYE_OPEN = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    const EYE_OFF  = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+
+    function togglePwd(inputId, btnId) {
+      const input = document.getElementById(inputId);
+      const btn   = document.getElementById(btnId);
+      const show  = input.type === 'password';
+      input.type   = show ? 'text' : 'password';
+      btn.innerHTML = show ? EYE_OFF : EYE_OPEN;
+    }
 
     /* ── DARK MODE ── */
     function applyTheme(t) {
@@ -406,8 +422,7 @@
           document.getElementById('step-email').style.display = 'none';
           document.getElementById('step-reset').style.display = 'block';
           document.getElementById('reset-info').textContent =
-            '📧 Codul tău (demo): ' + data.data.code + ' — expiră în 15 minute.';
-          document.querySelector('#step-reset #forgot-email-hidden')?.remove();
+            '📧 Codul a fost trimis pe ' + email + '. Verifică și folderul Spam.';
           window._resetEmail = email;
         } else {
           errEl.textContent = '❌ ' + (data.error || 'Eroare.');
@@ -469,9 +484,9 @@
         const data = await r.json();
 
         if (data.ok) {
-          localStorage.setItem('wonki_parinte_token',  data.data.token);
-          localStorage.setItem('wonki_parinte_name',   data.data.name);
-          localStorage.setItem('wonki_parinte_copilId', data.data.copilId);
+          localStorage.setItem('wonki_parinte_token',    data.data.token);
+          localStorage.setItem('wonki_parinte_name',     data.data.name);
+          localStorage.setItem('wonki_parinte_copiiIds', JSON.stringify(data.data.copiiIds || []));
           window.location.href = '/parinti';
         } else {
           errEl.textContent = '❌ ' + (data.error || 'Email sau parolă incorectă.');

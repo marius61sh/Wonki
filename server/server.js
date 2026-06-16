@@ -3,15 +3,25 @@
 //  Pornire: cd server && npm run dev
 // ============================================================
 require('dotenv').config();
-const express   = require('express');
-const path      = require('path');
-const bcrypt    = require('bcryptjs');
-const jwt       = require('jsonwebtoken');
-const multer    = require('multer');
-const cors      = require('cors');
-const fs        = require('fs');
-const rateLimit = require('express-rate-limit');
+const express      = require('express');
+const path         = require('path');
+const bcrypt       = require('bcryptjs');
+const jwt          = require('jsonwebtoken');
+const multer       = require('multer');
+const cors         = require('cors');
+const fs           = require('fs');
+const rateLimit    = require('express-rate-limit');
+const nodemailer   = require('nodemailer');
 const { initDB, getDB, docToObj } = require('./firebase');
+
+// ── Nodemailer transporter ───────────────────────────────────
+const mailer = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  }
+});
 
 const app    = express();
 const PORT   = process.env.PORT       || 3000;
@@ -682,6 +692,9 @@ function authParinte(req, res, next) {
   try {
     const decoded = jwt.verify(token, SECRET);
     if (decoded.role !== 'parinte') return res.status(403).json({ ok: false, error: 'Acces interzis' });
+    // normalize legacy single copilId → copiiIds array
+    if (!decoded.copiiIds && decoded.copilId) decoded.copiiIds = [decoded.copilId];
+    decoded.copiiIds = decoded.copiiIds || [];
     req.user = decoded;
     next();
   } catch { res.status(401).json({ ok: false, error: 'Token invalid' }); }
@@ -730,11 +743,12 @@ app.post('/api/parinti/login', loginLimiter, async (req, res) => {
     const doc  = snap.docs[0];
     const data = doc.data();
     if (!bcrypt.compareSync(password, data.password)) return err(res, 'Email sau parola incorecta', 401);
+    const copiiIds = data.copiiIds || (data.copilId ? [data.copilId] : []);
     const token = jwt.sign(
-      { id: doc.id, email: data.email, name: data.name, copilId: data.copilId, role: 'parinte' },
+      { id: doc.id, email: data.email, name: data.name, copiiIds, role: 'parinte' },
       SECRET, { expiresIn: '7d' }
     );
-    ok(res, { token, name: data.name, copilId: data.copilId });
+    ok(res, { token, name: data.name, copiiIds });
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
@@ -742,21 +756,35 @@ app.post('/api/parinti/login', loginLimiter, async (req, res) => {
 app.get('/api/parinti/profil', authParinte, async (req, res) => {
   try {
     const db = getDB();
+    const copiiIds = req.user.copiiIds;
+    const requestedId = req.query.copilId;
+    const activeCopilId = (requestedId && copiiIds.includes(requestedId)) ? requestedId : copiiIds[0];
     const [copilDoc, parinteDoc] = await Promise.all([
-      db.collection('copii').doc(req.user.copilId).get(),
+      activeCopilId ? db.collection('copii').doc(activeCopilId).get() : Promise.resolve({ exists: false }),
       db.collection('parinti').doc(req.user.id).get()
     ]);
-    const copil   = copilDoc.exists   ? { id: copilDoc.id,   ...copilDoc.data()   } : null;
+    const copil      = copilDoc.exists   ? { id: copilDoc.id,   ...copilDoc.data()   } : null;
     const parinteRaw = parinteDoc.exists ? { id: parinteDoc.id, ...parinteDoc.data() } : null;
     if (parinteRaw) delete parinteRaw.password;
-    ok(res, { copil, parinte: parinteRaw });
+    // fetch names of all children for the selector
+    let toateCopiii = [];
+    if (copiiIds.length > 1) {
+      const docs = await Promise.all(copiiIds.map(id => db.collection('copii').doc(id).get()));
+      toateCopiii = docs.filter(d => d.exists).map(d => ({ id: d.id, numeCopil: d.data().numeCopil }));
+    } else if (copil) {
+      toateCopiii = [{ id: copil.id, numeCopil: copil.numeCopil }];
+    }
+    ok(res, { copil, parinte: parinteRaw, toateCopiii, activeCopilId });
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
 app.get('/api/parinti/mesaje', authParinte, async (req, res) => {
   try {
-    const db   = getDB();
-    const snap = await db.collection('mesaje_parinti').where('copilId', '==', req.user.copilId).get();
+    const db = getDB();
+    const copiiIds = req.user.copiiIds;
+    const requestedId = req.query.copilId;
+    const activeCopilId = (requestedId && copiiIds.includes(requestedId)) ? requestedId : copiiIds[0];
+    const snap = await db.collection('mesaje_parinti').where('copilId', '==', activeCopilId).get();
     const msgs = snap.docs.map(docToObj).sort((a, b) => {
       const da = toDate(a.created) || 0;
       const db2 = toDate(b.created) || 0;
@@ -775,10 +803,12 @@ app.get('/api/parinti/mesaje', authParinte, async (req, res) => {
 
 app.post('/api/parinti/mesaje', authParinte, async (req, res) => {
   try {
-    const { text } = req.body;
+    const { text, copilId: reqCopilId } = req.body;
     if (!text || !text.trim()) return err(res, 'Mesajul nu poate fi gol');
+    const copiiIds = req.user.copiiIds;
+    const copilId = (reqCopilId && copiiIds.includes(reqCopilId)) ? reqCopilId : copiiIds[0];
     const ref = await getDB().collection('mesaje_parinti').add({
-      copilId: req.user.copilId,
+      copilId,
       from:    'parinte',
       text:    text.trim(),
       read:    false,
@@ -795,13 +825,37 @@ app.post('/api/parinti/forgot-password', async (req, res) => {
     if (!email) return err(res, 'Email obligatoriu');
     const snap = await getDB().collection('parinti').where('email', '==', email).limit(1).get();
     if (snap.empty) return err(res, 'Nu există niciun cont cu acest email');
+
     // Generează cod de 6 cifre + expiră în 15 min
     const code    = Math.floor(100000 + Math.random() * 900000).toString();
     const expires = new Date(Date.now() + 15 * 60 * 1000);
     await getDB().collection('parinti').doc(snap.docs[0].id).update({ resetCode: code, resetExpires: expires });
-    // Într-un proiect real trimitem email — aici returnăm codul direct pentru demo
-    ok(res, { code, message: 'Cod generat. Într-un proiect real acesta ar fi trimis pe email.' });
-  } catch (e) { err(res, 'Eroare server', 500); }
+
+    // Trimite email cu codul
+    await mailer.sendMail({
+      from: `"Grădinița Wonki 🌟" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'Resetare parolă – Wonki',
+      html: `
+        <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#FAFAFA;border-radius:16px">
+          <h2 style="color:#918880;margin:0 0 8px">Grădinița <strong>Wonki</strong> 🌟</h2>
+          <p style="color:#555;font-size:15px">Ai solicitat resetarea parolei pentru portalul părinților.</p>
+          <div style="background:#fff;border-radius:12px;padding:24px;text-align:center;margin:24px 0;box-shadow:0 4px 16px rgba(0,0,0,.07)">
+            <p style="margin:0 0 8px;color:#999;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">Codul tău de verificare</p>
+            <p style="margin:0;font-size:40px;font-weight:900;letter-spacing:8px;color:#1A1A18">${code}</p>
+          </div>
+          <p style="color:#999;font-size:13px">Codul este valabil <strong>15 minute</strong>. Dacă nu ai solicitat resetarea parolei, ignoră acest email.</p>
+          <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
+          <p style="color:#ccc;font-size:12px;margin:0">© ${new Date().getFullYear()} Grădinița Wonki · Chișinău</p>
+        </div>
+      `
+    });
+
+    ok(res, { message: 'Codul a fost trimis pe email.' });
+  } catch (e) {
+    console.error('Email error:', e);
+    err(res, 'Eroare la trimiterea emailului', 500);
+  }
 });
 
 app.post('/api/parinti/reset-password', async (req, res) => {
@@ -841,13 +895,13 @@ app.post('/api/parinti/change-password', authParinte, async (req, res) => {
 // ── ADMIN: CONTURI PARINTI ────────────────────────────────────
 app.post('/api/admin/parinti', auth, async (req, res) => {
   try {
-    const { email, password, copilId, name } = req.body;
-    if (!email || !password || !copilId || !name) return err(res, 'Toate câmpurile sunt obligatorii');
+    const { email, password, copiiIds, name } = req.body;
+    if (!email || !password || !copiiIds?.length || !name) return err(res, 'Toate câmpurile sunt obligatorii');
     const existing = await getDB().collection('parinti').where('email', '==', email).limit(1).get();
     if (!existing.empty) return err(res, 'Email deja înregistrat');
     const hashed = bcrypt.hashSync(password, 10);
     const ref = await getDB().collection('parinti').add({
-      email, password: hashed, copilId, name, created: new Date()
+      email, password: hashed, copiiIds, name, created: new Date()
     });
     ok(res, { id: ref.id });
   } catch (e) { err(res, 'Eroare server', 500); }
@@ -859,6 +913,8 @@ app.get('/api/admin/parinti', auth, async (req, res) => {
     ok(res, snap.docs.map(d => {
       const obj = docToObj(d);
       delete obj.password;
+      if (!obj.copiiIds && obj.copilId) obj.copiiIds = [obj.copilId];
+      obj.copiiIds = obj.copiiIds || [];
       return obj;
     }));
   } catch (e) { err(res, 'Eroare server', 500); }
@@ -868,6 +924,18 @@ app.delete('/api/admin/parinti/:id', auth, async (req, res) => {
   try {
     await getDB().collection('parinti').doc(req.params.id).delete();
     ok(res, 'Sters');
+  } catch (e) { err(res, 'Eroare server', 500); }
+});
+
+app.put('/api/admin/parinti/:id/reset-password', auth, async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    if (!newPassword || newPassword.length < 6) return err(res, 'Parola trebuie să aibă cel puțin 6 caractere');
+    await getDB().collection('parinti').doc(req.params.id).update({
+      password: bcrypt.hashSync(newPassword, 10),
+      resetCode: null, resetExpires: null
+    });
+    ok(res, 'Parola a fost resetată');
   } catch (e) { err(res, 'Eroare server', 500); }
 });
 
@@ -916,6 +984,20 @@ app.delete('/api/admin/mesaje-parinti/:copilId', auth, async (req, res) => {
 // ── RUTE CURATE (fara .html) ─────────────────────────────────
 const rootDir  = path.join(__dirname, '..');
 const pagesDir = path.join(__dirname, '..', 'pages');
+
+// PWA files — servite cu headers corecte
+app.get('/sw.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.sendFile(path.join(rootDir, 'sw.js'));
+});
+app.get('/manifest.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/manifest+json');
+  res.sendFile(path.join(rootDir, 'manifest.json'));
+});
+app.get('/offline.html', (req, res) => {
+  res.sendFile(path.join(rootDir, 'offline.html'));
+});
 
 app.get('/',                  (req, res) => res.sendFile(path.join(rootDir,  'index.html')));
 app.get('/acasa',             (req, res) => res.sendFile(path.join(rootDir,  'index.html')));

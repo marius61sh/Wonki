@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline – Wonki</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #FAFAFA;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .logo {
+      font-size: 3rem; font-weight: 900;
+      color: #918880; margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+    .illu { font-size: 6rem; margin: 32px 0 24px; animation: float 3s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+    h1 { font-size: 1.8rem; font-weight: 800; color: #1A1A18; margin-bottom: 12px; }
+    p  { font-size: 1rem; color: #777; line-height: 1.7; max-width: 360px; margin: 0 auto 32px; }
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      background: #918880; color: #fff;
+      border: none; border-radius: 50px;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 20px rgba(145,136,128,.35);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(145,136,128,.45); }
+    .cached-pages {
+      margin-top: 40px; padding: 24px;
+      background: #fff; border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      width: 100%; max-width: 360px;
+    }
+    .cached-pages h3 { font-size: .85rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+    .page-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      text-decoration: none; color: #1A1A18;
+      font-weight: 600; font-size: .92rem;
+      transition: background .2s;
+    }
+    .page-link:hover { background: #f5f3f1; }
+    .page-link span { font-size: 1.2rem; }
+    .status {
+      margin-top: 20px;
+      display: flex; align-items: center; gap: 6px;
+      font-size: .8rem; color: #aaa; font-weight: 600;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #FF6B6B; animation: pulse 1.5s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
+  </style>
+</head>
+<body>
+  <div class="logo">wonki</div>
+
+  <div class="illu">🌙</div>
+
+  <h1>Ești offline momentan</h1>
+  <p>Nu ai conexiune la internet. Verifică rețeaua și încearcă din nou — sau navighează la paginile salvate mai jos.</p>
+
+  <button class="btn" onclick="window.location.reload()">🔄 Încearcă din nou</button>
+
+  <div class="cached-pages">
+    <h3>Pagini disponibile offline</h3>
+    <a href="/" class="page-link"><span>🏠</span> Acasă</a>
+    <a href="/despre" class="page-link"><span>💛</span> Despre noi</a>
+    <a href="/program" class="page-link"><span>🎯</span> Program</a>
+    <a href="/tarife" class="page-link"><span>💳</span> Tarife</a>
+    <a href="/blog" class="page-link"><span>✍️</span> Blog</a>
+    <a href="/contact" class="page-link"><span>📬</span> Contact</a>
+  </div>
+
+  <div class="status">
+    <div class="dot"></div>
+    <span>Offline</span>
+  </div>
+
+  <script>
+    // Reîncarcă automat când revine conexiunea
+    window.addEventListener('online', () => window.location.reload());
+
+    // Schimbă dot-ul la verde când revine online
+    window.addEventListener('online', () => {
+      document.querySelector('.dot').style.background = '#6BCB77';
+      document.querySelector('.status span').textContent = 'Conexiune restabilită — se reîncarcă...';
+    });
+  </script>
+</body>
+</html>

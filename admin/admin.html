@@ -294,8 +294,8 @@
         <div class="card">
           <div class="card-title">➕ Adaugă testimonial</div>
           <div class="form-grid">
-            <div class="form-group"><label>Nume *</label><input id="t-name" type="text" placeholder="Maria Ionescu"></div>
-            <div class="form-group"><label>Rol</label><input id="t-role" type="text" placeholder="Mama Andreei, 4 ani"></div>
+            <div class="form-group"><label>Nume *</label><input id="t-name" type="text" placeholder="Natalia Ciobanu"></div>
+            <div class="form-group"><label>Rol</label><input id="t-role" type="text" placeholder="Mama Sofiei, 4 ani"></div>
             <div class="form-group"><label>Mesaj</label><textarea id="t-text" placeholder="Ce spun despre Wonki..."></textarea></div>
             <div class="form-group">
               <label>Rating</label>
@@ -324,7 +324,7 @@
           <div class="card-title" id="echipa-form-label">➕ Adaugă angajat</div>
           <div class="form-grid">
             <div class="form-row">
-              <div class="form-group"><label>Nume *</label><input id="e-name" type="text" placeholder="Ana Marinescu"></div>
+              <div class="form-group"><label>Nume *</label><input id="e-name" type="text" placeholder="Tatiana Botnaru"></div>
               <div class="form-group"><label>Emoji avatar</label><input id="e-emoji" type="text" placeholder="👩‍🏫" maxlength="4"></div>
             </div>
             <div class="form-row">
@@ -333,7 +333,7 @@
             </div>
             <div class="form-row">
               <div class="form-group"><label>Telefon</label><input id="e-telefon" type="tel" placeholder="07xx xxx xxx"></div>
-              <div class="form-group"><label>Email</label><input id="e-email" type="email" placeholder="ana@wonki.ro"></div>
+              <div class="form-group"><label>Email</label><input id="e-email" type="email" placeholder="ana@wonki.com"></div>
             </div>
             <div class="form-row">
               <div class="form-group"><label>Data angajării</label><input id="e-dataAngajare" type="date"></div>
@@ -838,7 +838,7 @@ function openAddCopil() {
   showModal('➕ Adaugă copil', `
     <div class="form-grid" style="gap:14px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-group"><label>Numele copilului *</label><input id="nc-numeCopil" type="text" placeholder="Alexandru"></div>
+        <div class="form-group"><label>Numele copilului *</label><input id="nc-numeCopil" type="text" placeholder="Maxim"></div>
         <div class="form-group"><label>Data nașterii *</label><input id="nc-dataNasterii" type="date"></div>
       </div>
       <div class="form-group"><label>Program</label>
@@ -848,10 +848,10 @@ function openAddCopil() {
           <option>Premium Plus</option>
         </select>
       </div>
-      <div class="form-group"><label>Nume Părinte *</label><input id="nc-numeParinte" type="text" placeholder="Maria Ionescu"></div>
+      <div class="form-group"><label>Nume Părinte *</label><input id="nc-numeParinte" type="text" placeholder="Natalia Ciobanu"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="form-group"><label>Telefon</label><input id="nc-telefon" type="tel" placeholder="07xx xxx xxx"></div>
-        <div class="form-group"><label>Email</label><input id="nc-email" type="email" placeholder="maria@email.ro"></div>
+        <div class="form-group"><label>Email</label><input id="nc-email" type="email" placeholder="natalia@gmail.com"></div>
       </div>
       <div class="form-group"><label>Alergii / Restricții alimentare</label><input id="nc-alergii" type="text" placeholder="Ex: lactate, nuci..."></div>
       <div class="form-group"><label>Observații</label><textarea id="nc-observatii" placeholder="Notițe pentru educatoare..."></textarea></div>
@@ -1411,39 +1411,60 @@ async function loadConturiParinti() {
     return c ? c.numeCopil : `<span style="color:var(--muted);font-size:.8rem">${id ? id.substring(0,8)+'…' : '—'}</span>`;
   };
 
-  tbody.innerHTML = r.data.map(p => `
+  tbody.innerHTML = r.data.map(p => {
+    const copiiNames = (p.copiiIds || []).map(id => copilName(id)).join(', ') || '—';
+    const primuCopilId = (p.copiiIds || [])[0] || '';
+    return `
     <tr>
       <td><strong>${p.name || '—'}</strong></td>
       <td><a href="mailto:${p.email}" style="color:var(--sky);font-size:.85rem">${p.email || '—'}</a></td>
-      <td>${copilName(p.copilId)}</td>
+      <td style="font-size:.85rem">${copiiNames}</td>
       <td style="font-size:.82rem;color:var(--muted)">${p.created ? new Date(p.created).toLocaleDateString('ro-RO') : '—'}</td>
       <td>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-sm btn-sky" onclick="mesajCatreParinte('${p.copilId}','${(p.name||'Părinte').replace(/'/g,"\\'")}')">💬 Mesaj</button>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-sm btn-sky" onclick="mesajCatreParinte('${primuCopilId}','${(p.name||'Părinte').replace(/'/g,"\\'")}')">💬 Mesaj</button>
+          <button class="btn btn-sm btn-success" onclick="resetParolaParinte('${p.id}','${(p.name||'Părinte').replace(/'/g,"\\'")}')">🔑 Parolă</button>
           <button class="btn btn-sm btn-danger" onclick="deleteContParinte('${p.id}')">🗑️ Șterge</button>
         </div>
       </td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 
-function openCreateCont(copilId, numeCopil, numeParinte, email) {
+function openCreateCont(preselCopilId, numeCopil, numeParinte, email) {
+  const copiiList = (_copiiAll || []).filter(c => c.status === 'activ');
+  const checkboxes = copiiList.length
+    ? copiiList.map(c => `
+        <label style="display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;font-size:.88rem">
+          <input type="checkbox" name="cp-copii" value="${c.id}" ${c.id === preselCopilId ? 'checked' : ''} style="width:15px;height:15px;accent-color:var(--coral)">
+          <span>${escDisplay(c.numeCopil || c.id)}</span>
+        </label>`).join('')
+    : '<span style="color:var(--muted);font-size:.85rem">Niciun copil activ disponibil</span>';
+
   showModal('🔑 Creare cont părinte', `
     <div class="form-grid" style="gap:14px">
-      <p style="font-size:.88rem;color:var(--muted);margin-bottom:4px">Copil: <strong style="color:var(--text)">${numeCopil || copilId}</strong></p>
-      <div class="form-group"><label>Nume Părinte *</label><input id="cp-name" type="text" value="${numeParinte || ''}" placeholder="Maria Ionescu"></div>
-      <div class="form-group"><label>Email *</label><input id="cp-email" type="email" value="${email || ''}" placeholder="maria@email.ro"></div>
+      <div class="form-group"><label>Nume Părinte *</label><input id="cp-name" type="text" value="${numeParinte || ''}" placeholder="Natalia Ciobanu"></div>
+      <div class="form-group"><label>Email *</label><input id="cp-email" type="email" value="${email || ''}" placeholder="natalia@gmail.com"></div>
       <div class="form-group"><label>Parolă *</label><input id="cp-password" type="password" placeholder="Minim 6 caractere"></div>
-      <button class="btn btn-primary" onclick="createContParinte('${copilId}')">🔑 Creează cont</button>
+      <div class="form-group">
+        <label>Copii * <span style="font-weight:400;color:var(--muted)">(selectează unul sau mai mulți)</span></label>
+        <div style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;max-height:160px;overflow-y:auto">
+          ${checkboxes}
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="createContParinte()">🔑 Creează cont</button>
     </div>`);
 }
 
-async function createContParinte(copilId) {
+async function createContParinte() {
   const name     = document.getElementById('cp-name')?.value.trim();
   const email    = document.getElementById('cp-email')?.value.trim();
   const password = document.getElementById('cp-password')?.value;
+  const copiiIds = [...document.querySelectorAll('input[name="cp-copii"]:checked')].map(el => el.value);
   if (!name || !email || !password) { toast('Completează toate câmpurile!', 'error'); return; }
   if (password.length < 6) { toast('Parola trebuie să aibă minim 6 caractere!', 'error'); return; }
-  const r = await api('POST', '/admin/parinti', { name, email, password, copilId });
+  if (!copiiIds.length) { toast('Selectează cel puțin un copil!', 'error'); return; }
+  const r = await api('POST', '/admin/parinti', { name, email, password, copiiIds });
   if (r && r.ok) {
     toast('Cont creat! 🎉');
     closeModal();
@@ -1456,6 +1477,32 @@ async function deleteContParinte(id) {
   await api('DELETE', '/admin/parinti/' + id);
   toast('Cont șters!', 'error');
   loadConturiParinti();
+}
+
+function resetParolaParinte(id, name) {
+  showModal('🔑 Resetare parolă', `
+    <div class="form-grid" style="gap:14px">
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:4px">Cont: <strong style="color:var(--text)">${name}</strong></p>
+      <div class="form-group">
+        <label>Parolă nouă *</label>
+        <input id="rp-password" type="password" placeholder="Minim 6 caractere" autofocus>
+      </div>
+      <div class="form-group">
+        <label>Confirmă parola *</label>
+        <input id="rp-confirm" type="password" placeholder="Repetă parola">
+      </div>
+      <button class="btn btn-primary" onclick="submitResetParola('${id}')">🔑 Salvează parola</button>
+    </div>`);
+}
+
+async function submitResetParola(id) {
+  const newPassword = document.getElementById('rp-password')?.value;
+  const confirm2    = document.getElementById('rp-confirm')?.value;
+  if (!newPassword || newPassword.length < 6) { toast('Parola trebuie să aibă minim 6 caractere!', 'error'); return; }
+  if (newPassword !== confirm2) { toast('Parolele nu coincid!', 'error'); return; }
+  const r = await api('PUT', '/admin/parinti/' + id + '/reset-password', { newPassword });
+  if (r && r.ok) { toast('Parola a fost resetată! 🔑'); closeModal(); }
+  else toast(r?.error || 'Eroare', 'error');
 }
 
 /* ─── MESAJE PARINTI ─── */

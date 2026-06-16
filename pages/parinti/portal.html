@@ -10,60 +10,79 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --coral:   #FF6B6B;
-      --coral2:  #FF4F4F;
+      --accent:  #918880;
+      --accent2: #7a7068;
       --mint:    #6BCB77;
       --sky:     #4D96FF;
       --sun:     #FFD93D;
-      --bg:      #F8F9FA;
+      --bg:      #F5F3EF;
       --surface: #FFFFFF;
-      --text:    #1A1A2E;
-      --text2:   #555;
-      --muted:   #999;
-      --border:  #E8ECF0;
+      --text:    #1A1A18;
+      --text2:   #5a5248;
+      --muted:   #918880;
+      --border:  #E4E0D8;
       --radius:  16px;
     }
     [data-theme="dark"] {
-      --coral:   #c45c5c;
-      --coral2:  #a84848;
-      --bg:      #0f0f1a;
-      --surface: #1a1a2e;
-      --text:    #e8e8f0;
-      --text2:   #a0a0b8;
-      --muted:   #5a5a7a;
-      --border:  #2a2a42;
+      --accent:  #a08078;
+      --accent2: #8a6e66;
+      --bg:      #111110;
+      --surface: #1e1e18;
+      --text:    #e8e0d0;
+      --text2:   #9a9080;
+      --muted:   #6a6050;
+      --border:  rgba(255,255,255,.06);
     }
 
-    /* Header & greeting mai întunecat în dark mode */
     [data-theme="dark"] .portal-header {
-      background: linear-gradient(135deg, #2a1515, #1f1010);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      background: #1e1e18;
+      box-shadow: 0 2px 30px rgba(0,0,0,.35);
     }
     [data-theme="dark"] .greeting-bar {
-      background: linear-gradient(135deg, #2a1515, #1f1010);
+      background: #141412;
+      color: #9a9080;
     }
-    /* Tab active — mai subtil */
+    [data-theme="dark"] .tab-bar { background: #1e1e18; border-bottom-color: rgba(255,255,255,.06); }
     [data-theme="dark"] .tab-btn.active {
-      color: #e07070;
-      border-bottom-color: #e07070;
+      color: #a08078;
+      border-bottom-color: #a08078;
     }
-    [data-theme="dark"] .tab-btn:hover { color: #e07070; }
-    /* Bula de mesaj parinte — mai puțin vibrantă */
+    [data-theme="dark"] .tab-btn:hover { color: #a08078; }
+    [data-theme="dark"] .card {
+      background: #1e1e18;
+      box-shadow: 0 2px 16px rgba(0,0,0,.35);
+    }
+    [data-theme="dark"] .msg-bubble.admin {
+      background: #141412;
+      color: #e8e0d0;
+    }
     [data-theme="dark"] .msg-bubble.parinte {
-      background: linear-gradient(135deg, #8a3030, #6e2424);
+      background: #2e2820;
+      color: #e8e0d0;
     }
-    /* Buton trimite */
-    [data-theme="dark"] .btn-send {
-      background: #8a3030;
+    [data-theme="dark"] .chat-container { background: #1e1e18; }
+    [data-theme="dark"] .chat-input-area { background: #1e1e18; border-top-color: rgba(255,255,255,.06); }
+    [data-theme="dark"] .chat-input {
+      background: #141412;
+      border-color: rgba(255,255,255,.06);
+      color: #e8e0d0;
     }
-    [data-theme="dark"] .btn-send:hover { background: #6e2424; }
-    /* Chip coral */
-    [data-theme="dark"] .chip.coral { background: #2a1515; color: #e07070; }
-    [data-theme="dark"] .chip.danger { background: #2a1010; color: #e07070; }
-    /* Anunt important border */
-    [data-theme="dark"] .anunt-card.important { border-left-color: #c45c5c; }
-    /* Badge grupă */
-    [data-theme="dark"] .child-group-badge { filter: brightness(0.75) saturate(0.8); }
+    [data-theme="dark"] .chat-input:focus { border-color: #a08078; }
+    [data-theme="dark"] .btn-send { background: #a08078; }
+    [data-theme="dark"] .btn-send:hover { background: #8a6e66; }
+    [data-theme="dark"] .chip         { background: #141412; color: #9a9080; }
+    [data-theme="dark"] .chip.coral   { background: #1e1e18; color: #a08078; }
+    [data-theme="dark"] .chip.danger  { background: #1e1e18; color: #a08078; }
+    [data-theme="dark"] .chip.sky     { background: #1e1e18; color: #6878a0; }
+    [data-theme="dark"] .chip.mint    { background: #1e1e18; color: #607868; }
+    [data-theme="dark"] .anunt-card   { background: #1e1e18; box-shadow: none; }
+    [data-theme="dark"] .anunt-card.important { border-left-color: #a08078; }
+    [data-theme="dark"] .anunt-card.eveniment { border-left-color: #607868; }
+    [data-theme="dark"] .anunt-titlu  { color: #e8e0d0; }
+    [data-theme="dark"] .anunt-text   { color: #9a9080; }
+    [data-theme="dark"] .anunt-date   { color: #6a6050; }
+    [data-theme="dark"] .child-group-badge { filter: brightness(0.75) saturate(0.7); }
+    [data-theme="dark"] .empty-state  { color: #6a6050; }
 
     html, body {
       height: 100%;
@@ -78,11 +97,10 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--coral);
-      background: linear-gradient(135deg, #FF6B6B, #FF4F4F);
+      background: linear-gradient(135deg, #918880, #7a7068);
       color: #fff;
       padding: 0 20px;
-      box-shadow: 0 4px 20px rgba(255,107,107,0.3);
+      box-shadow: 0 4px 20px rgba(145,136,128,0.35);
     }
     .header-inner {
       max-width: 800px;
@@ -114,7 +132,7 @@
 
     /* ── GREETING ── */
     .greeting-bar {
-      background: linear-gradient(135deg, #FF8C8C, #FF6B6B);
+      background: linear-gradient(135deg, #a8a098, #918880);
       color: #fff;
       text-align: center;
       padding: 14px 20px;
@@ -157,10 +175,10 @@
       gap: 3px;
     }
     .tab-btn .tab-icon { font-size: 1.3rem; }
-    .tab-btn:hover { color: var(--coral); }
+    .tab-btn:hover { color: var(--accent); }
     .tab-btn.active {
-      color: var(--coral);
-      border-bottom-color: var(--coral);
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
 
     /* ── CONTENT ── */
@@ -231,7 +249,7 @@
       background: var(--border);
       color: var(--text2);
     }
-    .chip.coral  { background: #FFF0F0; color: var(--coral); }
+    .chip.coral  { background: #FFF0F0; color: var(--accent); }
     .chip.sky    { background: #F0F5FF; color: var(--sky); }
     .chip.mint   { background: #F0FFF4; color: #2D9B5A; }
     .chip.danger { background: #FFE0E0; color: #CC3333; font-weight: 800; }
@@ -276,7 +294,7 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 22px rgba(0,0,0,0.1);
     }
-    .anunt-card.important { border-left-color: var(--coral); }
+    .anunt-card.important { border-left-color: var(--accent); }
     .anunt-card.eveniment { border-left-color: var(--mint); }
 
     .anunt-header {
@@ -351,7 +369,7 @@
       border-bottom-left-radius: 4px;
     }
     .msg-bubble.parinte {
-      background: linear-gradient(135deg, var(--coral), var(--coral2));
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #fff;
       align-self: flex-end;
       border-bottom-right-radius: 4px;
@@ -393,11 +411,11 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .chat-input:focus { border-color: var(--coral); }
+    .chat-input:focus { border-color: var(--accent); }
     .chat-input::placeholder { color: var(--muted); font-weight: 400; }
 
     .btn-send {
-      background: var(--coral);
+      background: var(--accent);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -409,7 +427,7 @@
       transition: background 0.2s, transform 0.1s;
       white-space: nowrap;
     }
-    .btn-send:hover { background: var(--coral2); transform: scale(1.03); }
+    .btn-send:hover { background: var(--accent2); transform: scale(1.03); }
     .btn-send:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 
     /* ── LOADING SKELETON ── */
@@ -435,6 +453,38 @@
       50%       { opacity: 0.4; transform: scale(0.8); }
     }
 
+    /* ── CHILD SELECTOR ── */
+    #child-selector {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      overflow-x: auto;
+      display: none;
+    }
+    .child-pills {
+      display: flex;
+      gap: 8px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .child-pill {
+      padding: 7px 18px;
+      border-radius: 20px;
+      border: 2px solid var(--border);
+      background: var(--bg);
+      color: var(--text2);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.18s;
+    }
+    .child-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .child-pill:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+    [data-theme="dark"] .child-pill { background: #1e1e18; color: #9a9080; border-color: rgba(255,255,255,.08); }
+    [data-theme="dark"] .child-pill.active { background: #a08078; border-color: #a08078; color: #fff; }
+
     @media (max-width: 480px) {
       .info-grid { grid-template-columns: 1fr; }
       .main-content { padding: 16px 12px 80px; }
@@ -458,6 +508,11 @@
 <!-- GREETING -->
 <div class="greeting-bar">
   <div class="greeting-text" id="greeting-text">👋 Bună ziua!</div>
+</div>
+
+<!-- CHILD SELECTOR (vizibil doar când sunt 2+ copii) -->
+<div id="child-selector">
+  <div class="child-pills" id="child-pills"></div>
 </div>
 
 <!-- TAB BAR -->
@@ -524,7 +579,7 @@
             style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:600;color:var(--text);background:var(--bg);outline:none">
         </div>
         <button onclick="changePassword()"
-          style="width:100%;padding:13px;background:linear-gradient(135deg,var(--coral),var(--coral2));color:#fff;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-top:4px">
+          style="width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;margin-top:4px">
           💾 Salvează parola nouă
         </button>
       </div>
@@ -555,11 +610,14 @@
 
 <script>
   /* ── CONFIG ── */
-  const TOKEN   = localStorage.getItem('wonki_parinte_token');
-  const NAME    = localStorage.getItem('wonki_parinte_name')   || 'Părinte';
-  const COPILID = localStorage.getItem('wonki_parinte_copilId') || '';
+  const TOKEN    = localStorage.getItem('wonki_parinte_token');
+  const NAME     = localStorage.getItem('wonki_parinte_name') || 'Părinte';
+  const COPIIIDS = JSON.parse(localStorage.getItem('wonki_parinte_copiiIds') || '[]');
 
   if (!TOKEN) { window.location.href = '/parinti/login'; }
+
+  let _activeCopilId = COPIIIDS[0] || '';
+  let _copiiList = [];
 
   /* ── DARK MODE ── */
   function applyTheme(theme) {
@@ -637,15 +695,41 @@
            dt.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
   }
 
+  /* ── CHILD SELECTOR ── */
+  function renderChildSelector(copii, activeCopilId) {
+    _copiiList = copii;
+    _activeCopilId = activeCopilId || _activeCopilId;
+    const sel   = document.getElementById('child-selector');
+    const pills = document.getElementById('child-pills');
+    if (!copii || copii.length <= 1) { sel.style.display = 'none'; return; }
+    sel.style.display = '';
+    pills.innerHTML = copii.map(c => `
+      <button class="child-pill ${c.id === _activeCopilId ? 'active' : ''}" onclick="selectChild('${c.id}')">
+        👶 ${escHtml(c.numeCopil || c.id)}
+      </button>`).join('');
+  }
+
+  function selectChild(copilId) {
+    _activeCopilId = copilId;
+    document.querySelectorAll('.child-pill').forEach(p =>
+      p.classList.toggle('active', p.getAttribute('onclick') === `selectChild('${copilId}')`)
+    );
+    const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
+    if (activeTab === 'profil') loadProfil();
+    else if (activeTab === 'mesaje') { _lastMsgCount = -1; loadMesaje(); }
+  }
+
   /* ── PROFIL ── */
   async function loadProfil() {
-    const r = await apiGet('/parinti/profil');
+    const qs = _activeCopilId ? '?copilId=' + _activeCopilId : '';
+    const r = await apiGet('/parinti/profil' + qs);
     const card = document.getElementById('profil-card');
     if (!r || !r.ok) {
       card.innerHTML = '<div class="empty-state"><span class="empty-icon">❌</span><p>Eroare la încărcare</p></div>';
       return;
     }
-    const { copil, parinte } = r.data;
+    const { copil, parinte, toateCopiii, activeCopilId } = r.data;
+    if (toateCopiii) renderChildSelector(toateCopiii, activeCopilId);
     if (!copil) {
       card.innerHTML = '<div class="empty-state"><span class="empty-icon">👶</span><p>Nu s-a găsit profilul copilului.</p></div>';
       return;
@@ -742,7 +826,8 @@
   /* ── MESAJE ── */
   async function loadMesaje(scrollToBottom = true) {
     const container = document.getElementById('chat-messages');
-    const r = await apiGet('/parinti/mesaje');
+    const qs = _activeCopilId ? '?copilId=' + _activeCopilId : '';
+    const r = await apiGet('/parinti/mesaje' + qs);
 
     if (!r || !r.ok) {
       if (scrollToBottom) container.innerHTML = '<div class="empty-state" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center"><span class="empty-icon">❌</span><p>Eroare la încărcare</p></div>';
@@ -796,7 +881,7 @@
     btn.disabled = true;
 
     try {
-      const r = await apiPost('/parinti/mesaje', { text });
+      const r = await apiPost('/parinti/mesaje', { text, copilId: _activeCopilId });
       if (!r || !r.ok) {
         bubble.style.opacity = '0.5';
         bubble.title = 'Eroare la trimitere';
@@ -862,6 +947,7 @@
   function doLogout() {
     localStorage.removeItem('wonki_parinte_token');
     localStorage.removeItem('wonki_parinte_name');
+    localStorage.removeItem('wonki_parinte_copiiIds');
     localStorage.removeItem('wonki_parinte_copilId');
     window.location.href = '/parinti/login';
   }

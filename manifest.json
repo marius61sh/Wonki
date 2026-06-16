@@ -1,0 +1,58 @@
+{
+  "name": "Wonki – Grădinița unde magia începe",
+  "short_name": "Wonki",
+  "description": "Grădinița privată Wonki din Chișinău — educație modernă, copii fericiți.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#918880",
+  "background_color": "#FAFAFA",
+  "lang": "ro",
+  "categories": ["education", "kids", "lifestyle"],
+
+  "icons": [
+    { "src": "/images/icons/icon-72.png",  "sizes": "72x72",   "type": "image/png" },
+    { "src": "/images/icons/icon-96.png",  "sizes": "96x96",   "type": "image/png" },
+    { "src": "/images/icons/icon-128.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "/images/icons/icon-144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "/images/icons/icon-152.png", "sizes": "152x152", "type": "image/png" },
+    { "src": "/images/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/images/icons/icon-384.png", "sizes": "384x384", "type": "image/png" },
+    { "src": "/images/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Înscrie-te",
+      "short_name": "Înscrie",
+      "description": "Completează formularul de înscriere",
+      "url": "/contact",
+      "icons": [{ "src": "/images/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Portal Părinți",
+      "short_name": "Portal",
+      "description": "Intră în portalul pentru părinți",
+      "url": "/parinti/login",
+      "icons": [{ "src": "/images/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Articole și noutăți Wonki",
+      "url": "/blog",
+      "icons": [{ "src": "/images/icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "/images/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Pagina principală Wonki"
+    }
+  ]
+}
