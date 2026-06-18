@@ -679,6 +679,117 @@ document.addEventListener('DOMContentLoaded', () => {
     tickParallax(); // pozitie initiala
   })();
 
+  /* ─── SCROLL JACKING (HERO / FEATURES / TIMELINE) ─── */
+  (function () {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const heroPin     = document.querySelector('.hero-pin');
+    const featuresPin = document.querySelector('.features-pin');
+    const timelinePin = document.querySelector('.timeline-pin');
+    if (!heroPin && !featuresPin && !timelinePin) return;
+
+    // cache referintele DOM o singura data (nu la fiecare frame de scroll)
+    const heroContent  = heroPin     && heroPin.querySelector('.hero-content');
+    const heroFloaties = heroPin     && heroPin.querySelector('.floaties');
+    const heroHint     = heroPin     && heroPin.querySelector('.scroll-hint');
+    const featCenter   = featuresPin && featuresPin.querySelector('.section-center');
+    const featCards    = featuresPin ? [...featuresPin.querySelectorAll('.feature-card')] : [];
+    const featCta       = featuresPin && featuresPin.querySelector('.sj-cta');
+    const tlCenter      = timelinePin && timelinePin.querySelector('.section-center');
+    const tlItems        = timelinePin ? [...timelinePin.querySelectorAll('.tl-item')] : [];
+    const tlPhoto        = timelinePin && timelinePin.querySelector('.program-preview-photo');
+    const tlCta          = timelinePin && timelinePin.querySelector('.sj-cta');
+
+    // promoveaza elementele animate pe propriul layer de compositing (evita lag)
+    [heroContent, heroFloaties, heroHint, featCenter, featCta, tlCenter, tlPhoto, tlCta, ...featCards, ...tlItems]
+      .forEach(el => { if (el) el.style.willChange = 'transform, opacity'; });
+
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+    // progres 0→1 in zona "pinned" a unui wrapper (inaltime wrapper - 100vh)
+    function pinProgress(wrapper) {
+      const rect = wrapper.getBoundingClientRect();
+      const wrapTop = rect.top + window.pageYOffset;
+      const pinnedRange = wrapper.offsetHeight - window.innerHeight;
+      if (pinnedRange <= 0) return 0;
+      return clamp((window.pageYOffset - wrapTop) / pinnedRange, 0, 1);
+    }
+
+    // progres local intr-un interval [start,end] din progresul global
+    function localT(p, start, end) {
+      if (end <= start) return p >= end ? 1 : 0;
+      return clamp((p - start) / (end - start), 0, 1);
+    }
+
+    function tickScrollJack() {
+      if (heroPin) {
+        const p = pinProgress(heroPin);
+        if (heroContent) {
+          heroContent.style.opacity   = Math.max(0, 1 - p * 1.4);
+          heroContent.style.transform = `translateY(${p * -60}px) scale(${1 - p * 0.08})`;
+        }
+        if (heroFloaties) heroFloaties.style.opacity = Math.max(0, 1 - p * 1.6);
+        if (heroHint)     heroHint.style.opacity     = Math.max(0, 1 - p * 4);
+      }
+
+      if (featuresPin) {
+        const p = pinProgress(featuresPin);
+
+        if (featCenter) {
+          const t = localT(p, 0, 0.2);
+          featCenter.style.opacity   = t;
+          featCenter.style.transform = `translateY(${(1 - t) * 40}px)`;
+        }
+        featCards.forEach((card, i) => {
+          const start = 0.18 + i * 0.07;
+          const t   = localT(p, start, start + 0.38);
+          const dir = i % 2 === 0 ? -1 : 1;
+          card.style.opacity   = t;
+          card.style.transform = t >= 1 ? 'none' : `translateX(${dir * (1 - t) * 90}px) scale(${1 - (1 - t) * 0.15})`;
+        });
+        if (featCta) {
+          const t = localT(p, 0.85, 1);
+          featCta.style.opacity   = t;
+          featCta.style.transform = `translateY(${(1 - t) * 20}px)`;
+        }
+      }
+
+      if (timelinePin) {
+        const p = pinProgress(timelinePin);
+
+        if (tlCenter) {
+          const t = localT(p, 0, 0.18);
+          tlCenter.style.opacity   = t;
+          tlCenter.style.transform = `translateY(${(1 - t) * 40}px)`;
+        }
+        tlItems.forEach((item, i) => {
+          const start = 0.16 + i * 0.12;
+          const t = localT(p, start, start + 0.4);
+          item.style.opacity   = t;
+          item.style.transform = t >= 1 ? 'none' : `translateX(${(1 - t) * 60}px)`;
+        });
+        if (tlPhoto) {
+          const t = localT(p, 0.2, 0.7);
+          tlPhoto.style.opacity   = t;
+          tlPhoto.style.transform = `translateX(${(1 - t) * 60}px)`;
+        }
+        if (tlCta) {
+          const t = localT(p, 0.85, 1);
+          tlCta.style.opacity   = t;
+          tlCta.style.transform = `translateY(${(1 - t) * 20}px)`;
+        }
+      }
+    }
+
+    let sjRaf = null;
+    function onScrollSJ() {
+      if (!sjRaf) sjRaf = requestAnimationFrame(() => { tickScrollJack(); sjRaf = null; });
+    }
+    window.addEventListener('scroll', onScrollSJ, { passive: true });
+    window.addEventListener('resize', onScrollSJ);
+    tickScrollJack(); // stare initiala
+  })();
+
   /* ─── TYPEWRITER HERO ─── */
   const twWord = document.getElementById('tw-word');
   if (twWord) {

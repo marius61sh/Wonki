@@ -18,11 +18,11 @@
 <nav id="nav">
   <a href="index.html" class="nav-logo">Wonki <span class="logo-star">⭐</span></a>
   <ul>
-    <li><a href="index.html">Acasă</a></li>
-    <li><a href="pages/despre.html">Despre noi</a></li>
-    <li><a href="pages/program.html">Program</a></li>
-    <li><a href="pages/galerie.html">Galerie</a></li>
-    <li><a href="pages/contact.html" class="nav-btn">Înscrie-te 🎈</a></li>
+    <li><a href="index.html" data-i18n="nav.home">Acasă</a></li>
+    <li><a href="pages/despre.html" data-i18n="nav.about">Despre noi</a></li>
+    <li><a href="pages/program.html" data-i18n="nav.program">Program</a></li>
+    <li><a href="pages/galerie.html" data-i18n="nav.galerie">Galerie</a></li>
+    <li><a href="pages/contact.html" class="nav-btn" data-i18n="nav.contact">Înscrie-te 🎈</a></li>
   </ul>
   <button class="theme-toggle" id="theme-toggle" aria-label="Mod întunecat">🌙</button>
   <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -30,15 +30,20 @@
   </button>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="index.html">Acasă</a>
-  <a href="pages/despre.html">Despre noi</a>
-  <a href="pages/program.html">Program</a>
-  <a href="pages/galerie.html">Galerie</a>
-  <a href="pages/contact.html">Înscrie-te 🎈</a>
+  <a href="index.html" data-i18n="nav.home">Acasă</a>
+  <a href="pages/despre.html" data-i18n="nav.about">Despre noi</a>
+  <a href="pages/program.html" data-i18n="nav.program">Program</a>
+  <a href="pages/galerie.html" data-i18n="nav.galerie">Galerie</a>
+  <a href="pages/contact.html" data-i18n="nav.contact">Înscrie-te 🎈</a>
 </div>
 
 <!-- HERO -->
+<div class="hero-pin sj-section">
 <section class="hero">
+  <video class="hero-video" autoplay loop muted playsinline preload="auto">
+    <source src="/videos/hero.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
   <div class="page-hero-bg"></div>
   <div class="floaties">
     <div class="floaty">🌈</div><div class="floaty">🦋</div>
@@ -46,75 +51,80 @@
     <div class="floaty">🪄</div><div class="floaty">🎭</div>
   </div>
   <div class="hero-content">
-    <div class="badge"><div class="badge-dot"></div> Înscrierea 2025–2026 este deschisă!</div>
+    <div class="badge"><div class="badge-dot"></div> <span data-i18n="home.badge">Înscrierea 2025–2026 este deschisă!</span></div>
     <h1>
-      <span class="word">Curiozitatea</span> <span class="word">ta</span><br>
-      <span class="word">devine</span> <span class="word">superputere</span>
+      <span class="word" data-i18n="home.hero.w1">Curiozitatea</span> <span class="word" data-i18n="home.hero.w2">ta</span><br>
+      <span class="word" data-i18n="home.hero.w3">devine</span> <span class="word">superputere</span>
     </h1>
-    <p>La Wonki, copiii explorează, creează și cresc într-un mediu sigur, colorat și plin de bucurie. Magia educației moderne îmbrăcată în joacă autentică.</p>
+    <p data-i18n="home.hero.p">La Wonki, copiii explorează, creează și cresc într-un mediu sigur, colorat și plin de bucurie. Magia educației moderne îmbrăcată în joacă autentică.</p>
     <div class="hero-btns">
-      <a href="pages/contact.html" class="btn btn-primary">🎈 Programează o vizită</a>
-      <a href="pages/despre.html" class="btn btn-secondary">Descoperă mai mult ↓</a>
+      <a href="pages/contact.html" class="btn btn-primary" data-i18n="home.hero.btn1">🎈 Programează o vizită</a>
+      <a href="pages/despre.html" class="btn btn-secondary" data-i18n="home.hero.btn2">Descoperă mai mult ↓</a>
     </div>
   </div>
   <div class="scroll-hint">
     <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-    <span>Scroll</span>
+    <span data-i18n="home.scroll">Scroll</span>
   </div>
 </section>
+</div>
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat-item"><span class="stat-num" data-target="350" data-suffix="+">0</span><span class="stat-label">Copii fericiți 🧒</span></div>
-  <div class="stat-item"><span class="stat-num" data-target="12"  data-suffix="+">0</span><span class="stat-label">Ani de experiență ⭐</span></div>
-  <div class="stat-item"><span class="stat-num" data-target="28"  data-suffix="+">0</span><span class="stat-label">Educatori dedicați 👩‍🏫</span></div>
-  <div class="stat-item"><span class="stat-num" data-target="98"  data-suffix="%">0</span><span class="stat-label">Părinți satisfăcuți 💛</span></div>
+  <div class="stat-item"><span class="stat-num" data-target="350" data-suffix="+">0</span><span class="stat-label" data-i18n="home.stats.children">Copii fericiți 🧒</span></div>
+  <div class="stat-item"><span class="stat-num" data-target="12"  data-suffix="+">0</span><span class="stat-label" data-i18n="home.stats.years">Ani de experiență ⭐</span></div>
+  <div class="stat-item"><span class="stat-num" data-target="28"  data-suffix="+">0</span><span class="stat-label" data-i18n="home.stats.educators">Educatori dedicați 👩‍🏫</span></div>
+  <div class="stat-item"><span class="stat-num" data-target="98"  data-suffix="%">0</span><span class="stat-label" data-i18n="home.stats.parents">Părinți satisfăcuți 💛</span></div>
 </div>
 
 <div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
 
 <!-- FEATURES -->
+<div class="features-pin sj-section">
 <section id="features">
   <div class="section-center" style="max-width:600px;margin:0 auto 60px">
-    <span class="section-label">De ce Wonki?</span>
-    <h2 class="section-title reveal">Tot ce are nevoie copilul tău să <span style="color:var(--coral)">înflorească</span></h2>
-    <p class="section-sub reveal">Combinăm metodele moderne de educație timpurie cu dragostea și atenția pe care fiecare copil o merită.</p>
+    <span class="section-label" data-i18n="home.features.label">De ce Wonki?</span>
+    <h2 class="section-title" data-i18n-html="home.features.title">Tot ce are nevoie copilul tău să <span style="color:var(--coral)">înflorească</span></h2>
+    <p class="section-sub" data-i18n="home.features.sub">Combinăm metodele moderne de educație timpurie cu dragostea și atenția pe care fiecare copil o merită.</p>
   </div>
   <div class="features-grid">
-    <div class="feature-card reveal"><div class="card-glow"></div><div class="feature-icon">🧠</div><h3>Educație prin joacă</h3><p>Curriculă Montessori & STEAM adaptată copiilor 2–7 ani cu activități captivante zilnice.</p></div>
-    <div class="feature-card reveal"><div class="card-glow"></div><div class="feature-icon">🧑‍🏫</div><h3>Educatori cu inimă</h3><p>Certificări internaționale și peste 10 ani de experiență în educația timpurie.</p></div>
-    <div class="feature-card reveal"><div class="card-glow"></div><div class="feature-icon">🌿</div><h3>Spații verzi & sigure</h3><p>Curte amenajată cu zone de joacă, grădină și explorare în aer liber, supravegheată.</p></div>
-    <div class="feature-card reveal"><div class="card-glow"></div><div class="feature-icon">🍎</div><h3>Meniu sănătos</h3><p>Mese proaspete preparate zilnic, adaptate nevoilor și alergiilor fiecărui copil.</p></div>
-    <div class="feature-card reveal"><div class="card-glow"></div><div class="feature-icon">🎵</div><h3>Muzică & Arte</h3><p>Ore de muzică, dans și pictură care stimulează creativitatea și expresia emoțională.</p></div>
-    <div class="feature-card reveal"><div class="card-glow"></div><div class="feature-icon">🌍</div><h3>Limbi Străine</h3><p>Introducere în limba engleză prin jocuri și cântece, de la vârsta de 3 ani.</p></div>
+    <div class="feature-card"><div class="card-glow"></div><div class="feature-icon">🧠</div><h3 data-i18n="home.f1.h">Educație prin joacă</h3><p data-i18n="home.f1.p">Curriculă Montessori & STEAM adaptată copiilor 2–7 ani cu activități captivante zilnice.</p></div>
+    <div class="feature-card"><div class="card-glow"></div><div class="feature-icon">🧑‍🏫</div><h3 data-i18n="home.f2.h">Educatori cu inimă</h3><p data-i18n="home.f2.p">Certificări internaționale și peste 10 ani de experiență în educația timpurie.</p></div>
+    <div class="feature-card"><div class="card-glow"></div><div class="feature-icon">🌿</div><h3 data-i18n="home.f3.h">Spații verzi & sigure</h3><p data-i18n="home.f3.p">Curte amenajată cu zone de joacă, grădină și explorare în aer liber, supravegheată.</p></div>
+    <div class="feature-card"><div class="card-glow"></div><div class="feature-icon">🍎</div><h3 data-i18n="home.f4.h">Meniu sănătos</h3><p data-i18n="home.f4.p">Mese proaspete preparate zilnic, adaptate nevoilor și alergiilor fiecărui copil.</p></div>
+    <div class="feature-card"><div class="card-glow"></div><div class="feature-icon">🎵</div><h3 data-i18n="home.f5.h">Muzică & Arte</h3><p data-i18n="home.f5.p">Ore de muzică, dans și pictură care stimulează creativitatea și expresia emoțională.</p></div>
+    <div class="feature-card"><div class="card-glow"></div><div class="feature-icon">🌍</div><h3 data-i18n="home.f6.h">Limbi Străine</h3><p data-i18n="home.f6.p">Introducere în limba engleză prin jocuri și cântece, de la vârsta de 3 ani.</p></div>
   </div>
-  <div style="text-align:center;margin-top:48px"><a href="pages/despre.html" class="btn btn-outline reveal">Află mai multe despre noi →</a></div>
+  <div style="text-align:center;margin-top:48px"><a href="pages/despre.html" class="btn btn-outline sj-cta" data-i18n="home.features.cta">Află mai multe despre noi →</a></div>
 </section>
+</div>
 
 <div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFCF5" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/></svg></div>
 
 <!-- PROGRAM PREVIEW -->
+<div class="timeline-pin sj-section">
 <section id="program-preview">
   <div class="section-center" style="max-width:600px;margin:0 auto 50px">
-    <span class="section-label">O zi la Wonki</span>
-    <h2 class="section-title reveal">Fiecare zi, o <span style="color:var(--sky)">aventură nouă</span></h2>
-    <p class="section-sub reveal">Structurată cu grijă pentru echilibrul perfect între învățare și distracție.</p>
+    <span class="section-label" data-i18n="home.day.label">O zi la Wonki</span>
+    <h2 class="section-title" data-i18n-html="home.day.title">Fiecare zi, o <span style="color:var(--sky)">aventură nouă</span></h2>
+    <p class="section-sub" data-i18n="home.day.sub">Structurată cu grijă pentru echilibrul perfect între învățare și distracție.</p>
   </div>
   <div class="timeline">
-    <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌅</div><div class="tl-time">07:30</div><div><div class="tl-act">Primire & joc liber</div><div class="tl-desc">Copiii sosesc și se pregătesc pentru o zi magică</div></div></div></div>
-    <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎯</div><div class="tl-time">09:00</div><div><div class="tl-act">Activități educative</div><div class="tl-desc">STEAM, matematică și limbaj prin joc</div></div></div></div>
-    <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎨</div><div class="tl-time">11:00</div><div><div class="tl-act">Artă & creativitate</div><div class="tl-desc">Pictură, modelaj, muzică și dans</div></div></div></div>
-    <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌳</div><div class="tl-time">15:30</div><div><div class="tl-act">Joacă în curte</div><div class="tl-desc">Explorare, sport și aer curat</div></div></div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌅</div><div class="tl-time">07:30</div><div><div class="tl-act" data-i18n="home.tl1.act">Primire & joc liber</div><div class="tl-desc" data-i18n="home.tl1.desc">Copiii sosesc și se pregătesc pentru o zi magică</div></div></div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎯</div><div class="tl-time">09:00</div><div><div class="tl-act" data-i18n="home.tl2.act">Activități educative</div><div class="tl-desc" data-i18n="home.tl2.desc">STEAM, matematică și limbaj prin joc</div></div></div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🎨</div><div class="tl-time">11:00</div><div><div class="tl-act" data-i18n="home.tl3.act">Artă & creativitate</div><div class="tl-desc" data-i18n="home.tl3.desc">Pictură, modelaj, muzică și dans</div></div></div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-emoji">🌳</div><div class="tl-time">15:30</div><div><div class="tl-act" data-i18n="home.tl4.act">Joacă în curte</div><div class="tl-desc" data-i18n="home.tl4.desc">Explorare, sport și aer curat</div></div></div></div>
   </div>
-  <div style="text-align:center;margin-top:40px"><a href="pages/program.html" class="btn btn-sky reveal">Vezi programul complet →</a></div>
+  <div style="text-align:center;margin-top:40px"><a href="pages/program.html" class="btn btn-sky sj-cta" data-i18n="home.day.cta">Vezi programul complet →</a></div>
 </section>
+</div>
 
 <!-- COUNTER -->
 <div class="ctr-strip">
-  <div class="ctr-item reveal"><span class="ctr-num" data-target="5"   data-suffix="">0</span><span class="ctr-label">Grupe de vârstă 👶</span></div>
-  <div class="ctr-item reveal"><span class="ctr-num" data-target="15"  data-suffix="">0</span><span class="ctr-label">Copii per grupă ✨</span></div>
-  <div class="ctr-item reveal"><span class="ctr-num" data-target="40"  data-suffix="+">0</span><span class="ctr-label">Activități / lună 🎯</span></div>
-  <div class="ctr-item reveal"><span class="ctr-num" data-target="100" data-suffix="%">0</span><span class="ctr-label">Drag & pasiune ❤️</span></div>
+  <div class="ctr-item reveal"><span class="ctr-num" data-target="5"   data-suffix="">0</span><span class="ctr-label" data-i18n="home.ctr.groups">Grupe de vârstă 👶</span></div>
+  <div class="ctr-item reveal"><span class="ctr-num" data-target="15"  data-suffix="">0</span><span class="ctr-label" data-i18n="home.ctr.children">Copii per grupă ✨</span></div>
+  <div class="ctr-item reveal"><span class="ctr-num" data-target="40"  data-suffix="+">0</span><span class="ctr-label" data-i18n="home.ctr.activities">Activități / lună 🎯</span></div>
+  <div class="ctr-item reveal"><span class="ctr-num" data-target="100" data-suffix="%">0</span><span class="ctr-label" data-i18n="home.ctr.passion">Drag & pasiune ❤️</span></div>
 </div>
 
 <div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/></svg></div>
@@ -123,9 +133,9 @@
 <section id="testimoniale">
   <div class="inner">
     <div class="section-center" style="max-width:600px;margin:0 auto 50px">
-      <span class="section-label">Ce spun părinții</span>
-      <h2 class="section-title reveal">Bucuria lor e <span style="color:var(--lavender)">dovada noastră</span></h2>
-      <p class="section-sub reveal">Cele mai frumoase recomandări vin din inimile familiilor lor.</p>
+      <span class="section-label" data-i18n="home.testi.label">Ce spun părinții</span>
+      <h2 class="section-title reveal" data-i18n-html="home.testi.title">Bucuria lor e <span style="color:var(--lavender)">dovada noastră</span></h2>
+      <p class="section-sub reveal" data-i18n="home.testi.sub">Cele mai frumoase recomandări vin din inimile familiilor lor.</p>
     </div>
   </div>
   <div class="t-wrap">
@@ -148,9 +158,9 @@
 <!-- GALERIE PREVIEW -->
 <section id="galerie">
   <div class="section-center" style="max-width:600px;margin:0 auto 50px">
-    <span class="section-label">Galeria noastră</span>
-    <h2 class="section-title reveal">Momente de <span style="color:var(--mint)">magie</span></h2>
-    <p class="section-sub reveal">O fereastră în lumea colorată de la Wonki.</p>
+    <span class="section-label" data-i18n="home.gallery.label">Galeria noastră</span>
+    <h2 class="section-title reveal" data-i18n-html="home.gallery.title">Momente de <span style="color:var(--mint)">magie</span></h2>
+    <p class="section-sub reveal" data-i18n="home.gallery.sub">O fereastră în lumea colorată de la Wonki.</p>
   </div>
   <div class="gal-grid">
     <div class="g-item reveal">🎨</div>
@@ -160,32 +170,32 @@
     <div class="g-item reveal">🎵</div>
     <div class="g-item reveal">🏃</div>
   </div>
-  <div style="text-align:center;margin-top:40px"><a href="pages/galerie.html" class="btn btn-mint reveal">Vezi galeria completă →</a></div>
+  <div style="text-align:center;margin-top:40px"><a href="pages/galerie.html" class="btn btn-mint reveal" data-i18n="home.gallery.cta">Vezi galeria completă →</a></div>
 </section>
 
 <!-- BLOG -->
 <section style="padding:80px 24px;background:var(--cream)">
   <div style="max-width:1100px;margin:0 auto">
     <div class="section-center" style="max-width:580px;margin:0 auto 50px">
-      <span class="section-label">Blog & Știri</span>
-      <h2 class="section-title reveal">Noutăți din lumea <span style="color:var(--coral)">Wonki</span></h2>
-      <p class="section-sub reveal">Sfaturi, povești și momente din viața grădiniței noastre.</p>
+      <span class="section-label" data-i18n="home.blog.label">Blog & Știri</span>
+      <h2 class="section-title reveal" data-i18n-html="home.blog.title">Noutăți din lumea <span style="color:var(--coral)">Wonki</span></h2>
+      <p class="section-sub reveal" data-i18n="home.blog.sub">Sfaturi, povești și momente din viața grădiniței noastre.</p>
     </div>
     <div id="blog-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px">
       <!-- Încărcat dinamic din API -->
-      <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1">Se încarcă articolele... ✍️</div>
+      <div style="text-align:center;padding:40px;color:#aaa;grid-column:1/-1" data-i18n="home.blog.loading">Se încarcă articolele... ✍️</div>
     </div>
     <div style="text-align:center;margin-top:40px">
-      <a href="pages/contact.html" class="btn btn-primary reveal">Citește mai mult →</a>
+      <a href="pages/contact.html" class="btn btn-primary reveal" data-i18n="home.blog.cta">Citește mai mult →</a>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
 <div class="cta-banner">
-  <h2 class="reveal">Hai să facem primul pas împreună! 🌟</h2>
-  <p class="reveal">Locuri limitate disponibile pentru anul școlar 2025–2026.</p>
-  <a href="pages/contact.html" class="btn btn-white reveal">Înscrie-te acum 🎈</a>
+  <h2 class="reveal" data-i18n="home.cta.title">Hai să facem primul pas împreună! 🌟</h2>
+  <p class="reveal" data-i18n="home.cta.sub">Locuri limitate disponibile pentru anul școlar 2025–2026.</p>
+  <a href="pages/contact.html" class="btn btn-white reveal" data-i18n="home.cta.btn">Înscrie-te acum 🎈</a>
 </div>
 
 <!-- FOOTER -->
@@ -193,7 +203,7 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="f-logo">Wonki ⭐</div>
-      <p>Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p>
+      <p data-i18n="footer.brand.desc">Grădinița privată unde fiecare copil devine o versiune mai curajoasă, mai creativă și mai fericită a lui însuși.</p>
       <div class="f-socials">
         <a class="f-social" href="#">📘</a>
         <a class="f-social" href="#">📸</a>
@@ -201,12 +211,12 @@
       </div>
     </div>
     <div class="footer-col">
-      <h4>Pagini</h4>
+      <h4 data-i18n="footer.col.pages">Pagini</h4>
       <ul>
-        <li><a href="index.html">Acasă</a></li>
-        <li><a href="pages/despre.html">Despre noi</a></li>
-        <li><a href="pages/program.html">Program</a></li>
-        <li><a href="pages/galerie.html">Galerie</a></li>
+        <li><a href="index.html" data-i18n="nav.home">Acasă</a></li>
+        <li><a href="pages/despre.html" data-i18n="nav.about">Despre noi</a></li>
+        <li><a href="pages/program.html" data-i18n="nav.program">Program</a></li>
+        <li><a href="pages/galerie.html" data-i18n="nav.galerie">Galerie</a></li>
         <li><a href="pages/contact.html">Contact</a></li>
       </ul>
     </div>
@@ -220,7 +230,7 @@
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Contact</h4>
+      <h4 data-i18n="footer.col.contact">Contact</h4>
       <ul>
         <li><a href="#" data-set="adresa">📍 Str. Florilor 12, București</a></li>
         <li><a href="#" data-set="tel">📞 0721 234 567</a></li>
@@ -230,12 +240,13 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026   Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
+    <p data-i18n="footer.copyright">© 2026   Grădinița Wonki · Făcut cu dragoste pentru cei mici</p>
     <div class="footer-hearts">💛 🧡 ❤️ 💜 💙</div>
   </div>
 </footer>
 
 <script src="js/global.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/site.js"></script>
 </body>
 </html>

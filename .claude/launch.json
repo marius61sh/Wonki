@@ -7,6 +7,14 @@
       "runtimeArgs": ["server/server.js"],
       "port": 3000,
       "autoPort": false
+    },
+    {
+      "name": "wonki-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server/server.js"],
+      "env": { "PORT": "3055" },
+      "port": 3055,
+      "autoPort": false
     }
   ]
 }

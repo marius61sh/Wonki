@@ -2,7 +2,7 @@
 //  WONKI – Server Express + Firestore
 //  Pornire: cd server && npm run dev
 // ============================================================
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
 const express      = require('express');
 const path         = require('path');
 const bcrypt       = require('bcryptjs');

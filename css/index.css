@@ -304,6 +304,15 @@
     justify-content: center;
   }
 
+  /* Comprima doar spatiile/fonturile cardurilor, sa nu domine ecranul fix */
+  .timeline-pin .section-center { margin-bottom: 28px !important; }
+  .timeline-pin .tl-item  { margin-bottom: 16px; }
+  .timeline-pin .tl-card  { padding: 14px 20px; gap: 14px; }
+  .timeline-pin .tl-emoji { font-size: 1.6rem; }
+  .timeline-pin .tl-time  { font-size: 1.05rem; min-width: 64px; }
+  .timeline-pin .tl-act   { font-size: .92rem; }
+  .timeline-pin .tl-desc  { font-size: .78rem; margin-top: 1px; }
+
   /* Stare initiala ascunsa */
   .timeline-pin .section-center {
     opacity: 0;
@@ -404,7 +413,7 @@
   display: block;
 }
 
-.timeline { position: relative; padding-left: 24px; }
+.timeline { position: relative; padding-left: 24px; max-width: 620px; margin: 0 auto; }
 .timeline::before {
   content: ''; position: absolute; left: 0; top: 0; bottom: 0;
   width: 3px; border-radius: 3px;
@@ -433,6 +442,7 @@
 .tl-card {
   background: #fff; border-radius: 20px; padding: 20px 26px;
   display: flex; align-items: center; gap: 20px;
+  width: 460px; max-width: 100%;
   box-shadow: 0 4px 20px rgba(0,0,0,.10), 0 1px 4px rgba(0,0,0,.06);
   border: 2px solid rgba(0,0,0,.07);
   transition: transform .3s, box-shadow .3s, border-color .3s;

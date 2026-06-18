@@ -1,13 +1,13 @@
 // ============================================================
 //  WONKI – Service Worker
 //  Strategii:
-//    • Static assets (CSS/JS/img)  → Cache-first
+//    • Static assets (CSS/JS/img)  → Stale-while-revalidate
 //    • Pagini HTML                 → Network-first + fallback cache
 //    • API calls                   → Network-only (nu cache date autentificate)
 //    • Offline fallback            → /offline.html
 // ============================================================
 
-const CACHE_VERSION = 'wonki-v1';
+const CACHE_VERSION = 'wonki-v3';
 const STATIC_CACHE  = CACHE_VERSION + '-static';
 const PAGES_CACHE   = CACHE_VERSION + '-pages';
 
@@ -71,9 +71,9 @@ self.addEventListener('fetch', event => {
   // Admin și portal părinți → Network-only (auth-protected)
   if (url.pathname.startsWith('/admin') || url.pathname.startsWith('/parinti')) return;
 
-  // Static assets (CSS, JS, images, fonts) → Cache-first
+  // Static assets (CSS, JS, images, fonts) → Stale-while-revalidate
   if (url.pathname.match(/\.(css|js|png|jpg|jpeg|svg|webp|woff2?|ico|json)$/)) {
-    event.respondWith(cacheFirst(request, STATIC_CACHE));
+    event.respondWith(staleWhileRevalidate(request, STATIC_CACHE));
     return;
   }
 
@@ -83,19 +83,22 @@ self.addEventListener('fetch', event => {
 
 // ── STRATEGII ────────────────────────────────────────────────
 
-async function cacheFirst(request, cacheName) {
-  const cached = await caches.match(request);
-  if (cached) return cached;
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, response.clone());
-    }
+async function staleWhileRevalidate(request, cacheName) {
+  const cache  = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  const networkUpdate = fetch(request).then(response => {
+    if (response.ok) cache.put(request, response.clone());
     return response;
-  } catch {
-    return new Response('Offline', { status: 503 });
+  }).catch(() => null);
+
+  if (cached) {
+    // raspunde imediat din cache, dar reactualizeaza in fundal pentru next load
+    networkUpdate;
+    return cached;
   }
+  const fresh = await networkUpdate;
+  return fresh || new Response('Offline', { status: 503 });
 }
 
 async function networkFirstWithOffline(request) {
